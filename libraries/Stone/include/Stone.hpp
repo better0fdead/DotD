@@ -8,7 +8,7 @@ public:
 
     ~Stone();
 
-    void draw(sf::RenderWindow window);
+    void draw(sf::RenderWindow* window);
     void update(double deltaTime);
 
     void StoneSpawner();

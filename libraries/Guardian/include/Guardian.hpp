@@ -10,10 +10,10 @@ public:
 
     ~Guardian();
 
-    void draw(sf::RenderWindow window);
+    void draw(sf::RenderWindow* window);
     void update(double deltaTime);
 
-    void shoot()
+    void shoot();
 
 private:
     STATES GuardianState;

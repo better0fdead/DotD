@@ -8,7 +8,7 @@ public:
 
     ~Tyan();
 
-    void draw(sf::RenderWindow window);
+    void draw(sf::RenderWindow* window);
     void update(double deltaTime);
 
     // write smth here

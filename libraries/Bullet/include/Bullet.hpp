@@ -9,7 +9,7 @@ public:
 
     ~Bullet();
 
-    void draw(sf::RenderWindow window);
+    void draw(sf::RenderWindow* window);
     void update(double deltaTime);
 
 private:

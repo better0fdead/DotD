@@ -8,12 +8,12 @@ public:
 
     ~Character();
 
-    virtual void draw(sf::RenderWindow window) = 0;
+    virtual void draw(sf::RenderWindow* window) = 0;
     virtual void update(double deltaTime) = 0;
 
 
     void takeDamage();
-    bool isDead()
+    bool isDead();
 
 private:
     int HPmax;

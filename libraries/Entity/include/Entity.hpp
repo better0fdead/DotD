@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "Collider.hpp"
 
-class Entity : {
+class Entity {
 public:
     Entity(sf::Vector2f position, sf::Texture *texture);
 

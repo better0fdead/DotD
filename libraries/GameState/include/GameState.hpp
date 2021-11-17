@@ -5,6 +5,7 @@
 #include "Guardian.hpp"
 #include "Tyan.hpp"
 #include "Stone.hpp"
+#include "Bullet.hpp"
 #include "Button.hpp"
 
 
@@ -29,7 +30,7 @@ private:
 	Tyan * tyan;
 	sf::Texture tyanTexture;
 
-	std::vector<Stone *> stones;  
+	std::vector<Button *> stones;
 	sf::Texture stoneTexture;
 
 	// // counters For Collision
