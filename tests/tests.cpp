@@ -11,7 +11,8 @@
 #include "Tyan.hpp"
 #include "MenuState.hpp"
 #include "SaveManager.hpp"
-#include "Tasks.hpp"
+#include "taskManager.hpp"
+#include "task_t.hpp"
 
 TEST(Gamestart, GameStart){
     Game game;
