@@ -20,5 +20,10 @@ add_subdirectory(libraries/SaveManager)
 add_subdirectory(libraries/MenuState)
 add_subdirectory(libraries/Tasks)
 
-add_executable(test test.cpp)
-target_link_libraries(test PUBLIC Game State Entity Tasks SaveManager MenuState)
+
+enable_testing()
+add_executable(tests tests/tests.cpp)
+include_directories(${GTEST_INCLUDE_DIRS})
+target_link_libraries(tests ${GTEST_LIBRARIES} Game State Entity GameState LostState
+                        Character Collider Stone Tyan Guardian Bullet Button Tasks SaveManager MenuState)
+

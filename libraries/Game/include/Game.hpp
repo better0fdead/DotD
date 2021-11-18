@@ -30,7 +30,7 @@ private:
 private:
     sf::RenderWindow window; // game window
 
-    std::stack<State *> states;  // holds all the States in the Game
+    std::vector<State *> states;  // holds all the States in the Game
 
     double deltaT;  // time since last frame
     int score;
