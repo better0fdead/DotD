@@ -7,5 +7,5 @@ class SaveManager:
         SaveManager();
         ~SaveManager();
         int getTopScore(std::string name);
-        void saveScore(int score, std::string name);
-} 
+        bool saveScore(int score, std::string name);
+};

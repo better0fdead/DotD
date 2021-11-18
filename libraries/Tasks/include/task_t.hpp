@@ -7,4 +7,4 @@ class task_t
         bool run_task();
         task_t();
         ~task_t();
-}
+};

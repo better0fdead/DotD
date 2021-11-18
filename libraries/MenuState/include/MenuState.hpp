@@ -19,8 +19,8 @@ public:
 	void updateKeyBinds(double deltaTime) override; //Defines all the Keyboard Stuff for that state
 
 private:
-	void playBackgroundMusic(bool);
-	void changeRole(bool);
+	int playBackgroundMusic(bool);
+	int changeRole(bool);
 	int getTopScore(std::string name);
 
 	std::string name;

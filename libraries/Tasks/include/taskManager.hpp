@@ -13,4 +13,4 @@ class taskManager
     taskManager();
 	~taskManager();
     void process_task(int taskNum);
-}
+};
