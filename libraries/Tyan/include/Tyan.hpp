@@ -10,7 +10,6 @@ public:
 
     void draw(sf::RenderWindow* window);
     void update(double deltaTime);
-
     void process_task(int task_num);
 
 private:
