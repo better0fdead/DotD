@@ -16,14 +16,12 @@ add_subdirectory(libraries/Tyan)
 add_subdirectory(libraries/Guardian)
 add_subdirectory(libraries/Bullet)
 add_subdirectory(libraries/Button)
-add_subdirectory(libraries/SaveManager)
-add_subdirectory(libraries/MenuState)
-add_subdirectory(libraries/Tasks)
-
 
 enable_testing()
 add_executable(tests tests/tests.cpp)
 include_directories(${GTEST_INCLUDE_DIRS})
 target_link_libraries(tests ${GTEST_LIBRARIES} Game State Entity GameState LostState
-                        Character Collider Stone Tyan Guardian Bullet Button Tasks SaveManager MenuState)
+                        Character Collider Stone Tyan Guardian Bullet Button)
 
+add_executable(blabla test.cpp)
+target_link_libraries(blabla PUBLIC Game State Entity)

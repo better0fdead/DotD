@@ -23,12 +23,7 @@ public:
 
     void setScore(std::string newScore); //Displays the score
 
-    
-    void saveScore(score, name);
-
 private:
-    std::string name;
-
     sf::Font font;
     int *score;
 
