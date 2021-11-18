@@ -10,9 +10,7 @@ public:
 
     void draw(sf::RenderWindow* window);
     void update(double deltaTime);
-
-    // write smth here
-    //
+    void process_task(int task_num);
 
 private:
     bool isSolvingTask;
