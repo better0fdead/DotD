@@ -17,5 +17,11 @@ add_subdirectory(libraries/Guardian)
 add_subdirectory(libraries/Bullet)
 add_subdirectory(libraries/Button)
 
+enable_testing()
+add_executable(tests tests/test.cpp)
+include_directories(${GTEST_INCLUDE_DIRS})
+target_link_libraries(tests ${GTEST_LIBRARIES} Game State Entity GameState LostState
+                        Character Collider Stone Tyan Guardian Bullet Button)
+
 add_executable(test test.cpp)
 target_link_libraries(test PUBLIC Game State Entity)
