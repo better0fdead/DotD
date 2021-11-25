@@ -7,7 +7,7 @@
 #include "Stone.hpp"
 #include "Bullet.hpp"
 #include "Button.hpp"
-
+#include "Game.hpp"
 
 class GameState: public State
 {
