@@ -5,7 +5,7 @@
 Game::Game() : context(std::make_shared<GameContext>()) {
     context->window->create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "DotT");
     // todo add first state(menu) to states here
-    context->states->add(std::make_unique<MenuState>(context));
+    context->states->add(std::make_unique<MenuState>(context)); // начинаем с меню
 }
 
 Game::~Game() {}
@@ -23,10 +23,10 @@ void Game::start() {
             // у нас запускается логика всякая и отрисовывается все
             timeSinceLastFrame -= deltaT;
 
-             context->states->switchStateIfNeeded();
-             context->states->getCurrentState()->processStuff();
-             context->states->getCurrentState()->update();
-             context->states->getCurrentState()->draw();
+             context->states->switchStateIfNeeded();  // переключаемся на текущее состояние(или остаемся)
+             context->states->getCurrentState()->processStuff();  // чекаем кнопки в состоянии
+             context->states->getCurrentState()->update(deltaT);  // обновляем данные
+             context->states->getCurrentState()->draw();  //рисуем
 
 
         }

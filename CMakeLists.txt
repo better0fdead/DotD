@@ -28,4 +28,4 @@ enable_testing()
 #                        Character Collider Stone Tyan Guardian Bullet Button)
 
 add_executable(main main.cpp)
-target_link_libraries(main PUBLIC Game )
+target_link_libraries(main PUBLIC Game Tyan)

@@ -18,7 +18,6 @@ void StateManager::add(std::unique_ptr<State> toAdd, bool replace) {
 
 void StateManager::popCurrent() {
     needToRemove = true;
-
 }
 
 void StateManager::switchStateIfNeeded() {

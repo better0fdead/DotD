@@ -2,20 +2,20 @@
 
 #include "Character.hpp"
 
-enum STATES{rateOfFireBuff = 0, bulletSpeedBuff, hpUpBuff, bulletSizeBuff};
+enum STATES{normal = 0, rateOfFireBuff, bulletSpeedBuff, hpUpBuff, bulletSizeBuff};
 
-class Guardian : public Character {
+class Guardian : public Character{
 public:
-    Guardian(sf::Vector2f position, sf::Texture *texture);
+    Guardian();
 
     ~Guardian();
 
-    void draw(sf::RenderWindow* window);
-    void update(double deltaTime);
+    // а что оставил
+    void update(double deltaTime) override;
 
     void shoot();
 
 private:
-    STATES GuardianState;
+    int GuardianState;
     float viewAngle;
 };

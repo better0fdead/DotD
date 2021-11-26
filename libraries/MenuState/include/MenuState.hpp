@@ -13,13 +13,13 @@ public:
     ~MenuState();
 
     void init() override;
-
-    void update() override;
-    void draw() override;
     void processStuff() override;
-    void updateKeyBinds() override;
+    void update(sf::Time deltaT) override;
+    void draw() override;
 
 private:
-std::shared_ptr<GameContext> context;
-sf::Text playText;
+std::shared_ptr<GameContext> context;  // контекст игры с текстурами и шрифтами, бригаду тоже сюда добавьте
+sf::Text playText; // пример
+ // todo реализовать класс конпок. здесь добавить кнопки нормальные играть выйти там музыку вырубить
+ // todo после нажатия играть переходим в коннектинг стейт и там нашаманьте после конектинга в геймстейт
 };
