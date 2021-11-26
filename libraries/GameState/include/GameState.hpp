@@ -1,52 +1,58 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Text.hpp>
+#include <memory>
+
 #include "State.hpp"
-#include "Guardian.hpp"
+#include "GameContext.hpp"
+#include "StateManager.hpp"
 #include "Tyan.hpp"
 #include "Stone.hpp"
 #include "Bullet.hpp"
 #include "Button.hpp"
-
+#include "Guardian.hpp"
 
 class GameState: public State
 {
 public:
-	GameState();
+	GameState(std::shared_ptr<GameContext> &context);
 	~GameState();
 
-	void update(double deltaTime) override; //Updates all the Components of the State
-	void draw(sf::RenderWindow * w) override; //Draws all the Components of the State
-	void processStuff(double deltaTime, sf::Vector2f mousePos) override; //Processes All the Components (check Collision etc)
+    void init() override;  // про это все читать в State
+	void update(sf::Time deltaT) override;
+	void draw() override;
+	void processStuff() override;
 
-	void updateKeyBinds(double deltaTime) override; //Defines all the Keyboard Stuff for that state
+    void pause() override;
+    void start() override;
 
-	void initStones(); //Initializes the stones 
+	void initStones();
 
 private:
-	Guardian * guardian;
+    std::shared_ptr<GameContext> context;
+
+    sf::Sprite background;
+
+    Guardian guardian;
 	sf::Texture guardianTexture;
 
-	Tyan * tyan;
+    Tyan tyan;
 	sf::Texture tyanTexture;
 
-	std::vector<Button *> stones;
-	sf::Texture stoneTexture;
+//	sf::Texture stoneTexture;
 
-	// // counters For Collision
-	// double counterBS;
-	// double counterST;
-	// double counterSG;
+//
+//	std::vector<Button *> stones;
+    // // counters For Collision
+    // double counterBS;
+    // double counterST;
+    // double counterSG;
+
+
 	// double pauseCounter;
-
-
-	sf::RectangleShape background; 
-
-	bool pause; //Pauses the Screen
-
-	sf::Font font;
-
-	sf::Texture scoreTexture;
-	Button* scoreButton; //Displays the Score 
-
+//	sf::Font font;
+//
+//	sf::Texture scoreTexture;
+//	Button* scoreButton;
 };
