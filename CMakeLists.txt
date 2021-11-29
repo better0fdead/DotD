@@ -20,6 +20,7 @@ add_subdirectory(libraries/StateManager)
 add_subdirectory(libraries/AssetManager)
 add_subdirectory(libraries/MenuState)
 add_subdirectory(libraries/GameContext)
+add_subdirectory(libraries/utils)
 
 enable_testing()
 #add_executable(tests tests/tests.cpp)
@@ -27,5 +28,5 @@ enable_testing()
 #target_link_libraries(tests ${GTEST_LIBRARIES} Game State Entity GameState LostState
 #                        Character Collider Stone Tyan Guardian Bullet Button)
 
-add_executable(main main.cpp)
+add_executable(main main.cpp libraries/utils/src/utils.cpp libraries/utils/include/utils.hpp)
 target_link_libraries(main PUBLIC Game Tyan)

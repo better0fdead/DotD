@@ -5,7 +5,7 @@
 Game::Game() : context(std::make_shared<GameContext>()) {
     context->window->create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "DotT");
     // todo add first state(menu) to states here
-    context->states->add(std::make_unique<MenuState>(context)); // начинаем с меню
+    context->states->add(std::make_unique<GameState>(context)); // начинаем с меню
 }
 
 Game::~Game() {}

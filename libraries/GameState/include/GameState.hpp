@@ -12,6 +12,9 @@
 #include "Bullet.hpp"
 #include "Button.hpp"
 #include "Guardian.hpp"
+#include "utils.hpp"
+
+#define GETTING_HARDER_STEP 5
 
 class GameState: public State
 {
@@ -27,19 +30,26 @@ public:
     void pause() override;
     void start() override;
 
-	void initStones();
+	void initStones(size_t new_stones, float speed_of_stones);
 
 private:
+    sf::Clock gameClock;
     std::shared_ptr<GameContext> context;
+
+    float seconds_before_go_harder = 5;
 
     sf::Sprite background;
 
     Guardian guardian;
-	sf::Texture guardianTexture;
 
     Tyan tyan;
-	sf::Texture tyanTexture;
 
+    std::vector<Bullet> bulletsVec;
+
+    std::vector<Stone> stonesVec;
+    size_t max_stones = 3;
+    float max_speed_of_stones = 3;
+    size_t new_stones_per_lvl = 2;
 //	sf::Texture stoneTexture;
 
 //

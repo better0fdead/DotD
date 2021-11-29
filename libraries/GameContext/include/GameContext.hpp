@@ -5,6 +5,9 @@
 #include "AssetManager.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 
+#define WINDOW_WIDTH 1200
+#define WINDOW_HEIGHT 800
+
 enum AssetID {
     MAIN_FONT = 0, BACKGROUND, GUARDIAN, TYAN, STONE, BULLET
 };

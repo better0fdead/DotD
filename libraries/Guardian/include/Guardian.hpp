@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Character.hpp"
+#include "Bullet.hpp"
 
 enum STATES{normal = 0, rateOfFireBuff, bulletSpeedBuff, hpUpBuff, bulletSizeBuff};
 
@@ -11,11 +12,11 @@ public:
     ~Guardian();
 
     // а что оставил
-    void update(double deltaTime) override;
+    void update(sf::Time deltaTime) override;
 
-    void shoot();
+    Bullet shoot(sf::Vector2f direction);
 
+    float viewAngle;
 private:
     int GuardianState;
-    float viewAngle;
 };

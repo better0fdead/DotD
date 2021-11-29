@@ -9,6 +9,6 @@ Tyan::~Tyan(){
 
 }
 
-void Tyan::update(double deltaTime){
+void Tyan::update(sf::Time deltaTime){
 
 }

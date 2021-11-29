@@ -9,7 +9,7 @@ public:
     ~Tyan();
 
     // пока хз надо ли это, оставил
-    void update(double deltaTime) override;
+    void update(sf::Time deltaTime) override;
 
     // write smth here
     //

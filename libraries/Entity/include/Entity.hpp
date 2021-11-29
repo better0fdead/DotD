@@ -9,12 +9,16 @@ public:
 
     virtual ~Entity() {};
 
-    virtual void init(const sf::Texture* texture, sf::Vector2f position) = 0;
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
-    virtual void update(double deltaT) = 0;
+    // присваиваем текстурку и ставим на место персонажа нашего
+    void init(const sf::Texture *texture, sf::Vector2f position);
+
+    //рисуем, это метод наследуемый от дровабл, там почитайте че за таргет и стейтс
+    void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+
+    virtual void update(sf::Time deltaT) = 0;
 
     //getters
-    sf::Vector2f getPos();
+    sf::Vector2f getPos() const;
 
     Collider getCollider();
 

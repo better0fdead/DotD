@@ -1,21 +1,23 @@
 #pragma once
 
 #include "Entity.hpp"
+#include "utils.hpp"
+
+#define SIZE_SCALE_MIN 1
+#define SIZE_SCALE_MAX 1.5
 
 class Stone : public Entity {
 public:
-    Stone(sf::Vector2f position, sf::Texture *texture);
+    Stone(float speed);
 
     ~Stone();
 
-    void draw(sf::RenderWindow* window);
-    void update(double deltaTime);
-
-    void StoneSpawner();
+    void setDirection();  // инициализирует вектор нормали движения
+    void update(sf::Time deltaTime) override;
 
 private:
     float speed;
-    sf::Vector2f direction;
-    sf::Vector2f spawnLocation;
+    float rotationSpeed;
+    sf::Vector2f directionVectNorm;
     float size;
 };
