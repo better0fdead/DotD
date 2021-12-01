@@ -1,4 +1,5 @@
 #include <StateManager.hpp>
+#include <iostream>
 
 StateManager::StateManager() : needToAdd(false), needToRemove(false), needToReplace(false) {
 
@@ -41,7 +42,6 @@ void StateManager::switchStateIfNeeded() {
 
         statesStack.push(std::move(newState));  // наконец сменяем
         statesStack.top()->init();
-        statesStack.top()->start();
         needToAdd = false;
     }
 

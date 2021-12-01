@@ -5,17 +5,16 @@
 class Collider
 {
 public:
-    Collider(sf::RectangleShape* body);
+    Collider(sf::Sprite* body);
 
     ~Collider();
 
     bool checkCollision(const Collider & other);
 
 
-    //getters
-    sf::Vector2f getHalfSize() const;  // for AABB collision detection
+    sf::Vector2f getHalfSize() const;
     sf::Vector2f getPos() const;
 
 private:
-    sf::RectangleShape* body;
+    sf::Sprite* body;
 };

@@ -7,6 +7,8 @@
 #include "State.hpp"
 #include "GameContext.hpp"
 #include "StateManager.hpp"
+#include "PauseState.hpp"
+#include "LostState.hpp"
 #include "Tyan.hpp"
 #include "Stone.hpp"
 #include "Bullet.hpp"
@@ -14,7 +16,7 @@
 #include "Guardian.hpp"
 #include "utils.hpp"
 
-#define GETTING_HARDER_STEP 5
+#define GETTING_HARDER_STEP 1
 
 class GameState: public State
 {
@@ -36,7 +38,7 @@ private:
     sf::Clock gameClock;
     std::shared_ptr<GameContext> context;
 
-    float seconds_before_go_harder = 5;
+    float seconds_before_go_harder = 2;
 
     sf::Sprite background;
 
@@ -44,9 +46,9 @@ private:
 
     Tyan tyan;
 
-    std::vector<Bullet> bulletsVec;
+    std::vector<Bullet*> bulletsVec;
 
-    std::vector<Stone> stonesVec;
+    std::vector<Stone*> stonesVec;
     size_t max_stones = 3;
     float max_speed_of_stones = 3;
     size_t new_stones_per_lvl = 2;

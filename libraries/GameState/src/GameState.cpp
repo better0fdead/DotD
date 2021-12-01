@@ -2,6 +2,7 @@
 #include <random>
 #include "GameState.hpp"
 #include <ctime>
+#include "Collider.hpp"
 
 GameState::GameState(std::shared_ptr<GameContext> &context) : context(context) { // контекст подгружаем
     gameClock.restart();
@@ -45,27 +46,31 @@ void GameState::update(sf::Time deltaT) {
     tyan.update(deltaT);
     guardian.update(deltaT);
     for (size_t i = 0; i < bulletsVec.size(); i++) {
-        if (bulletsVec[i].getPos().x < 0 || bulletsVec[i].getPos().y < 0 || bulletsVec[i].getPos().x > WINDOW_WIDTH ||
-            bulletsVec[i].getPos().y > WINDOW_HEIGHT) {
+        if (bulletsVec[i]->getPos().x < 0 || bulletsVec[i]->getPos().y < 0 ||
+            bulletsVec[i]->getPos().x > WINDOW_WIDTH ||
+            bulletsVec[i]->getPos().y > WINDOW_HEIGHT) {
             bulletsVec.erase(bulletsVec.begin() + i);  // удаляем если пулька улетела за экран
             continue;
         }
-        bulletsVec[i].update(deltaT);
+        bulletsVec[i]->update(deltaT);
     }
 
 
-    if (gameClock.getElapsedTime() > sf::seconds(1.5f * seconds_before_go_harder)) {
-        ++new_stones_per_lvl;  // со временем увеличиваем количество добавляемых камней за раз
+    if (gameClock.getElapsedTime() > sf::seconds(seconds_before_go_harder)) {
+        int go_harder = rand() % 4;
+        if (!go_harder) {
+            ++new_stones_per_lvl;  // со временем увеличиваем количество добавляемых камней за раз
+        }
     }
     if (gameClock.getElapsedTime() > sf::seconds(seconds_before_go_harder)) {
-        initStones(new_stones_per_lvl, ++max_speed_of_stones);  // новые камни
-
+        initStones(new_stones_per_lvl, max_speed_of_stones);  // новые камни
+        max_speed_of_stones += 0.3;
         gameClock.restart();
         seconds_before_go_harder += GETTING_HARDER_STEP;  // шаг по времени усложнения увеличивается
     }
 
     for (size_t i = 0; i < stonesVec.size(); i++) {
-        stonesVec[i].update(deltaT);
+        stonesVec[i]->update(deltaT);
     }
 
 }
@@ -77,16 +82,43 @@ void GameState::draw() {
     context->window->draw(tyan);
     context->window->draw(guardian);
     for (size_t i = 0; i < bulletsVec.size(); i++) {
-        context->window->draw(bulletsVec[i]);
+        context->window->draw(*bulletsVec[i]);
     }
     for (size_t i = 0; i < stonesVec.size(); i++) {
-        context->window->draw(stonesVec[i]);
+        context->window->draw(*stonesVec[i]);
     }
     context->window->display();
 
 }
 
 void GameState::processStuff() {
+    for (size_t i = 0; i < bulletsVec.size(); i++) {
+        for (size_t j = 0; j < stonesVec.size(); j++) {
+            if (bulletsVec[i]->getCollider().checkCollision(stonesVec[j]->getCollider()) == true) {
+                bulletsVec.erase(bulletsVec.begin() + i);
+                stonesVec.erase(stonesVec.begin() + j);
+            }
+        }
+    }
+
+    for (size_t j = 0; j < stonesVec.size(); j++) {
+        if (tyan.getCollider().checkCollision(stonesVec[j]->getCollider()) == true) {
+            stonesVec.erase(stonesVec.begin() + j);
+            tyan.takeDamage();
+            context->states->add(std::make_unique<LostState>(context), true);
+        }
+    }
+
+    for (size_t j = 0; j < stonesVec.size(); j++) {
+        if (guardian.getCollider().checkCollision(stonesVec[j]->getCollider()) == true) {
+            stonesVec.erase(stonesVec.begin() + j);
+            guardian.takeDamage();
+            context->states->add(std::make_unique<LostState>(context), true);
+
+        }
+    }
+
+
     sf::Event event;  // то же что и в меню, там почитайте
     while (context->window->pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
@@ -98,7 +130,7 @@ void GameState::processStuff() {
                     context->window->close();
                     break;
                 case sf::Keyboard::Escape:
-                    //pause
+                    context->states->add(std::make_unique<PauseState>(context));
                     break;
                 default:
                     break;
@@ -106,7 +138,7 @@ void GameState::processStuff() {
         }
         if (event.type == sf::Event::MouseButtonPressed) { // стреляем по нажатию
             auto bul = guardian.shoot((sf::Vector2f) sf::Mouse::getPosition(*context->window));
-            bul.init(&context->assets->getTexture(BULLET), bul.getPos());
+            bul->init(&context->assets->getTexture(BULLET), bul->getPos());
             bulletsVec.push_back(bul);
         }
 
@@ -123,12 +155,12 @@ void GameState::start() {
 void GameState::initStones(size_t new_stones, float speed_of_stones) {
     auto current_stones = stonesVec.size();
     for (size_t i = 0; i < new_stones; i++) {
-        stonesVec.push_back(*(new Stone(speed_of_stones)));
+        stonesVec.push_back(new Stone(speed_of_stones));
     }
 
     for (size_t i = current_stones; i < stonesVec.size(); i++) {
-        stonesVec[i].init(&context->assets->getTexture(STONE), get_rand_pos_around_frame());
-        stonesVec[i].setDirection();
+        stonesVec[i]->init(&context->assets->getTexture(STONE), get_rand_pos_around_frame());
+        stonesVec[i]->setDirection();
 //        std::cout << stonesVec[i].getPos().x << " " << stonesVec[i].getPos().y << std::endl;
     }
 

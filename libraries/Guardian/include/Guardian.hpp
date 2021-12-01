@@ -14,7 +14,7 @@ public:
     // а что оставил
     void update(sf::Time deltaTime) override;
 
-    Bullet shoot(sf::Vector2f direction);
+    Bullet* shoot(sf::Vector2f direction);
 
     float viewAngle;
 private:

@@ -1,6 +1,7 @@
 #include "Tyan.hpp"
 
 Tyan::Tyan(): isSolvingTask(false) {
+//    collider = new Collider(&body);
     HPmax = 1;
     HPcurrent = 1;
 }

@@ -10,6 +10,9 @@ MenuState::~MenuState() {
 }
 
 void MenuState::init() {
+    context->assets->addTexture(MENU, "../assets/textures/menubackground_extrashakal.jpg");
+    menuBackground.setTexture(context->assets->getTexture(MENU));  // присваиваем текстурку нашему фону
+
     context->assets->addFont(MAIN_FONT, "../assets/fonts/ARCADECLASSIC.TTF");  //добавляем шрифт
     playText.setFont(context->assets->getFont(MAIN_FONT));  // применяем шрифт к тексту
     playText.setString("work please");  // добавляем в текст нашу строку
@@ -27,6 +30,7 @@ void MenuState::update(sf::Time deltaT) {
 
 void MenuState::draw() {
     context->window->clear();  // чищу окно
+    context->window->draw(menuBackground);
     context->window->draw(playText);  // рисую текст
     context->window->display();  // отображаю все что нарисовал
 }

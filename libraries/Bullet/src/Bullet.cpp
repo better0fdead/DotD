@@ -2,7 +2,8 @@
 #include <iostream>
 #include "Bullet.hpp"
 
-Bullet::Bullet(sf::Vector2f position, sf::Vector2f direction) : speed(5), size(1) {
+Bullet::Bullet(sf::Vector2f position, sf::Vector2f direction) : speed(7), size(1) {
+//    collider = new Collider(&body);
     body.setPosition(position);
 //    body.scale({size, size});  for buff
 

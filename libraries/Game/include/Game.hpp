@@ -8,6 +8,7 @@
 #include <memory>
 #include "MenuState.hpp"
 #include "GameState.hpp"
+//#include "Collider.hpp"
 
 
 class Game {

@@ -2,6 +2,8 @@
 #include "Stone.hpp"
 
 Stone::Stone(float speed) : speed(speed) {
+//    collider = new Collider(&body);
+
     size = get_random(SIZE_SCALE_MIN, SIZE_SCALE_MAX);
     body.scale(sf::Vector2f(size, size));  // задаем рандомный размер камню
 
