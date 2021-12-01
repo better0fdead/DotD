@@ -1,11 +1,11 @@
 #pragma once
 
 
-#include "State.hpp"
-#include "StateManager.hpp"
-#include "GameContext.hpp"
+//#include "State.hpp"
+//#include "StateManager.hpp"
+//#include "GameContext.hpp"
 #include "MenuState.hpp"
-#include "GameState.hpp"
+//#include "GameState.hpp"
 #include <memory>
 
 class LostState : public State {
@@ -15,14 +15,11 @@ public:
     ~LostState();
 
     void init() override;
+    void updateKeyBinds() override;
+    void processStuff() override;
+    void update(sf::Time deltaT) override;
+    void draw() override;
 
-    void update(sf::Time deltaT) override;  //Updates the Components in the State
-
-    void draw() override;  //Draws the Components in the State
-
-    void processStuff() override; //Processes the Components in the State
-
-//    void updateKeyBinds(double deltaT) override;  //Updates the Key presses in the State
 
 //    bool switchState() override; //Play again?
 
@@ -31,12 +28,8 @@ public:
 private:
     std::shared_ptr<GameContext> context;  // контекст игры с текстурами и шрифтами, бригаду тоже сюда добавьте
 
-//    int *score;
-
-//    sf::Text playerScore; //Displays the Score
-//    Button *playAgain;
-
     sf::Sprite lostBackground;
     sf::Text lostText;
 
+    // todo реализовать класс конпок. здесь добавить кнопки нормальные играть заново выйти в меню
 };

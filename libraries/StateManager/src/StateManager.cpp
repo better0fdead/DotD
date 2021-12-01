@@ -13,7 +13,7 @@ StateManager::~StateManager() {
 void StateManager::add(std::unique_ptr<State> toAdd, bool replace) {
     needToAdd = true;
     newState = std::move(toAdd);
-
+//    newState->init();
     needToReplace = replace;
 }
 
@@ -24,9 +24,9 @@ void StateManager::popCurrent() {
 void StateManager::switchStateIfNeeded() {
     if (needToRemove && !statesStack.empty()) { // если надо сменить состояние, удалив текущее
         statesStack.pop();
-        if (!statesStack.empty()) {
-            statesStack.top()->start();  // запуск следующего состояния
-        }
+//        if (!statesStack.empty()) {
+//            statesStack.top()->start();  // запуск следующего состояния
+//        }
         needToRemove = false;
     }
 
@@ -36,14 +36,15 @@ void StateManager::switchStateIfNeeded() {
             needToReplace = false;
         }
 
-        if(!statesStack.empty()){  // если было состояние до нового, то его на паузу ставим
-            statesStack.top()->pause();
-        }
+//        if(!statesStack.empty()){  // если было состояние до нового, то его на паузу ставим
+//            statesStack.top()->pause();
+//        }
 
         statesStack.push(std::move(newState));  // наконец сменяем
         statesStack.top()->init();
         needToAdd = false;
     }
+    std::cout << statesStack.size()<< std::endl;
 
 }
 

@@ -41,7 +41,68 @@ void GameState::init() {
 
 }
 
+
+void GameState::updateKeyBinds() {
+    sf::Event event;  // то же что и в меню, там почитайте
+    while (context->window->pollEvent(event)) {
+        if (event.type == sf::Event::Closed) {
+            context->window->close();
+        }
+        if (event.type == sf::Event::KeyPressed) {
+            switch (event.key.code) {
+                case sf::Keyboard::Tilde:
+                    context->window->close();
+                    break;
+                case sf::Keyboard::Escape:
+                    pause();
+                    break;
+                default:
+                    break;
+            }
+        }
+        if (event.type == sf::Event::MouseButtonPressed) { // стреляем по нажатию
+            auto bul = guardian.shoot((sf::Vector2f) sf::Mouse::getPosition(*context->window));
+            bul->init(&context->assets->getTexture(BULLET), bul->getPos());
+            bulletsVec.push_back(bul);
+        }
+
+    }
+}
+
+
+void GameState::processStuff() {
+    for (size_t i = 0; i < bulletsVec.size(); i++) {
+        for (size_t j = 0; j < stonesVec.size(); j++) {
+            if (bulletsVec[i]->getCollider().checkCollision(stonesVec[j]->getCollider()) == true) {
+                bulletsVec.erase(bulletsVec.begin() + i);
+                stonesVec.erase(stonesVec.begin() + j);
+            }
+        }
+    }
+
+    for (size_t j = 0; j < stonesVec.size(); j++) {
+        if (tyan.getCollider().checkCollision(stonesVec[j]->getCollider()) == true) {
+            stonesVec.erase(stonesVec.begin() + j);
+            tyan.takeDamage();
+        }
+    }
+
+    for (size_t j = 0; j < stonesVec.size(); j++) {
+        if (guardian.getCollider().checkCollision(stonesVec[j]->getCollider()) == true) {
+            stonesVec.erase(stonesVec.begin() + j);
+            guardian.takeDamage();
+        }
+    }
+
+
+}
+
 void GameState::update(sf::Time deltaT) {
+    if(guardian.isDead() || tyan.isDead()){
+        context->window->clear();  // чищу окно
+        context->states->add(std::make_unique<LostState>(context), true);
+    }
+
     // обновляем все компоненты игры по очереди
     tyan.update(deltaT);
     guardian.update(deltaT);
@@ -91,65 +152,8 @@ void GameState::draw() {
 
 }
 
-void GameState::processStuff() {
-    for (size_t i = 0; i < bulletsVec.size(); i++) {
-        for (size_t j = 0; j < stonesVec.size(); j++) {
-            if (bulletsVec[i]->getCollider().checkCollision(stonesVec[j]->getCollider()) == true) {
-                bulletsVec.erase(bulletsVec.begin() + i);
-                stonesVec.erase(stonesVec.begin() + j);
-            }
-        }
-    }
-
-    for (size_t j = 0; j < stonesVec.size(); j++) {
-        if (tyan.getCollider().checkCollision(stonesVec[j]->getCollider()) == true) {
-            stonesVec.erase(stonesVec.begin() + j);
-            tyan.takeDamage();
-            context->states->add(std::make_unique<LostState>(context), true);
-        }
-    }
-
-    for (size_t j = 0; j < stonesVec.size(); j++) {
-        if (guardian.getCollider().checkCollision(stonesVec[j]->getCollider()) == true) {
-            stonesVec.erase(stonesVec.begin() + j);
-            guardian.takeDamage();
-            context->states->add(std::make_unique<LostState>(context), true);
-
-        }
-    }
-
-
-    sf::Event event;  // то же что и в меню, там почитайте
-    while (context->window->pollEvent(event)) {
-        if (event.type == sf::Event::Closed) {
-            context->window->close();
-        }
-        if (event.type == sf::Event::KeyPressed) {
-            switch (event.key.code) {
-                case sf::Keyboard::Tilde:
-                    context->window->close();
-                    break;
-                case sf::Keyboard::Escape:
-                    context->states->add(std::make_unique<PauseState>(context));
-                    break;
-                default:
-                    break;
-            }
-        }
-        if (event.type == sf::Event::MouseButtonPressed) { // стреляем по нажатию
-            auto bul = guardian.shoot((sf::Vector2f) sf::Mouse::getPosition(*context->window));
-            bul->init(&context->assets->getTexture(BULLET), bul->getPos());
-            bulletsVec.push_back(bul);
-        }
-
-    }
-
-}
-
 void GameState::pause() {
-}
-
-void GameState::start() {
+    context->states->add(std::make_unique<PauseState>(context));
 }
 
 void GameState::initStones(size_t new_stones, float speed_of_stones) {

@@ -31,7 +31,7 @@ void PauseState::init() {
                           context->window->getSize().y / 3);  // центрируем текст
 }
 
-void PauseState::processStuff() {
+void PauseState::updateKeyBinds() {
     sf::Event event;  // про ивенты почитайте
     while (context->window->pollEvent(event)) {
         if (event.type == sf::Event::Closed) {  // если на крестик нажали
@@ -40,7 +40,7 @@ void PauseState::processStuff() {
         if (event.type == sf::Event::KeyPressed) {  // если кнопку нажали
             switch (event.key.code) {
                 case sf::Keyboard::Escape:  // если нажали ескейп то вышли из паузы
-                    context->states->popCurrent();
+                    resume();
                     break;
                 case sf::Keyboard::Tilde:  // если тильда то закрываемся
                     context->window->close();
@@ -50,6 +50,9 @@ void PauseState::processStuff() {
             }
         }
     }
+}
+
+void PauseState::processStuff() {
 
 }
 
@@ -58,7 +61,10 @@ void PauseState::update(sf::Time deltaT) {
 }
 
 void PauseState::draw() {
-//    context->window->clear(sf::Color(255,255,255,128));  // чищу окно
     context->window->draw(pauseText);  // рисую текст
     context->window->display();  // отображаю все что нарисовал
+}
+
+void PauseState::resume() {
+    context->states->popCurrent();
 }

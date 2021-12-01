@@ -1,7 +1,6 @@
 #pragma once
 
-#include "State.hpp"
-#include "StateManager.hpp"
+
 #include "GameContext.hpp"
 #include <memory>
 
@@ -14,9 +13,12 @@ public:
     ~PauseState();
 
     void init() override;
+    void updateKeyBinds() override;
     void processStuff() override;
     void update(sf::Time deltaT) override;
     void draw() override;
+
+    void resume();
 
 private:
     std::shared_ptr<GameContext> context;  // контекст игры с текстурами и шрифтами, бригаду тоже сюда добавьте

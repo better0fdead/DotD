@@ -4,19 +4,19 @@
 #include <SFML/Graphics/Text.hpp>
 #include <memory>
 
-#include "State.hpp"
-#include "GameContext.hpp"
-#include "StateManager.hpp"
+//#include "State.hpp"
+//#include "GameContext.hpp"
+//#include "StateManager.hpp"
 #include "PauseState.hpp"
 #include "LostState.hpp"
 #include "Tyan.hpp"
 #include "Stone.hpp"
-#include "Bullet.hpp"
-#include "Button.hpp"
+//#include "Bullet.hpp"
+//#include "Button.hpp"
 #include "Guardian.hpp"
-#include "utils.hpp"
+//#include "utils.hpp"
 
-#define GETTING_HARDER_STEP 1
+#define GETTING_HARDER_STEP 0.2
 
 class GameState: public State
 {
@@ -25,12 +25,12 @@ public:
 	~GameState();
 
     void init() override;  // про это все читать в State
-	void update(sf::Time deltaT) override;
-	void draw() override;
-	void processStuff() override;
+    void updateKeyBinds() override;
+    void processStuff() override;
+    void update(sf::Time deltaT) override;
+    void draw() override;
 
-    void pause() override;
-    void start() override;
+    void pause();
 
 	void initStones(size_t new_stones, float speed_of_stones);
 

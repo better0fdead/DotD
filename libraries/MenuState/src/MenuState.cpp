@@ -1,5 +1,4 @@
 #include "MenuState.hpp"
-#include "GameState.hpp"
 
 MenuState::MenuState(std::shared_ptr<GameContext> &context) : context(context) {
 
@@ -24,18 +23,7 @@ void MenuState::init() {
                          context->window->getSize().y / 2);  // центрируем текст
 }
 
-void MenuState::update(sf::Time deltaT) {
-
-}
-
-void MenuState::draw() {
-    context->window->clear();  // чищу окно
-    context->window->draw(menuBackground);
-    context->window->draw(playText);  // рисую текст
-    context->window->display();  // отображаю все что нарисовал
-}
-
-void MenuState::processStuff() {
+void MenuState::updateKeyBinds() {
     sf::Event event;  // про ивенты почитайте
     while (context->window->pollEvent(event)) {
         if (event.type == sf::Event::Closed) {  // если на крестик нажали
@@ -45,6 +33,7 @@ void MenuState::processStuff() {
             switch (event.key.code) {
                 case sf::Keyboard::Return:  // если нажали Enter то перешли в игровое состояние
                     // todo а надо сделать в коннектинг
+                    context->window->clear();  // чищу окно
                     context->states->add(std::make_unique<GameState>(context), true);
                     break;
                 case sf::Keyboard::Escape:  // если ескейп то закрываемся
@@ -56,3 +45,20 @@ void MenuState::processStuff() {
         }
     }
 }
+
+void MenuState::processStuff() {
+
+}
+
+
+void MenuState::update(sf::Time deltaT) {
+
+}
+
+void MenuState::draw() {
+    context->window->clear();  // чищу окно
+    context->window->draw(menuBackground);
+    context->window->draw(playText);  // рисую текст
+    context->window->display();  // отображаю все что нарисовал
+}
+

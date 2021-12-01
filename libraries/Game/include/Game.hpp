@@ -1,14 +1,13 @@
 #pragma once
 
-#include "AssetManager.hpp"
-#include "StateManager.hpp"
-#include "GameContext.hpp"
+//#include "AssetManager.hpp"
+//#include "StateManager.hpp"
+//#include "GameContext.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 #include <memory>
 #include "MenuState.hpp"
-#include "GameState.hpp"
-//#include "Collider.hpp"
+//#include "GameState.hpp"
 
 
 class Game {

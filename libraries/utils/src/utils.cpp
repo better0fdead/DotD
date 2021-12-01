@@ -5,7 +5,7 @@ float get_random(float left_limit, float right_limit) {
     assert(right_limit > left_limit);
     float random = ((float) rand()) / (float) RAND_MAX;
 
-    float range = left_limit - right_limit;
+    float range = right_limit - left_limit;
     return (random * range) + left_limit;
 }
 
