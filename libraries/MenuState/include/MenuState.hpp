@@ -5,9 +5,6 @@
 //#include "AssetManager.hpp"
 #include "GameState.hpp"
 #include <memory>
-
-#include <SFML/Graphics/Text.hpp>
-
 class MenuState : public State {
 public:
     MenuState(std::shared_ptr<GameContext> &context);
@@ -25,6 +22,15 @@ public:
     void draw() override;
 
 private:
+    
+
+    void draw() override;
+
+private:
+    sf::Music music;
+    Button exit_button;
+    Button play_button;
+    Button mute_button;
     std::shared_ptr<GameContext> context;  // контекст игры с текстурами и шрифтами, бригаду тоже сюда добавьте
     sf::Sprite menuBackground;
     sf::Text playText; // пример
