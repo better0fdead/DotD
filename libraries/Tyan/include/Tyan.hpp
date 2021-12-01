@@ -4,12 +4,12 @@
 
 class Tyan : public Character {
 public:
-    Tyan(sf::Vector2f position, sf::Texture *texture);
+    Tyan();
 
     ~Tyan();
 
-    void draw(sf::RenderWindow* window);
-    void update(double deltaTime);
+    // пока хз надо ли это, оставил
+    void update(sf::Time deltaTime) override;
 
     // write smth here
     //

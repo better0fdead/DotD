@@ -1,21 +1,22 @@
 #pragma once
 
 #include "Character.hpp"
+#include "Bullet.hpp"
 
-enum STATES{rateOfFireBuff = 0, bulletSpeedBuff, hpUpBuff, bulletSizeBuff};
+enum STATES{normal = 0, rateOfFireBuff, bulletSpeedBuff, hpUpBuff, bulletSizeBuff};
 
-class Guardian : public Character {
+class Guardian : public Character{
 public:
-    Guardian(sf::Vector2f position, sf::Texture *texture);
+    Guardian();
 
     ~Guardian();
 
-    void draw(sf::RenderWindow* window);
-    void update(double deltaTime);
+    // а что оставил
+    void update(sf::Time deltaTime) override;
 
-    void shoot();
+    Bullet* shoot(sf::Vector2f direction);
 
-private:
-    STATES GuardianState;
     float viewAngle;
+private:
+    int GuardianState;
 };

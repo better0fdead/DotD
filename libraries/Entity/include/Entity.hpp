@@ -3,31 +3,32 @@
 #include <SFML/Graphics.hpp>
 #include "Collider.hpp"
 
-class Entity {
+class Entity : public sf::Drawable {
 public:
-    Entity(sf::Vector2f position, sf::Texture *texture);
+    Entity() {};
 
-    ~Entity();
+    virtual ~Entity() {};
 
-    virtual void draw(sf::RenderWindow *w) = 0; //Drawing function for Entity
-    virtual void update(double deltaT) = 0;  //Update Function for Entity
+    // присваиваем текстурку и ставим на место персонажа нашего
+    void init(const sf::Texture *texture, sf::Vector2f position);
+
+    //рисуем, это метод наследуемый от дровабл, там почитайте че за таргет и стейтс
+    void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+
+    virtual void update(sf::Time deltaT) = 0;
 
     //getters
-    sf::Vector2f getPos();
+    sf::Vector2f getPos() const;
 
     Collider getCollider();
-
-    sf::RectangleShape getBody();
 
     sf::Vector2f getSize();
 
     //setters
     void setPos(sf::Vector2f newPos);
 
-//    void setSize(sf::Vector2f newSize);
 
-private:
-    sf::RectangleShape body; //The Body of the Entity
-    sf::Texture texture;
+protected:
+    sf::Sprite body;
     Collider *collider; //Used For Collision Detection
 };

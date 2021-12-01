@@ -1,21 +1,22 @@
 #pragma once
 
 #include "Entity.hpp"
+#include <SFML/Graphics.hpp>
 
 class Character : public Entity {
 public:
-    Character(sf::Vector2f position, sf::Texture *texture);
+    Character(): HPmax(1), HPcurrent(1) {};
 
-    ~Character();
+    virtual ~Character() {};
 
-    virtual void draw(sf::RenderWindow* window) = 0;
-    virtual void update(double deltaTime) = 0;
+    virtual void update(sf::Time deltaTime) = 0;
 
 
     void takeDamage();
+
     bool isDead();
 
-private:
+protected:
     int HPmax;
     int HPcurrent;
 };
