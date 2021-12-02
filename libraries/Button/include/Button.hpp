@@ -46,6 +46,7 @@ class Button{
             rect.setSize(sf::Vector2f(w,h));
             rect.setPosition(position);
         }
+        
 
         void draw(std::shared_ptr<GameContext> context)
         {

@@ -4,7 +4,6 @@
 //#include "GameContext.hpp"
 //#include "AssetManager.hpp"
 #include "GameState.hpp"
-#include "LoadState.hpp"
 #include <memory>
 #include "Button.hpp"
 #include <SFML/Graphics/Text.hpp>
@@ -12,11 +11,11 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Audio/Music.hpp>
-class MenuState : public State {
+class LoadState : public State {
 public:
-    MenuState(std::shared_ptr<GameContext> &context);
+    LoadState(std::shared_ptr<GameContext> &context);
 
-    ~MenuState();
+    ~LoadState();
 
     void init() override;
 
@@ -35,6 +34,7 @@ private:
     Button exit_button;
     Button play_button;
     Button mute_button;
+    sf::Texture loadtex;
     std::shared_ptr<GameContext> context;  // контекст игры с текстурами и шрифтами, бригаду тоже сюда добавьте
     sf::Sprite menuBackground;
     sf::Text playText; // пример
