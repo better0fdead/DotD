@@ -22,7 +22,7 @@ add_subdirectory(libraries/MenuState)
 add_subdirectory(libraries/PauseState)
 add_subdirectory(libraries/GameContext)
 add_subdirectory(libraries/utils)
-
+add_subdirectory(libraries/Connecting)
 enable_testing()
 #add_executable(tests tests/tests.cpp)
 #include_directories(${GTEST_INCLUDE_DIRS})
