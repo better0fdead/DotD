@@ -22,6 +22,7 @@ add_subdirectory(libraries/MenuState)
 add_subdirectory(libraries/PauseState)
 add_subdirectory(libraries/GameContext)
 add_subdirectory(libraries/utils)
+add_subdirectory(libraries/Connecting)
 add_subdirectory(libraries/LoadState)
 
 enable_testing()
