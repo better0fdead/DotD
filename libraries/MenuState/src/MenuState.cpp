@@ -40,7 +40,7 @@ void MenuState::updateKeyBinds() {
                 case sf::Keyboard::Return:  // если нажали Enter то перешли в игровое состояние
                     // todo а надо сделать в коннектинг
                     context->window->clear();  // чищу окно
-                    context->states->add(std::make_unique<LoadState>(context), true);
+                    context->states->add(std::make_unique<TyanState>(context), true);
                     break;
                 case sf::Keyboard::Escape:  // если ескейп то закрываемся
                     context->window->close();

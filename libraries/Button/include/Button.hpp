@@ -19,6 +19,7 @@ class Button{
         sf::Text m_text;
         sf::Text m_shadow;
         bool is_muted = false;
+        bool is_answer = false;
         Button(){
             rect.setFillColor(sf::Color(0,167,189));
         }

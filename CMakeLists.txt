@@ -24,6 +24,8 @@ add_subdirectory(libraries/GameContext)
 add_subdirectory(libraries/utils)
 add_subdirectory(libraries/Connecting)
 add_subdirectory(libraries/LoadState)
+add_subdirectory(libraries/TyanState)
+
 
 set(SOCKET_LIB libraries/Connecting/common/socket.cpp)
 add_library(socket_lib STATIC ${SOCKET_LIB})
