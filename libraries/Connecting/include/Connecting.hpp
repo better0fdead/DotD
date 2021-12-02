@@ -8,3 +8,5 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <iostream>
+
+std::string recive_friendIP(int role);

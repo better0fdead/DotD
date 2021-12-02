@@ -94,10 +94,3 @@ std::string recive_friendIP(int role){
     return S;
     exit(EXIT_SUCCESS);
 }
-
-
-int main() {
-    int role = 1;
-    std::string S= recive_friendIP(role);
-
-}

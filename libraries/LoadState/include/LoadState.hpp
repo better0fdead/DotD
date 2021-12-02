@@ -11,6 +11,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Audio/Music.hpp>
+#include "Connecting.hpp"
 class LoadState : public State {
 public:
     LoadState(std::shared_ptr<GameContext> &context);

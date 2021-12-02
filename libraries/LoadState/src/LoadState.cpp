@@ -14,6 +14,7 @@ void LoadState::init() {
     menuBackground.setTexture(loadtex);  // присваиваем текстурку нашему фону
     music.openFromFile("../assets/music/theme.wav");
     music.play();
+    std::string a = recive_friendIP(0);
     context->assets->addFont(MAIN_FONT, "../assets/fonts/ARCADECLASSIC.TTF");  //добавляем шрифт
     playText.setFont(context->assets->getFont(MAIN_FONT));  // применяем шрифт к тексту
     playText.setString("Loading");  // добавляем в текст нашу строку

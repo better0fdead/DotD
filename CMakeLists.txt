@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.20)
 project(test)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -pthread")
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 
 add_subdirectory(libraries/Game)
 add_subdirectory(libraries/State)
@@ -25,6 +25,9 @@ add_subdirectory(libraries/utils)
 add_subdirectory(libraries/Connecting)
 add_subdirectory(libraries/LoadState)
 
+set(SOCKET_LIB libraries/Connecting/common/socket.cpp)
+add_library(socket_lib STATIC ${SOCKET_LIB})
+
 enable_testing()
 #add_executable(tests tests/tests.cpp)
 #include_directories(${GTEST_INCLUDE_DIRS})
@@ -32,4 +35,4 @@ enable_testing()
 #                        Character Collider Stone Tyan Guardian Bullet Button)
 
 add_executable(main main.cpp)
-target_link_libraries(main PUBLIC Game)
+target_link_libraries(main PUBLIC Game  socket_lib)
