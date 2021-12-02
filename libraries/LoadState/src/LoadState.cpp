@@ -1,35 +1,35 @@
-#include "MenuState.hpp"
+#include "LoadState.hpp"
 
 
-MenuState::MenuState(std::shared_ptr<GameContext> &context) : context(context) {
-
-}
-
-MenuState::~MenuState() {
+LoadState::LoadState(std::shared_ptr<GameContext> &context) : context(context) {
 
 }
 
-void MenuState::init() {
-    context->assets->addTexture(MENU, "../assets/textures/menubackground_extrashakal.jpg");
-    menuBackground.setTexture(context->assets->getTexture(MENU));  // присваиваем текстурку нашему фону
+LoadState::~LoadState() {
+
+}
+
+void LoadState::init() {
+    loadtex.loadFromFile("../assets/textures/loading.jpg");
+    menuBackground.setTexture(loadtex);  // присваиваем текстурку нашему фону
     music.openFromFile("../assets/music/theme.wav");
     music.play();
     context->assets->addFont(MAIN_FONT, "../assets/fonts/ARCADECLASSIC.TTF");  //добавляем шрифт
     playText.setFont(context->assets->getFont(MAIN_FONT));  // применяем шрифт к тексту
-    playText.setString("work please");  // добавляем в текст нашу строку
-
+    playText.setString("Loading");  // добавляем в текст нашу строку
+    playText.setCharacterSize(100);
     playText.setOrigin(playText.getLocalBounds().width / 2,
                        playText.getLocalBounds().height / 2);  // ставим точку отсчета в центр текста
 
     playText.setPosition(context->window->getSize().x / 2,
-                         context->window->getSize().y / 2);  // центрируем текст
+                         context->window->getSize().y / 2 - 100);  // центрируем текст
 
     exit_button.create(100,20, 10,10, "exit");
     mute_button.create(100,20,1000,700,"mute");
     play_button.create(200,40,context->window->getSize().x / 2 - 100, context->window->getSize().y / 2 + 200, "play");
 }
 
-void MenuState::updateKeyBinds() {
+void LoadState::updateKeyBinds() {
     sf::Event event;  // про ивенты почитайте
     while (context->window->pollEvent(event)) {
         if (event.type == sf::Event::Closed) {  // если на крестик нажали
@@ -40,7 +40,7 @@ void MenuState::updateKeyBinds() {
                 case sf::Keyboard::Return:  // если нажали Enter то перешли в игровое состояние
                     // todo а надо сделать в коннектинг
                     context->window->clear();  // чищу окно
-                    context->states->add(std::make_unique<LoadState>(context), true);
+                    context->states->add(std::make_unique<GameState>(context), true);
                     break;
                 case sf::Keyboard::Escape:  // если ескейп то закрываемся
                     context->window->close();
@@ -60,7 +60,7 @@ void MenuState::updateKeyBinds() {
             else if (play_button.is_hovering)
             {
                 context->window->clear();  // чищу окно
-                context->states->add(std::make_unique<LoadState>(context), true);
+                context->states->add(std::make_unique<GameState>(context), true);
             }
             else if (mute_button.is_hovering)
             {
@@ -79,17 +79,17 @@ void MenuState::updateKeyBinds() {
     }
 }
 
-void MenuState::processStuff() {
+void LoadState::processStuff() {
 
 }
 
 
-void MenuState::update(sf::Time deltaT) {
+void LoadState::update(sf::Time deltaT) {
 
 
 }
 
-void MenuState::draw() {
+void LoadState::draw() {
     context->window->clear();  // чищу окно
     context->window->draw(menuBackground);
     context->window->draw(playText);  // рисую текст
