@@ -24,7 +24,7 @@ void MenuState::init() {
     playText.setPosition(context->window->getSize().x / 2,
                          context->window->getSize().y / 2);  // центрируем текст
 
-    exit_button.create(100,20, 10,10, "exit");
+    exit_button.create(100,20, 10,10, "exit");  //todo цифры в дефайны или по умолчанию сделай кнопу поределенного размера
     mute_button.create(100,20,1000,700,"mute");
     play_button.create(200,40,context->window->getSize().x / 2 - 100, context->window->getSize().y / 2 + 200, "play");
 }
@@ -94,9 +94,9 @@ void MenuState::draw() {
     context->window->draw(menuBackground);
     context->window->draw(playText);  // рисую текст
     //context->window->draw(button.rect);
-    exit_button.draw(context);
-    play_button.draw(context);
-    mute_button.draw(context);
+    exit_button.draw(context);  // todo ЧТО ЭТО ЗА ХУЙНЯ почему у тебя дров отдельный И ПОЧЕМУ ОН КОНТЕКСТ ПРИНИМАЕТ
+    play_button.draw(context);  // todo поправь сделай чтобы наш дефолтный дров на влю игру который работает и на твою конпу каботал
+    mute_button.draw(context);  // todo у тебя кнопка должна наследоваться от сущности которую я создал это на юмл было........ федя меняй!!!!
     context->window->display();  // отображаю все что нарисовал
 }
 

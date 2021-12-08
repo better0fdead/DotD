@@ -8,7 +8,7 @@
 #include <iostream>
 #include "GameContext.hpp"
 #include <memory>
-class Button{
+class Button{  //todo федя убери говонокод пожалуйста мне больно на это смотреть
     public:
         sf::Vector2f position;
         sf::Vector2f text_position;
