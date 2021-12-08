@@ -184,6 +184,7 @@ void TyanState::update(sf::Time deltaT) {
 
 void TyanState::draw() {
     context->window->clear();
+    send_msg("T0 2 0");
     
     if (!answering && !answered) {
         context->window->draw(question);  // рисую текст

@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <memory>
+#include "client.hpp"
 
 //#include "State.hpp"
 //#include "GameContext.hpp"

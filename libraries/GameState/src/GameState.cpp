@@ -137,6 +137,9 @@ void GameState::update(sf::Time deltaT) {
 }
 
 void GameState::draw() {
+    if (recv_msg() == "2") {
+        context->states->add(std::make_unique<LostState>(context), true);
+    };
     // очищаем все потом рисуем все потихоньку а потом отображаем
     context->window->clear();
     context->window->draw(background);
