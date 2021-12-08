@@ -12,6 +12,7 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Audio/Music.hpp>
 #include "Connecting.hpp"
+#include "client.hpp"
 class LoadState : public State {
 public:
     LoadState(std::shared_ptr<GameContext> &context);
@@ -34,6 +35,8 @@ private:
     sf::Music music;
     Button exit_button;
     Button play_button;
+    Button Tyan_button;
+    Button Guardian_button;
     Button mute_button;
     sf::Texture loadtex;
     std::shared_ptr<GameContext> context;  // контекст игры с текстурами и шрифтами, бригаду тоже сюда добавьте

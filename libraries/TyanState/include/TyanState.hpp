@@ -4,7 +4,7 @@
 #include "GameContext.hpp"
 #include <memory>
 #include "Button.hpp"
-
+#include "client.hpp"
 #include <SFML/Graphics/Text.hpp>
 
 class TyanState : public State {
@@ -26,9 +26,14 @@ private:
     Button f_answer;
     Button s_answer;
     Button t_answer;
+    Button f_spell;
+    Button s_spell;
+    Button th_spell;
     void right_answer();
     void wrong_answer();
+    bool answering = false;
     bool answered = false;
+    Button back;
     sf::Text question;
     sf::Text win;
     sf::Text lose;

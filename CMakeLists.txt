@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 project(test)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -pthread")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -pthread -lboost_thread")
 set(CMAKE_CXX_STANDARD 14)
 
 add_subdirectory(libraries/Game)
@@ -25,6 +25,7 @@ add_subdirectory(libraries/utils)
 add_subdirectory(libraries/Connecting)
 add_subdirectory(libraries/LoadState)
 add_subdirectory(libraries/TyanState)
+add_subdirectory(libraries/Client)
 
 
 set(SOCKET_LIB libraries/Connecting/common/socket.cpp)
@@ -37,4 +38,4 @@ enable_testing()
 #                        Character Collider Stone Tyan Guardian Bullet Button)
 
 add_executable(main main.cpp)
-target_link_libraries(main PUBLIC Game  socket_lib)
+target_link_libraries(main PUBLIC Game  socket_lib Client)
