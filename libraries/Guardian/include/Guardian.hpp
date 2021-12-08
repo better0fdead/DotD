@@ -3,7 +3,6 @@
 #include "Character.hpp"
 #include "Bullet.hpp"
 
-enum STATES{normal = 0, rateOfFireBuff, bulletSpeedBuff, hpUpBuff, bulletSizeBuff};
 
 class Guardian : public Character{
 public:
@@ -14,7 +13,11 @@ public:
     // а что оставил
     void update(sf::Time deltaTime) override;
 
-    Bullet* shoot(sf::Vector2f direction);
+    std::vector<Bullet*> shoot(sf::Vector2f direction);
+
+    int checkState();
+
+    void setState(int new_state);
 
     float viewAngle;
 private:

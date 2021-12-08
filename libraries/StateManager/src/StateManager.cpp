@@ -44,7 +44,7 @@ void StateManager::switchStateIfNeeded() {
         statesStack.top()->init();
         needToAdd = false;
     }
-    std::cout << statesStack.size()<< std::endl;
+//    std::cout << statesStack.size()<< std::endl;
 
 }
 

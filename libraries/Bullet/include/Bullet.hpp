@@ -1,10 +1,14 @@
 #pragma once
 
 #include "Entity.hpp"
+#include "GameContext.hpp"
+
+
+#define SPEED_BUFF_COEFF 5
 
 class Bullet : public Entity {
 public:
-    Bullet(sf::Vector2f position, sf::Vector2f direction);
+    Bullet(sf::Vector2f position, sf::Vector2f direction, int buffType = 0);
     Bullet(sf::Vector2f position, sf::Texture *texture, int);
 
     ~Bullet();

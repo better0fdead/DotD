@@ -2,11 +2,27 @@
 #include <iostream>
 #include "Bullet.hpp"
 
-Bullet::Bullet(sf::Vector2f position, sf::Vector2f direction) : speed(7), size(1) {
-//    collider = new Collider(&body);
+Bullet::Bullet(sf::Vector2f position, sf::Vector2f direction, int buffType) : speed(7), size(1) {
     body.setPosition(position);
-//    body.scale({size, size});  for buff
 
+    switch (buffType) {
+        case normal:
+        {
+            break;
+        }
+        case bulletSpeedBuff:
+        {
+        speed *= SPEED_BUFF_COEFF;
+        break;
+        }
+        case bulletSizeBuff:
+        {
+            size *= 2;
+            break;
+        }
+    }
+
+    body.scale(size,size);
     // ищем нормированный вектор направления полета пули
     auto directionVect = direction - position;
     directionVectNorm = directionVect / (float) sqrt(pow(directionVect.x, 2) + pow(directionVect.y, 2));
