@@ -1,6 +1,5 @@
 #include "MenuState.hpp"
 
-
 MenuState::MenuState(std::shared_ptr<GameContext> &context) : context(context) {
 
 }
@@ -14,6 +13,7 @@ void MenuState::init() {
     menuBackground.setTexture(context->assets->getTexture(MENU));  // присваиваем текстурку нашему фону
     music.openFromFile("../assets/music/theme.wav");
     music.play();
+
     context->assets->addFont(MAIN_FONT, "../assets/fonts/ARCADECLASSIC.TTF");  //добавляем шрифт
     playText.setFont(context->assets->getFont(MAIN_FONT));  // применяем шрифт к тексту
     playText.setString("work please");  // добавляем в текст нашу строку
@@ -35,12 +35,12 @@ void MenuState::updateKeyBinds() {
         if (event.type == sf::Event::Closed) {  // если на крестик нажали
             context->window->close();
         }
-        else if (event.type == sf::Event::KeyPressed) {  // если кнопку нажали
+        if (event.type == sf::Event::KeyPressed) {  // если кнопку нажали
             switch (event.key.code) {
                 case sf::Keyboard::Return:  // если нажали Enter то перешли в игровое состояние
                     // todo а надо сделать в коннектинг
                     context->window->clear();  // чищу окно
-                    context->states->add(std::make_unique<TyanState>(context), true);
+                    context->states->add(std::make_unique<GameState>(context), true);
                     break;
                 case sf::Keyboard::Escape:  // если ескейп то закрываемся
                     context->window->close();

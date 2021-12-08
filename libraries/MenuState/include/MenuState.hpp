@@ -27,7 +27,7 @@ public:
 
     void update(sf::Time deltaT) override;
 
-    
+
 
     void draw() override;
 
@@ -36,6 +36,9 @@ private:
     Button exit_button;
     Button play_button;
     Button mute_button;
+    void draw() override;
+
+private:
     std::shared_ptr<GameContext> context;  // контекст игры с текстурами и шрифтами, бригаду тоже сюда добавьте
     sf::Sprite menuBackground;
     sf::Text playText; // пример
