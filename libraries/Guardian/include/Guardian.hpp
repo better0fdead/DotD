@@ -22,6 +22,7 @@ public:
     void setState(int new_state);
 
     float viewAngle;
-private:
     int GuardianState;
+private:
+    
 };
