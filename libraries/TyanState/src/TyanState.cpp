@@ -188,7 +188,7 @@ void TyanState::draw() {
     if (recv_msg() == "1")
     {
         context->window->clear();
-        context->states->add(std::make_unique<LostState>(context), true);
+        context->states->add(std::make_unique<LostState>(context, 2), true);  // todo 2
     }
     
     if (!answering && !answered) {

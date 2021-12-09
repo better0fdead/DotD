@@ -163,14 +163,15 @@ void GameState::update(sf::Time deltaT) {
         stonesVec[i]->update(deltaT);
     }
 
+    send_msg("H0 3 0");
+    if (recv_msg() == "2") {
+        context->states->add(std::make_unique<LostState>(context, score), true);
+    };
+
     scoreText.setString("score  " + std::to_string(score));
 }
 
 void GameState::draw() {
-    send_msg("H0 3 0");
-    if (recv_msg() == "2") {
-        context->states->add(std::make_unique<LostState>(context), true);
-    };
     // очищаем все потом рисуем все потихоньку а потом отображаем
     context->window->clear();
     context->window->draw(background);
