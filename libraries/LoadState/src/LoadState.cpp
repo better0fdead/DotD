@@ -80,14 +80,14 @@ void LoadState::updateKeyBinds() {
             }
             else if (Tyan_button.is_hovering)
             {
-                send_msg("T0 1");
-                recv_msg();
+                player_tyan.send_msg("T0 1");
+                player_tyan.recv_msg();
                 context->states->add(std::make_unique<TyanState>(context), true);
             }
             else if (Guardian_button.is_hovering)
             {
-                send_msg("H0 1");
-                recv_msg();
+                player_guardian.send_msg("H0 1");
+                player_guardian.recv_msg();
                 context->states->add(std::make_unique<GameState>(context), true);
             }
         }

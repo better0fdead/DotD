@@ -53,5 +53,6 @@ private:
     size_t max_stones = 3;
     float max_speed_of_stones = 3;
     size_t new_stones_per_lvl = 2;
+    Client player_guardian;
 
 };
