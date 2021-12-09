@@ -26,6 +26,8 @@ void handle_connections() {
         ip::udp::endpoint sender_ep;
         int bytes = sock.receive_from(buffer(buff), sender_ep);
         std::string msg(buff, bytes);
+        std::cout << "msg tyan:" << msg << std::endl;
+
         for(int i = 0; i < msg.size();i++){
             char c = msg[i];
 
@@ -33,10 +35,14 @@ void handle_connections() {
             if(i == 0){
 
                 if(c == 'T'){
+                   // std::cout << "msg tyan:" << msg << std::endl;
+                    tyan_msg = msg;
 
                     char parametr_t =msg[i+3];
                     if (parametr_t == '1'){
                         flag_t = 1;
+                        Tyans[0]=sender_ep;
+                        break;
                     }else if (parametr_t == '2'){
                         parametr_t_ans =msg[i+5];
                         if (!(parametr_t_ans =='0') ) {
@@ -44,45 +50,62 @@ void handle_connections() {
                         }
                         break;
                     }
-                Tyans[0]=sender_ep;
-                tyan_msg = msg;
-                    break;
+
                 }
                 if( c == 'H'){
-                   // std::cout << "msg hero:" << msg << std::endl;
+                    //std::cout << "msg hero:" << msg << std::endl;
+                    hero_msg = msg;
 
                     char parametr_h =msg[i+3];
                     if (parametr_h == '1'){
                         flag_h = 1;
+                        Heros[0]=sender_ep;
+                        hero_msg = msg;
+                        break;
                     }else if (parametr_h == '3'){
                         parametr_h_ans =msg[i+5];
                         if (!(parametr_h_ans =='0') ) {
-                            std::cout << "Game lose"<< std::endl;
+                            std::cout << "Game:" << parametr_t_ans << std::endl;
                         }
                         break;
                     }
-                    Heros[0]=sender_ep;
-                    hero_msg = msg;
-                    flag_h = 1;
-                    break;
                 }
             }
 
         }
-
+//        std::cout << "flag h:" << flag_h << std::endl;
+//        std::cout << "flag t:" << flag_t << std::endl;
+//        std::cout << "flag con:" << flag_connection << std::endl;
         if (flag_t && flag_h && flag_connection) {
             sock.send_to(buffer("1"), Tyans[0]);
             sock.send_to(buffer("1"), Heros[0]);
+            std::cout<<"send 1"<<std::endl;
+
             flag_connection = 0;
-            std::cout << "Clients connect"<< std::endl;
+            flag_t = 0;
+            flag_h =0;
+            std::cout << "Clients Connected" << std::endl;
 
         }
+//        if (flag_t){
+//            sock.send_to(buffer("3"), Tyans[0]);
+//            std::cout<<"send 3"<<std::endl;
+//        }
+//        if (flag_h){
+//            sock.send_to(buffer("3"), Heros[0]);
+//            std::cout<<"send 3"<<std::endl;;
+//        }
+
+
         if (!flag_connection){
             hero_ans=parametr_h_ans;
             tyan_ans=parametr_t_ans;
             sock.send_to(buffer(tyan_ans), Heros[0]);
             sock.send_to(buffer(hero_ans), Tyans[0]);
             parametr_t_ans = '0';
+            std::cout << "send to Clients " << std::endl;
+            std::cout << "msg T " <<tyan_ans<< std::endl;
+            std::cout << "msg H " <<hero_ans<< std::endl;
 
         }
     }

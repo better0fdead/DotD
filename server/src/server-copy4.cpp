@@ -49,7 +49,7 @@ void handle_connections() {
                     break;
                 }
                 if( c == 'H'){
-                   // std::cout << "msg hero:" << msg << std::endl;
+                    std::cout << "msg hero:" << msg << std::endl;
 
                     char parametr_h =msg[i+3];
                     if (parametr_h == '1'){
@@ -57,7 +57,7 @@ void handle_connections() {
                     }else if (parametr_h == '3'){
                         parametr_h_ans =msg[i+5];
                         if (!(parametr_h_ans =='0') ) {
-                            std::cout << "Game lose"<< std::endl;
+                            std::cout << "Game:" << parametr_t_ans << std::endl;
                         }
                         break;
                     }
@@ -74,8 +74,6 @@ void handle_connections() {
             sock.send_to(buffer("1"), Tyans[0]);
             sock.send_to(buffer("1"), Heros[0]);
             flag_connection = 0;
-            std::cout << "Clients connect"<< std::endl;
-
         }
         if (!flag_connection){
             hero_ans=parametr_h_ans;
