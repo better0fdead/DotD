@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Bullet.hpp"
 
-Bullet::Bullet(sf::Vector2f position, sf::Vector2f direction, int buffType) : speed(7), size(1) {
+Bullet::Bullet(sf::Vector2f position, sf::Vector2f direction, int buffType) : speed(DEFAULT_SPEED), size(1) {
     body.setPosition(position);
 
     switch (buffType) {

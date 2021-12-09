@@ -12,6 +12,7 @@ float get_random(float left_limit, float right_limit) {
 sf::Vector2f get_rand_pos_around_frame() {
     sf::Vector2f position = {0, 0};
 
+    srand(time(nullptr));
     int side = rand() % 4;
     switch (side) {
         case top:

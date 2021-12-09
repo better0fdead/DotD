@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.20)
 project(test)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -pthread")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -pthread --coverage")
 set(CMAKE_CXX_STANDARD 14)
+
+add_compile_options("--coverage")
 
 add_subdirectory(libraries/Game)
 add_subdirectory(libraries/State)
@@ -24,10 +26,11 @@ add_subdirectory(libraries/GameContext)
 add_subdirectory(libraries/utils)
 
 enable_testing()
-#add_executable(tests tests/tests.cpp)
-#include_directories(${GTEST_INCLUDE_DIRS})
-#target_link_libraries(tests ${GTEST_LIBRARIES} Game State Entity GameState LostState
-#                        Character Collider Stone Tyan Guardian Bullet Button)
+find_package(GTest REQUIRED)
+add_executable(tests tests/tests.cpp)
+include_directories(${GTEST_INCLUDE_DIRS})
+target_link_libraries(tests ${GTEST_LIBRARIES} Game State Entity GameState LostState
+                        Character Collider Stone Tyan Guardian Bullet Button gcov)
 
 add_executable(main main.cpp)
 target_link_libraries(main PUBLIC Game PauseState)

@@ -5,6 +5,7 @@
 
 
 #define SPEED_BUFF_COEFF 5
+#define DEFAULT_SPEED 7
 
 class Bullet : public Entity {
 public:

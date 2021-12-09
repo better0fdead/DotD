@@ -3,10 +3,12 @@
 #include "Character.hpp"
 #include "Bullet.hpp"
 
+#define DELTA_X_FOR_BULLET 45
+#define DELTA_Y_FOR_BULLET -40
 
 class Guardian : public Character{
 public:
-    Guardian();
+    Guardian(int start_state = 0);
 
     ~Guardian();
 

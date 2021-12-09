@@ -2,9 +2,13 @@
 #include <Guardian.hpp>
 #include <iostream>
 
-Guardian::Guardian() : viewAngle(0),  GuardianState(0) {
+Guardian::Guardian(int start_state) : viewAngle(0),  GuardianState(start_state) {
     HPmax = 1;
     HPcurrent = 1;
+    if(start_state == hpUpBuff){
+    HPcurrent++;
+    HPmax++;
+    }
 }
 
 Guardian::~Guardian() {
@@ -20,7 +24,7 @@ void Guardian::update(sf::Time deltaTime) {
 }
 
 std::vector<Bullet*> Guardian::shoot(sf::Vector2f direction) {
-    sf::Vector2f bulSpawnPos = {body.getPosition().x + 45, body.getPosition().y - 40};
+    sf::Vector2f bulSpawnPos = {body.getPosition().x + DELTA_X_FOR_BULLET, body.getPosition().y + DELTA_Y_FOR_BULLET};
 
     std::vector<Bullet*> new_bullets;
     auto bul = new Bullet(bulSpawnPos, direction, GuardianState);
