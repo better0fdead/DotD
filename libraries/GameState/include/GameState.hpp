@@ -5,19 +5,15 @@
 #include <memory>
 #include "client.hpp"
 
-//#include "State.hpp"
-//#include "GameContext.hpp"
-//#include "StateManager.hpp"
 #include "PauseState.hpp"
 #include "LostState.hpp"
 #include "Tyan.hpp"
 #include "Stone.hpp"
-//#include "Bullet.hpp"
-//#include "Button.hpp"
 #include "Guardian.hpp"
-//#include "utils.hpp"
 
 #define GETTING_HARDER_STEP 0.2
+#define POINTS_PER_STONE_DESTR 75
+#define BUFF_DURATION 10
 
 class GameState: public State
 {
@@ -37,15 +33,19 @@ public:
 
 private:
     sf::Clock gameClock;
+    sf::Clock buffClock;
     std::shared_ptr<GameContext> context;
 
     float seconds_before_go_harder = 2;
 
     sf::Sprite background;
 
-    Guardian guardian;
+    sf::Text scoreText;
+    int score;
 
-    Tyan tyan;
+    std::unique_ptr<Guardian> guardian;
+
+    std::unique_ptr<Tyan> tyan;
 
     std::vector<Bullet*> bulletsVec;
 
@@ -53,19 +53,5 @@ private:
     size_t max_stones = 3;
     float max_speed_of_stones = 3;
     size_t new_stones_per_lvl = 2;
-//	sf::Texture stoneTexture;
 
-//
-//	std::vector<Button *> stones;
-    // // counters For Collision
-    // double counterBS;
-    // double counterST;
-    // double counterSG;
-
-
-	// double pauseCounter;
-//	sf::Font font;
-//
-//	sf::Texture scoreTexture;
-//	Button* scoreButton;
 };

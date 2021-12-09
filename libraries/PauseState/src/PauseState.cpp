@@ -16,7 +16,6 @@ void PauseState::init() {
     context->window->draw(pauseBackground);
 
 
-    context->assets->addFont(MAIN_FONT, "../assets/fonts/ARCADECLASSIC.TTF");  //добавляем шрифт
     pauseText.setFont(context->assets->getFont(MAIN_FONT));  // применяем шрифт к тексту
     pauseText.setFillColor(sf::Color::Black);
     pauseText.setOutlineThickness(0.5);
