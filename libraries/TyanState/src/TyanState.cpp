@@ -164,7 +164,7 @@ void TyanState::right_answer() {
     answered = true;
     answering = false;
     win.setString("Right"); 
-    send_msg("T0 2 1");
+    send_msg("T0 2 3");
 }
 
 void TyanState::wrong_answer() {

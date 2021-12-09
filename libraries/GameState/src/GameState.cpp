@@ -167,7 +167,10 @@ void GameState::update(sf::Time deltaT) {
     if (recv_msg() == "2") {
         context->states->add(std::make_unique<LostState>(context, score), true);
     };
-
+    if (recv_msg() == "3")
+    {
+        guardian.GuardianState = 2;
+    };
     scoreText.setString("score  " + std::to_string(score));
 }
 
