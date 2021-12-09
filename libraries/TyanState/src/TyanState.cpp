@@ -185,6 +185,11 @@ void TyanState::update(sf::Time deltaT) {
 void TyanState::draw() {
     context->window->clear();
     send_msg("T0 2 0");
+    if (recv_msg() == "1")
+    {
+        context->window->clear();
+        context->states->add(std::make_unique<LostState>(context), true);
+    }
     
     if (!answering && !answered) {
         context->window->draw(question);  // рисую текст

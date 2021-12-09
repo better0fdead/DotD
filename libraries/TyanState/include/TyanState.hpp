@@ -5,6 +5,7 @@
 #include <memory>
 #include "Button.hpp"
 #include "client.hpp"
+#include "LostState.hpp"
 #include <SFML/Graphics/Text.hpp>
 
 class TyanState : public State {

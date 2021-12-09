@@ -100,6 +100,7 @@ void GameState::processStuff() {
 void GameState::update(sf::Time deltaT) {
     if(guardian.isDead() || tyan.isDead()){
         context->window->clear();  // чищу окно
+        send_msg("HO 3 1");
         context->states->add(std::make_unique<LostState>(context), true);
     }
 
@@ -137,6 +138,7 @@ void GameState::update(sf::Time deltaT) {
 }
 
 void GameState::draw() {
+    send_msg("H0 3 0");
     if (recv_msg() == "2") {
         context->states->add(std::make_unique<LostState>(context), true);
     };
