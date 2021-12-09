@@ -13,6 +13,7 @@ void MenuState::init() {
     menuBackground.setTexture(context->assets->getTexture(MENU));  // присваиваем текстурку нашему фону
     music.openFromFile("../assets/music/theme.wav");
     music.play();
+
     context->assets->addFont(MAIN_FONT, "../assets/fonts/ARCADECLASSIC.TTF");  //добавляем шрифт
     playText.setFont(context->assets->getFont(MAIN_FONT));  // применяем шрифт к тексту
     playText.setString("work please");  // добавляем в текст нашу строку
@@ -23,7 +24,7 @@ void MenuState::init() {
     playText.setPosition(context->window->getSize().x / 2,
                          context->window->getSize().y / 2);  // центрируем текст
 
-    exit_button.create(100,20, 10,10, "exit");
+    exit_button.create(100,20, 10,10, "exit");  //todo цифры в дефайны или по умолчанию сделай кнопу поределенного размера
     mute_button.create(100,20,1000,700,"mute");
     play_button.create(200,40,context->window->getSize().x / 2 - 100, context->window->getSize().y / 2 + 200, "play");
 }
@@ -34,7 +35,7 @@ void MenuState::updateKeyBinds() {
         if (event.type == sf::Event::Closed) {  // если на крестик нажали
             context->window->close();
         }
-        else if (event.type == sf::Event::KeyPressed) {  // если кнопку нажали
+        if (event.type == sf::Event::KeyPressed) {  // если кнопку нажали
             switch (event.key.code) {
                 case sf::Keyboard::Return:  // если нажали Enter то перешли в игровое состояние
                     // todo а надо сделать в коннектинг
@@ -59,7 +60,7 @@ void MenuState::updateKeyBinds() {
             else if (play_button.is_hovering)
             {
                 context->window->clear();  // чищу окно
-                context->states->add(std::make_unique<GameState>(context), true);
+                context->states->add(std::make_unique<LoadState>(context), true);
             }
             else if (mute_button.is_hovering)
             {
@@ -93,9 +94,9 @@ void MenuState::draw() {
     context->window->draw(menuBackground);
     context->window->draw(playText);  // рисую текст
     //context->window->draw(button.rect);
-    exit_button.draw(context);
-    play_button.draw(context);
-    mute_button.draw(context);
+    exit_button.draw(context);  // todo ЧТО ЭТО ЗА ХУЙНЯ почему у тебя дров отдельный И ПОЧЕМУ ОН КОНТЕКСТ ПРИНИМАЕТ
+    play_button.draw(context);  // todo поправь сделай чтобы наш дефолтный дров на влю игру который работает и на твою конпу каботал
+    mute_button.draw(context);  // todo у тебя кнопка должна наследоваться от сущности которую я создал это на юмл было........ федя меняй!!!!
     context->window->display();  // отображаю все что нарисовал
 }
 

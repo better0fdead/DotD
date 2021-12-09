@@ -3,7 +3,9 @@
 
 //#include "GameContext.hpp"
 //#include "AssetManager.hpp"
-#include "GameState.hpp"
+#include "GameState.hpp"  //todo тут за херня убери лишнее
+#include "LoadState.hpp"
+#include "TyanState.hpp"
 #include <memory>
 #include "Button.hpp"
 #include <SFML/Graphics/Text.hpp>
@@ -25,8 +27,6 @@ public:
 
     void update(sf::Time deltaT) override;
 
-    
-
     void draw() override;
 
 private:
@@ -34,6 +34,8 @@ private:
     Button exit_button;
     Button play_button;
     Button mute_button;
+
+private:
     std::shared_ptr<GameContext> context;  // контекст игры с текстурами и шрифтами, бригаду тоже сюда добавьте
     sf::Sprite menuBackground;
     sf::Text playText; // пример

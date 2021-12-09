@@ -11,5 +11,4 @@ Tyan::~Tyan(){
 }
 
 void Tyan::update(sf::Time deltaTime){
-
 }

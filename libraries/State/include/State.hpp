@@ -16,4 +16,5 @@ public:
     virtual void update(sf::Time deltaT) = 0; // обновляем данные
     virtual void draw() = 0;  // рисуем
 
+    void start() { };
 };

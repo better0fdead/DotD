@@ -12,7 +12,6 @@ public:
     bool checkCollision(const Collider & other);
 
 
-    sf::Vector2f getHalfSize() const;
     sf::Vector2f getPos() const;
 
 private:

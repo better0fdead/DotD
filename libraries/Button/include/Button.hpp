@@ -8,7 +8,7 @@
 #include <iostream>
 #include "GameContext.hpp"
 #include <memory>
-class Button{
+class Button{  //todo федя убери говонокод пожалуйста мне больно на это смотреть
     public:
         sf::Vector2f position;
         sf::Vector2f text_position;
@@ -19,6 +19,7 @@ class Button{
         sf::Text m_text;
         sf::Text m_shadow;
         bool is_muted = false;
+        bool is_answer = false;
         Button(){
             rect.setFillColor(sf::Color(0,167,189));
         }
@@ -46,6 +47,7 @@ class Button{
             rect.setSize(sf::Vector2f(w,h));
             rect.setPosition(position);
         }
+        
 
         void draw(std::shared_ptr<GameContext> context)
         {
