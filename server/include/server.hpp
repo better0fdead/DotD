@@ -21,3 +21,7 @@
 #include <boost/bind/bind.hpp>
 #include <boost/thread.hpp>
 #include <iostream>
+
+
+void handle_connections();
+int main(int argc, char* argv[]);

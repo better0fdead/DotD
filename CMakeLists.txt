@@ -6,32 +6,10 @@ set(CMAKE_CXX_STANDARD 14)
 
 add_compile_options("--coverage")
 
-add_subdirectory(libraries/Game)
-add_subdirectory(libraries/State)
-add_subdirectory(libraries/GameState)
-add_subdirectory(libraries/LostState)
-add_subdirectory(libraries/Entity)
-add_subdirectory(libraries/Character)
-add_subdirectory(libraries/Collider)
-add_subdirectory(libraries/Stone)
-add_subdirectory(libraries/Tyan)
-add_subdirectory(libraries/Guardian)
-add_subdirectory(libraries/Bullet)
-add_subdirectory(libraries/Button)
-add_subdirectory(libraries/StateManager)
-add_subdirectory(libraries/AssetManager)
-add_subdirectory(libraries/MenuState)
-add_subdirectory(libraries/PauseState)
-add_subdirectory(libraries/GameContext)
-add_subdirectory(libraries/utils)
-add_subdirectory(libraries/Connecting)
-add_subdirectory(libraries/LoadState)
-add_subdirectory(libraries/TyanState)
+
 add_subdirectory(libraries/Client)
 
 
-set(SOCKET_LIB libraries/Connecting/common/socket.cpp)
-add_library(socket_lib STATIC ${SOCKET_LIB})
 
 #enable_testing()
 #find_package(GTest REQUIRED)
@@ -39,6 +17,3 @@ add_library(socket_lib STATIC ${SOCKET_LIB})
 #include_directories(${GTEST_INCLUDE_DIRS})
 #target_link_libraries(tests ${GTEST_LIBRARIES} Game State Entity GameState LostState
 #                        Character Collider Stone Tyan Guardian Bullet Button gcov)
-
-add_executable(main main.cpp)
-target_link_libraries(main PUBLIC Game  socket_lib Client)
