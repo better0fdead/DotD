@@ -11,6 +11,7 @@
 enum AssetID {
     MAIN_FONT = 0, BACKGROUND, GUARDIAN, TYAN, STONE, BULLET,  PAUSE, LOST, MENU
 };
+enum STATES{normal = 0, fireBackwardsBuff, bulletSpeedBuff, hpUpBuff, bulletSizeBuff, undestroyableBulletsBuff};
 
 
 struct GameContext {

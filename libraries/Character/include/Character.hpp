@@ -5,7 +5,6 @@
 
 class Character : public Entity {
 public:
-    Character(): HPmax(1), HPcurrent(1) {};
 
     virtual ~Character() {};
 

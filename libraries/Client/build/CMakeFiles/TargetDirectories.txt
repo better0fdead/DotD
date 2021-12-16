@@ -1,0 +1,3 @@
+/home/ilnur/Technopark/client udp/build/CMakeFiles/client.dir
+/home/ilnur/Technopark/client udp/build/CMakeFiles/edit_cache.dir
+/home/ilnur/Technopark/client udp/build/CMakeFiles/rebuild_cache.dir

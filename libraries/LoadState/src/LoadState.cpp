@@ -14,7 +14,6 @@ void LoadState::init() {
     menuBackground.setTexture(loadtex);  // присваиваем текстурку нашему фону
     music.openFromFile("../assets/music/theme.wav");
     music.play();
-    std::string a = recive_friendIP(0);
     context->assets->addFont(MAIN_FONT, "../assets/fonts/ARCADECLASSIC.TTF");  //добавляем шрифт
     playText.setFont(context->assets->getFont(MAIN_FONT));  // применяем шрифт к тексту
     playText.setString("Loading");  // добавляем в текст нашу строку
@@ -27,7 +26,8 @@ void LoadState::init() {
 
     exit_button.create(100,20, 10,10, "exit");
     mute_button.create(100,20,1000,700,"mute");
-    play_button.create(200,40,context->window->getSize().x / 2 - 100, context->window->getSize().y / 2 + 200, "play");
+    Tyan_button.create(200,40,context->window->getSize().x / 2 - 200, context->window->getSize().y / 2 + 200, "Tyan");
+    Guardian_button.create(200,40,context->window->getSize().x / 2 + 100, context->window->getSize().y / 2 + 200, "Guardian");
 }
 
 void LoadState::updateKeyBinds() {
@@ -54,6 +54,8 @@ void LoadState::updateKeyBinds() {
                     play_button.collidepoint(context->window->mapPixelToCoords(sf::Vector2i(event.mouseMove.x,event.mouseMove.y)));
                     mute_button.collidepoint(context->window->mapPixelToCoords(sf::Vector2i(event.mouseMove.x,event.mouseMove.y)));
                     exit_button.collidepoint(context->window->mapPixelToCoords(sf::Vector2i(event.mouseMove.x,event.mouseMove.y)));
+                    Tyan_button.collidepoint(context->window->mapPixelToCoords(sf::Vector2i(event.mouseMove.x,event.mouseMove.y)));
+                    Guardian_button.collidepoint(context->window->mapPixelToCoords(sf::Vector2i(event.mouseMove.x,event.mouseMove.y)));
                 }
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
             if (exit_button.is_hovering)
@@ -76,6 +78,18 @@ void LoadState::updateKeyBinds() {
                     mute_button.is_muted = false;
                 }
             }
+            else if (Tyan_button.is_hovering)
+            {
+                player_tyan.send_msg("T0 1");
+                player_tyan.recv_msg();
+                context->states->add(std::make_unique<TyanState>(context), true);
+            }
+            else if (Guardian_button.is_hovering)
+            {
+                player_guardian.send_msg("H0 1");
+                player_guardian.recv_msg();
+                context->states->add(std::make_unique<GameState>(context), true);
+            }
         }
     }
 }
@@ -96,7 +110,8 @@ void LoadState::draw() {
     context->window->draw(playText);  // рисую текст
     //context->window->draw(button.rect);
     exit_button.draw(context);
-    play_button.draw(context);
+    Tyan_button.draw(context);
+    Guardian_button.draw(context);
     mute_button.draw(context);
     context->window->display();  // отображаю все что нарисовал
 }

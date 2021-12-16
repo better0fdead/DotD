@@ -3,20 +3,26 @@
 #include "Character.hpp"
 #include "Bullet.hpp"
 
-enum STATES{normal = 0, rateOfFireBuff, bulletSpeedBuff, hpUpBuff, bulletSizeBuff};
+#define DELTA_X_FOR_BULLET 45
+#define DELTA_Y_FOR_BULLET -40
 
 class Guardian : public Character{
 public:
-    Guardian();
+    Guardian(int start_state = 0);
 
     ~Guardian();
 
     // а что оставил
     void update(sf::Time deltaTime) override;
 
-    Bullet* shoot(sf::Vector2f direction);
+    std::vector<Bullet*> shoot(sf::Vector2f direction);
+
+    int checkState();
+
+    void setState(int new_state);
 
     float viewAngle;
-private:
     int GuardianState;
+private:
+    
 };

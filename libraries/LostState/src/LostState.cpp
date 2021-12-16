@@ -1,6 +1,6 @@
 #include "LostState.hpp"
 
-LostState::LostState(std::shared_ptr<GameContext> &context) : context(context) {
+LostState::LostState(std::shared_ptr<GameContext> &context, int totalScore) : context(context), score(totalScore) {
 
 }
 
@@ -9,12 +9,14 @@ LostState::~LostState() {
 }
 
 void LostState::init() {
+    context->assets->addFont(MAIN_FONT, "../assets/fonts/ARCADECLASSIC.TTF");  //добавляем шрифт
     context->assets->addTexture(LOST, "../assets/textures/b2.png");
     lostBackground.setTexture(context->assets->getTexture(LOST));  // присваиваем текстурку нашему фону
     lostBackground.scale({1.17, 1.1});
 
+    scoreText.setFont(context->assets->getFont(MAIN_FONT));
+    scoreText.setString("Your score is " + std::to_string(score));
 
-    context->assets->addFont(MAIN_FONT, "../assets/fonts/ARCADECLASSIC.TTF");  //добавляем шрифт
     lostText.setFont(context->assets->getFont(MAIN_FONT));  // применяем шрифт к тексту
     lostText.setFillColor(sf::Color::Black);
     lostText.setOutlineThickness(0.5);
@@ -30,6 +32,12 @@ void LostState::init() {
 
     lostText.setPosition(context->window->getSize().x / 2,
                          context->window->getSize().y / 2);  // центрируем текст
+
+    scoreText.setOrigin(scoreText.getLocalBounds().width / 2,
+                       scoreText.getLocalBounds().height / 2);  // ставим точку отсчета в центр текста
+
+    scoreText.setPosition(context->window->getSize().x / 2,
+                         context->window->getSize().y / 3);  // центрируем текст
 }
 
 void LostState::updateKeyBinds() {
@@ -69,6 +77,7 @@ void LostState::draw() {
     context->window->clear();
     context->window->draw(lostBackground);
     context->window->draw(lostText);  // рисую текст
+    context->window->draw(scoreText);
     context->window->display();  // отображаю все что нарисовал
 }
 

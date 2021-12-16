@@ -7,7 +7,6 @@ void Entity::init(const sf::Texture *texture, sf::Vector2f position) {
     body.setOrigin(body.getLocalBounds().width / 2,
                    body.getLocalBounds().height / 2);  // ставим начальную точку в центр
     body.setPosition(position);  // позиционируем
-    body.setScale({1, 1});
 //    collider = new Collider(&body.getGlobalBounds());
 }
 

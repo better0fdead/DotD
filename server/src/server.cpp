@@ -1,153 +1,94 @@
-
 #include <server.hpp>
 #include <arpa/inet.h>
+using namespace boost::asio;
+using namespace boost::posix_time;
 
-void set_reuse_addr(int sd) {
-    int yes = 1;
-    if (setsockopt(sd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1) {
-        ::close(sd);
-        return;
-    }
-}
+io_service service;
+void handler(const boost::system::error_code& e, size_t bytes);
 
-int make_named_socket(const char *filename) {
-    struct sockaddr_un name;
-    int sock;
-    size_t size;
-    sock = socket(PF_UNIX, SOCK_DGRAM, 0); // create unix domain socket
-    if (sock < 0) {
-        perror("socket");
-        exit(EXIT_FAILURE);
-    }
-    name.sun_family = PF_UNIX;
-    strcpy(name.sun_path, filename);
-    size = (offsetof(struct sockaddr_un, sun_path) + strlen(name.sun_path) + 1);
-    if (bind(sock, (struct sockaddr *) &name, size) < 0) {
-        perror("bind");
-        exit(EXIT_FAILURE);
-    }
-    return sock;
-}
-
-int make_socket(uint16_t port) {
-    /* Create the socket. */
-    // sock = socket(PF_INET, SOCK_STREAM, 0);
-    int sock = socket(PF_INET, SOCK_STREAM, 0);  // IPPROTO_TCP
-    if (sock < 0) {
-        perror("socket");
-        exit(EXIT_FAILURE);
-    }
-    set_reuse_addr(sock);
-    struct sockaddr_in serv_addr;
-    memset(&serv_addr, 0, sizeof(serv_addr));
-
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(port);
-    serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-
-    if (bind(sock, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-        perror("bind");
-        exit(EXIT_FAILURE);
-    }
-
-    int queue_size = 3;
-    if (::listen(sock, queue_size) < 0) {
-        perror("listen");
-        exit(EXIT_FAILURE);
-    }
-    exit(0);
-    return sock;
-}
-
-int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        std::cerr << "usage: " << argv[0] << " port" << std::endl;
-        return 0;
-    }
-    int sock;
-    int port = std::stoi(std::string(argv[1]));
-
-    int listener = socket(PF_INET, SOCK_STREAM, 0);  // IPPROTO_TCP
-    if (listener < 0) {
-        perror("socket");
-        exit(EXIT_FAILURE);
-    }
-
-    set_reuse_addr(listener);
-
-    struct sockaddr_in serv_addr;
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(port);
-    serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-
-    if (bind(listener, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-        perror("bind");
-        exit(EXIT_FAILURE);
-    }
-
-    int queue_size = 3;
-    if (listen(listener, queue_size) < 0) {
-        perror("listen");
-        exit(EXIT_FAILURE);
-    }
-
-    char buf[1024];
-    int bytes_read;
-
+void handle_connections() {
+    char buff[1024];
+    ip::udp::endpoint Tyans[3];
+    ip::udp::endpoint Heros[3];
+    ip::udp::socket sock(service, ip::udp::endpoint(ip::udp::v4(), 5001));
+    int index_tyan = 0;
+    int index_hero = 0;
+    int flag_t = 0;
+    int flag_h = 0;
+    std::string tyan_msg;
+    std::string hero_msg;
+    int flag_connection = 1;
+    char parametr_t_ans = '0';
+    char parametr_h_ans = '0';
+    std::string tyan_ans ="0";
+    std::string hero_ans ="0";
     while (true) {
-        struct sockaddr_in client;
-        socklen_t cli_len = sizeof(client);
-        printf("waiting for connection and then accept it, pid = %d \n", getpid());
-        sock = accept(listener, (struct sockaddr *) &client, &cli_len);
-        printf("request accepted , pid = %d \n", getpid());
-        if (sock < 0) {
-            perror("accept");
-            exit(3);
-        }
+        ip::udp::endpoint sender_ep;
+        int bytes = sock.receive_from(buffer(buff), sender_ep);
+        std::string msg(buff, bytes);
+        for(int i = 0; i < msg.size();i++){
+            char c = msg[i];
 
-        pid_t pid = fork();
-        if (pid > 0) {
-            std::cerr << "parent: " << getpid() << std::endl;
-        } else {
-            std::cerr << "child: " << getpid() << std::endl;
-        }
 
-        switch (pid) {
-            case -1:
-                perror("fork");
-                break;
+            if(i == 0){
 
-            case 0:
-                close(listener);  // потомок закрывает Ненужную копия слушающего сокета
-                while (true) {
-                    bytes_read = recv(sock, buf, 1024, 0);
-                    printf("data received, size == %d , pid = %d \n", bytes_read,
-                           getpid());
-                    if (bytes_read <= 0) {
-                        printf("Client disconnected \n");
+                if(c == 'T'){
+
+                    char parametr_t =msg[i+3];
+                    if (parametr_t == '1'){
+                        flag_t = 1;
+                    }else if (parametr_t == '2'){
+                        parametr_t_ans =msg[i+5];
+                        if (!(parametr_t_ans =='0') ) {
+                            std::cout << "Ans:" << parametr_t_ans << std::endl;
+                        }
                         break;
                     }
-                    char *clientIP = new char[20];
-                    strcpy(clientIP, inet_ntoa(client.sin_addr));
-                    std::cout << buf << std::endl;
-                    std::cout << buf[0] << std::endl;
-
-                    if (buf[0] == '0') {
-                        send(sock, clientIP, 16, 0);
-                    }else if (buf[0] == '1'){
-                        send(sock, "Game Search", 16, 0);
-                    }
+                Tyans[0]=sender_ep;
+                tyan_msg = msg;
+                    break;
                 }
+                if( c == 'H'){
+                   // std::cout << "msg hero:" << msg << std::endl;
 
+                    char parametr_h =msg[i+3];
+                    if (parametr_h == '1'){
+                        flag_h = 1;
+                    }else if (parametr_h == '3'){
+                        parametr_h_ans =msg[i+5];
+                        if (!(parametr_h_ans =='0') ) {
+                            std::cout << "Game lose"<< std::endl;
+                        }
+                        break;
+                    }
+                    Heros[0]=sender_ep;
+                    hero_msg = msg;
+                    flag_h = 1;
+                    break;
+                }
+            }
 
-                close(sock);
-                break;
-            default:
-                close(sock); // родитель закрывает свой дескриптор подключенного сокета, это ненужная копия
-                break;
+        }
+
+        if (flag_t && flag_h && flag_connection) {
+            sock.send_to(buffer("1"), Tyans[0]);
+            sock.send_to(buffer("1"), Heros[0]);
+            flag_connection = 0;
+            std::cout << "Clients connect"<< std::endl;
+
+        }
+        if (!flag_connection){
+            hero_ans=parametr_h_ans;
+            tyan_ans=parametr_t_ans;
+            sock.send_to(buffer(tyan_ans), Heros[0]);
+            sock.send_to(buffer(hero_ans), Tyans[0]);
+            parametr_t_ans = '0';
+
         }
     }
 
-    close(listener);
-    return 0;
+}
+
+int main(int argc, char* argv[]) {
+    handle_connections();
 }
