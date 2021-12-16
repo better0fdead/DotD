@@ -164,14 +164,18 @@ void TyanState::right_answer() {
     answered = true;
     answering = false;
     win.setString("Right"); 
+
     player_tyan.send_msg("T0 2 3");
+
 }
 
 void TyanState::wrong_answer() {
     answered = true;
     answering = false;
+
     win.setString("Lose");
     player_tyan.send_msg("T0 2 2");
+
 }
 
 void TyanState::processStuff() {
@@ -184,8 +188,10 @@ void TyanState::update(sf::Time deltaT) {
 
 void TyanState::draw() {
     context->window->clear();
+
     player_tyan.send_msg("T0 2 0");
     if (player_tyan.recv_msg() == "1")
+
     {
         context->window->clear();
         context->states->add(std::make_unique<LostState>(context, 2), true);  // todo 2

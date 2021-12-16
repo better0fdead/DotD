@@ -126,11 +126,13 @@ void GameState::processStuff() {
 }
 
 void GameState::update(sf::Time deltaT) {
+
     player_guardian.send_msg("H0 3 0");
 
     if(guardian->isDead() || tyan->isDead()){
         context->window->clear();  // чищу окно
         player_guardian.send_msg("HO 3 1");
+
         context->states->add(std::make_unique<LostState>(context, score), true);
     }
 
@@ -165,12 +167,15 @@ void GameState::update(sf::Time deltaT) {
         stonesVec[i]->update(deltaT);
     }
 
+
     if (player_guardian.recv_msg() == "2") {
         context->states->add(std::make_unique<LostState>(context, score), true);
     };
     if (player_guardian.recv_msg() == "3")
     {
         guardian->GuardianState = 1;
+
+
     };
     scoreText.setString("score  " + std::to_string(score));
 }
