@@ -4,11 +4,10 @@
 
 class Button : public Entity {
 public:
-    Button(sf::Vector2f position, sf::Texture *texture);
+    Button();
     ~Button();
 
-    void draw(sf::RenderWindow* window);
-    void update(double deltaTime);
+    void update(sf::Time deltaTime) override;
 
 private:
     //write smth

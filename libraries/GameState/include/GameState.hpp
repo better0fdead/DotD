@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <ctime>
 #include <memory>
 
 #include "PauseState.hpp"
@@ -10,9 +11,9 @@
 #include "Stone.hpp"
 #include "Guardian.hpp"
 
-#define GETTING_HARDER_STEP 0.2
-#define POINTS_PER_STONE_DESTR 75
-#define BUFF_DURATION 10
+constexpr float GETTING_HARDER_STEP = 0.2;
+constexpr uint8_t POINTS_PER_STONE_DESTR = 75;
+constexpr uint8_t BUFF_DURATION = 10;
 
 class GameState: public State
 {
@@ -26,11 +27,15 @@ public:
     void update(sf::Time deltaT) override;
     void draw() override;
 
-    void pause();
-
-	void initStones(size_t new_stones, float speed_of_stones);
-
 private:
+    void pause();
+    void initStones(size_t new_stones, float speed_of_stones);
+    void BullStonesCollisionHandler();
+    void StonesCharacterCollisionHandler();
+    void BuffDiscardHandler();
+    void GameOverCheck();
+    void GettingHarderHandler();
+
     sf::Clock gameClock;
     sf::Clock buffClock;
     std::shared_ptr<GameContext> context;
@@ -52,5 +57,4 @@ private:
     size_t max_stones = 3;
     float max_speed_of_stones = 3;
     size_t new_stones_per_lvl = 2;
-
 };

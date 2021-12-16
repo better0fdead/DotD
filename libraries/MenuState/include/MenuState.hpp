@@ -1,12 +1,9 @@
 #pragma once
 
-
-//#include "GameContext.hpp"
-//#include "AssetManager.hpp"
-#include "GameState.hpp"
+#include <SFML/Graphics/Text.hpp>
 #include <memory>
 
-#include <SFML/Graphics/Text.hpp>
+#include "GameState.hpp"
 
 class MenuState : public State {
 public:
@@ -15,13 +12,9 @@ public:
     ~MenuState();
 
     void init() override;
-
     void updateKeyBinds() override;
-
     void processStuff() override;
-
     void update(sf::Time deltaT) override;
-
     void draw() override;
 
 private:

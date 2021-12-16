@@ -1,22 +1,19 @@
 #pragma once
 
+#include <valarray>
 #include "Entity.hpp"
 #include "GameContext.hpp"
 
-
-#define SPEED_BUFF_COEFF 5
-#define DEFAULT_SPEED 7
+constexpr uint8_t SPEED_BUFF_COEFF = 5;
+constexpr uint8_t DEFAULT_SPEED = 7;
+constexpr uint8_t DEFAULT_SIZE = 1;
 
 class Bullet : public Entity {
 public:
-    Bullet(sf::Vector2f position, sf::Vector2f direction, int buffType = 0);
-    Bullet(sf::Vector2f position, sf::Texture *texture, int);
+    Bullet(sf::Vector2f position, sf::Vector2f direction, STATES buffType = STATES::normal);
 
     ~Bullet();
 
-//    void setTexture(const sf::Texture* texture);
-//    void init(const sf::Texture* texture, sf::Vector2f position) override;
-//    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     void update(sf::Time deltaTime) override;
 
 private:

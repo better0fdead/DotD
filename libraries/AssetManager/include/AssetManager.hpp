@@ -1,24 +1,29 @@
 #pragma once
+
 #include <map>
 #include <memory>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Font.hpp>
 
-class AssetManager{
+enum class AssetID {
+    MAIN_FONT = 0, BACKGROUND, GUARDIAN, TYAN, STONE, BULLET,  PAUSE, LOST, MENU
+};
+
+class AssetManager {
 public:
     AssetManager();
+
     ~AssetManager();
 
-    void addTexture(int id, const std::string& filePath, bool wantRepeating = false);
-    void addFont(int id, const std::string& filePath);
+    void addTexture(AssetID id, const std::string &fileName, bool wantRepeating = false);
 
-    const sf::Texture &getTexture(int id) const;
-    const sf::Font &getFont(int id) const;
+    void addFont(AssetID id, const std::string &fileName);
 
+    const sf::Texture &getTexture(AssetID id) const;
 
+    const sf::Font &getFont(AssetID id) const;
 
 private:
-std::map<int, std::unique_ptr<sf::Texture>> textures;
-std::map<int, std::unique_ptr<sf::Font>> fonts;
-
+    std::map<AssetID, std::unique_ptr<sf::Texture>> textures;
+    std::map<AssetID, std::unique_ptr<sf::Font>> fonts;
 };
