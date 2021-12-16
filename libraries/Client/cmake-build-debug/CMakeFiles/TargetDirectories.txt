@@ -1,3 +1,0 @@
-/home/ilnur/Technopark/DOTT-dev/DotDv2/DotD/libraries/Client/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/ilnur/Technopark/DOTT-dev/DotDv2/DotD/libraries/Client/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/ilnur/Technopark/DOTT-dev/DotDv2/DotD/libraries/Client/cmake-build-debug/CMakeFiles/Client.dir
