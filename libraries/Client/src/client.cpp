@@ -11,7 +11,7 @@ ip::udp::endpoint ep(ip::address::from_string("178.62.207.127"), 5001);
 Client::Client(){};
 Client::~Client(){};
 //отправка сообщений
-void Client::send_msg(std::string msg) {
+void Client::send_msg(const std::string& msg) {
 
     sock.send_to(buffer(msg), ep);
 }
