@@ -265,6 +265,21 @@ TEST(STONE, update_move){
     delete stoneTexture;
 }
 
+TEST(BUFF, GuardianHpUP){
+    auto guardianTexture = new sf::Texture;
+    guardianTexture->loadFromFile("../assets/textures/guardian1.png");
+
+    Guardian guardian(hpUpBuff);
+    guardian.init(guardianTexture, sf::Vector2f(50,50));
+
+    guardian.takeDamage();
+    EXPECT_FALSE(guardian.isDead());
+
+    guardian.takeDamage();
+    EXPECT_TRUE(guardian.isDead());
+}
+
+
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

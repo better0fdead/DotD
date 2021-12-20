@@ -5,13 +5,11 @@
 #include "AssetManager.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 
-#define WINDOW_WIDTH 1200
-#define WINDOW_HEIGHT 800
+constexpr uint16_t WINDOW_WIDTH = 1200;
+constexpr uint16_t WINDOW_HEIGHT = 800;
 
-enum AssetID {
-    MAIN_FONT = 0, BACKGROUND, GUARDIAN, TYAN, STONE, BULLET,  PAUSE, LOST, MENU
-};
-enum STATES{normal = 0, fireBackwardsBuff, bulletSpeedBuff, hpUpBuff, bulletSizeBuff, undestroyableBulletsBuff};
+
+enum class STATES{normal = 0, fireBackwardsBuff, bulletSpeedBuff, hpUpBuff, bulletSizeBuff, undestroyableBulletsBuff};
 
 
 struct GameContext {

@@ -12,23 +12,22 @@ float get_random(float left_limit, float right_limit) {
 sf::Vector2f get_rand_pos_around_frame() {
     sf::Vector2f position = {0, 0};
 
-    srand(time(nullptr));
-    int side = rand() % 4;
+    SIDE side = (SIDE)(rand() % 4);
     switch (side) {
-        case top:
+        case SIDE::top:
             position.x = get_random(0, WINDOW_WIDTH);
-            position.y = -200;
+            position.y = -BORDER_MARGIN;
             break;
-        case bottom:
+        case SIDE::bottom:
             position.x = get_random(0, WINDOW_WIDTH);
-            position.y = WINDOW_HEIGHT + 200;
+            position.y = WINDOW_HEIGHT + BORDER_MARGIN;
             break;
-        case left:
-            position.x = -200;
+        case SIDE::left:
+            position.x = -BORDER_MARGIN;
             position.y = get_random(0, WINDOW_HEIGHT);
             break;
-        case right:
-            position.x = WINDOW_WIDTH + 200;
+        case SIDE::right:
+            position.x = WINDOW_WIDTH + BORDER_MARGIN;
             position.y = get_random(0, WINDOW_HEIGHT);
             break;
     }

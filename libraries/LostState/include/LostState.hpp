@@ -1,12 +1,7 @@
 #pragma once
 
-
-//#include "State.hpp"
-//#include "StateManager.hpp"
-//#include "GameContext.hpp"
-#include "MenuState.hpp"
-//#include "GameState.hpp"
 #include <memory>
+#include "MenuState.hpp"
 
 class LostState : public State {
 public:
@@ -19,11 +14,6 @@ public:
     void processStuff() override;
     void update(sf::Time deltaT) override;
     void draw() override;
-
-
-//    bool switchState() override; //Play again?
-
-//    void setScore(std::string newScore); //Displays the score
 
 private:
     std::shared_ptr<GameContext> context;  // контекст игры с текстурами и шрифтами, бригаду тоже сюда добавьте

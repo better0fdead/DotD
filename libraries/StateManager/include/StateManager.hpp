@@ -25,5 +25,4 @@ private:
     bool needToAdd;  //надо добавлять удалять или заменять
     bool needToRemove;
     bool needToReplace;
-
 };

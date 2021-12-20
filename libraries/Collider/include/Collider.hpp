@@ -2,18 +2,16 @@
 
 #include <SFML/Graphics.hpp>
 
-class Collider
-{
+class Collider {
 public:
-    Collider(sf::Sprite* body);
+    Collider(sf::Sprite *body);
 
     ~Collider();
 
-    bool checkCollision(const Collider & other);
-
+    bool checkCollision(const Collider &other);
 
     sf::Vector2f getPos() const;
 
 private:
-    sf::Sprite* body;
+    sf::Sprite *body;
 };

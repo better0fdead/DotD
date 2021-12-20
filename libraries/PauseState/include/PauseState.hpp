@@ -1,10 +1,9 @@
 #pragma once
 
-
-#include "GameContext.hpp"
+#include <SFML/Graphics/Text.hpp>
 #include <memory>
 
-#include <SFML/Graphics/Text.hpp>
+#include "GameContext.hpp"
 
 class PauseState : public State {
 public:

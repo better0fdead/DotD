@@ -24,7 +24,7 @@ class Button{
         Button(){
             rect.setFillColor(sf::Color(0,167,189));
         }
-        
+
         void setText(std::string s)
             {
                 m_text.setString(s);
@@ -49,7 +49,7 @@ class Button{
             rect.setSize(sf::Vector2f(w,h));
             rect.setPosition(position);
         }
-        
+
 
         void draw(std::shared_ptr<GameContext> context)
         {
@@ -66,13 +66,12 @@ class Button{
             else{
                 is_hovering = false;
             }
-           
+
             if (is_hovering)
                 rect.setFillColor(sf::Color(50,50,50));
             else
                 rect.setFillColor(sf::Color(0,167,189));
         }
-        
         void set_text_size(int h)
         {
             m_text.setCharacterSize(h);
@@ -80,10 +79,6 @@ class Button{
             m_text.setOrigin(m_text.getLocalBounds().width / 2,
                        m_text.getLocalBounds().height / 2);
             m_text.setPosition(icon_position);
-        }
-
-        void clicked(){
-            std::cout << "button pressed" << std::endl;
         }
 };
 #endif // BUTTON_HPP

@@ -5,9 +5,10 @@
 #include <SFML/System.hpp>
 #include "GameContext.hpp"
 
-#define CENTRE_INTERVAL 50
+constexpr uint8_t CENTRE_INTERVAL = 50;
+constexpr uint8_t BORDER_MARGIN = 200;
 
-enum SIDE {top = 0, bottom, left, right};
+enum class SIDE {top = 0, bottom, left, right};
 
 float get_random(float left_limit, float right_limit);  // рандомный флоат
 

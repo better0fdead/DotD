@@ -13,6 +13,10 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Audio/Music.hpp>
+#include <memory>
+
+#include "GameState.hpp"
+
 class MenuState : public State {
 public:
     MenuState(std::shared_ptr<GameContext> &context);
@@ -20,13 +24,9 @@ public:
     ~MenuState();
 
     void init() override;
-
     void updateKeyBinds() override;
-
     void processStuff() override;
-
     void update(sf::Time deltaT) override;
-
     void draw() override;
 
 private:
