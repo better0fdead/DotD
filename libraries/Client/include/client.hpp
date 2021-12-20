@@ -16,6 +16,19 @@
 #include "Bullet.hpp"
 #include "Stone.hpp"
 #include "json.hpp"
+struct data_msg_guard
+{
+    int team;
+    int buff;
+    std::vector<Bullet *> bullets;
+    std::vector<Stone *> stones;
+};
+
+struct data_msg_tyan
+{
+    int team;
+    int buff;
+};
 
 class Client  {
 public:
@@ -41,16 +54,4 @@ public:
     data2json_for_guard(std::vector<Bullet *> bullets, std::vector<Stone *> stones, int teammate, int buff);
 };
 
-struct data_msg_guard
-{
-    int team;
-    int buff;
-    std::vector<Bullet *> bullets;
-    std::vector<Stone *> stones;
-};
 
-struct data_msg_tyan
-{
-    int team;
-    int buff;
-};
