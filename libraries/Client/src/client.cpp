@@ -1,5 +1,5 @@
 #include <client.hpp>
-
+#include <json.hpp>
 
 using namespace boost::asio;
 //интерфейс клиента
