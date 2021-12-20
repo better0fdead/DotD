@@ -7,14 +7,13 @@ void Entity::init(const sf::Texture *texture, sf::Vector2f position) {
     body.setOrigin(body.getLocalBounds().width / 2,
                    body.getLocalBounds().height / 2);  // ставим начальную точку в центр
     body.setPosition(position);  // позиционируем
-//    collider = new Collider(&body.getGlobalBounds());
 }
 
-void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const{
+void Entity::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(body);  // рисуем :)
 }
 
-sf::Vector2f Entity::getPos() const{
+sf::Vector2f Entity::getPos() const {
     return body.getPosition();
 }
 

@@ -1,7 +1,7 @@
 #include "Character.hpp"
 
 void Character::takeDamage() {
-    HPcurrent--;
+    --HPcurrent;
 }
 
 bool Character::isDead() {

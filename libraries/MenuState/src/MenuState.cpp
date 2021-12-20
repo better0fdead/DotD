@@ -9,13 +9,14 @@ MenuState::~MenuState() {
 }
 
 void MenuState::init() {
-    context->assets->addTexture(MENU, "../assets/textures/menubackground_extrashakal.jpg");
-    menuBackground.setTexture(context->assets->getTexture(MENU));  // присваиваем текстурку нашему фону
+    context->assets->addTexture(AssetID::MENU, "menubackground_extrashakal.jpg");
+    menuBackground.setTexture(context->assets->getTexture(AssetID::MENU));  // присваиваем текстурку нашему фону
+
     music.openFromFile("../assets/music/theme.wav");
     music.play();
 
-    context->assets->addFont(MAIN_FONT, "../assets/fonts/ARCADECLASSIC.TTF");  //добавляем шрифт
-    playText.setFont(context->assets->getFont(MAIN_FONT));  // применяем шрифт к тексту
+    context->assets->addFont(AssetID::MAIN_FONT, "ARCADECLASSIC.TTF");  //добавляем шрифт
+    playText.setFont(context->assets->getFont(AssetID::MAIN_FONT));  // применяем шрифт к тексту
     playText.setString("work please");  // добавляем в текст нашу строку
 
     playText.setOrigin(playText.getLocalBounds().width / 2,
@@ -99,4 +100,3 @@ void MenuState::draw() {
     mute_button.draw(context);  // todo у тебя кнопка должна наследоваться от сущности которую я создал это на юмл было........ федя меняй!!!!
     context->window->display();  // отображаю все что нарисовал
 }
-

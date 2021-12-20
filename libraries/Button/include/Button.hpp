@@ -8,10 +8,11 @@
 #include <iostream>
 #include "GameContext.hpp"
 #include <memory>
-class Button{  //todo федя убери говонокод пожалуйста мне больно на это смотреть
+class Button{  
     public:
         sf::Vector2f position;
         sf::Vector2f text_position;
+        sf::Vector2f icon_position;
         sf::RectangleShape rect;
         bool is_hovering;
         int width, height;
@@ -23,7 +24,7 @@ class Button{  //todo федя убери говонокод пожалуйст�
         Button(){
             rect.setFillColor(sf::Color(0,167,189));
         }
-        
+
         void setText(std::string s)
             {
                 m_text.setString(s);
@@ -36,6 +37,7 @@ class Button{  //todo федя убери говонокод пожалуйст�
             height = h;
             position = {x,y};
             text_position = {x + (w / 2), y};
+            icon_position = {x + (w / 2), y + h / 2 - 5};
             m_text.setString(but_text);
             m_text.setFont(font);
             m_text.setCharacterSize(h);
@@ -47,7 +49,7 @@ class Button{  //todo федя убери говонокод пожалуйст�
             rect.setSize(sf::Vector2f(w,h));
             rect.setPosition(position);
         }
-        
+
 
         void draw(std::shared_ptr<GameContext> context)
         {
@@ -64,15 +66,19 @@ class Button{  //todo федя убери говонокод пожалуйст�
             else{
                 is_hovering = false;
             }
-           
+
             if (is_hovering)
                 rect.setFillColor(sf::Color(50,50,50));
             else
                 rect.setFillColor(sf::Color(0,167,189));
         }
-        
-        void clicked(){
-            std::cout << "button pressed" << std::endl;
+        void set_text_size(int h)
+        {
+            m_text.setCharacterSize(h);
+            //m_text.setOrigin(x, y);
+            m_text.setOrigin(m_text.getLocalBounds().width / 2,
+                       m_text.getLocalBounds().height / 2);
+            m_text.setPosition(icon_position);
         }
 };
 #endif // BUTTON_HPP

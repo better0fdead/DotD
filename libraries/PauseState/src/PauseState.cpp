@@ -9,14 +9,14 @@ PauseState::~PauseState() {
 }
 
 void PauseState::init() {
-    context->assets->addTexture(PAUSE, "../assets/textures/b2.png");
-    pauseBackground.setTexture(context->assets->getTexture(PAUSE));  // присваиваем текстурку нашему фону
+    context->assets->addTexture(AssetID::PAUSE, "b2.png");
+    pauseBackground.setTexture(context->assets->getTexture(AssetID::PAUSE));  // присваиваем текстурку нашему фону
     pauseBackground.scale({1.17, 1.1});
     pauseBackground.setColor(sf::Color(255, 255, 255, 170));
     context->window->draw(pauseBackground);
 
 
-    pauseText.setFont(context->assets->getFont(MAIN_FONT));  // применяем шрифт к тексту
+    pauseText.setFont(context->assets->getFont(AssetID::MAIN_FONT));  // применяем шрифт к тексту
     pauseText.setFillColor(sf::Color::Black);
     pauseText.setOutlineThickness(0.5);
     pauseText.setOutlineColor(sf::Color::White);

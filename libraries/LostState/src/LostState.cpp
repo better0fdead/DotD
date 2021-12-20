@@ -9,15 +9,14 @@ LostState::~LostState() {
 }
 
 void LostState::init() {
-    context->assets->addFont(MAIN_FONT, "../assets/fonts/ARCADECLASSIC.TTF");  //добавляем шрифт
-    context->assets->addTexture(LOST, "../assets/textures/b2.png");
-    lostBackground.setTexture(context->assets->getTexture(LOST));  // присваиваем текстурку нашему фону
+    context->assets->addTexture(AssetID::LOST, "b2.png");
+    lostBackground.setTexture(context->assets->getTexture(AssetID::LOST));  // присваиваем текстурку нашему фону
     lostBackground.scale({1.17, 1.1});
 
-    scoreText.setFont(context->assets->getFont(MAIN_FONT));
+    scoreText.setFont(context->assets->getFont(AssetID::MAIN_FONT));
     scoreText.setString("Your score is " + std::to_string(score));
 
-    lostText.setFont(context->assets->getFont(MAIN_FONT));  // применяем шрифт к тексту
+    lostText.setFont(context->assets->getFont(AssetID::MAIN_FONT));  // применяем шрифт к тексту
     lostText.setFillColor(sf::Color::Black);
     lostText.setOutlineThickness(0.5);
     lostText.setLetterSpacing(2.5);
