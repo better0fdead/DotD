@@ -22,7 +22,7 @@ char parse_msg(std::string msg,int *flag,boost::asio::ip::udp::endpoint sender_e
     char parametr = msg[3];
     char parametr_ans;
     if (parametr == param_con) {
-        flag = 1;
+        *flag = 1;
         if (msg[0] == tyan) Tyans[0] = sender_ep; else Heros[0] = sender_ep;
         parametr_ans = parametr;
 
