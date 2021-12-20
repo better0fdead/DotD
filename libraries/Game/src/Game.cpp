@@ -21,12 +21,11 @@ void Game::start() {
             // у нас запускается логика всякая и отрисовывается все
             timeSinceLastFrame -= deltaT;
 
-             context->states->switchStateIfNeeded();  // переключаемся на текущее состояние(или остаемся)
-             context->states->getCurrentState()->updateKeyBinds();  // чекаем кнопки в состоянии
-             context->states->getCurrentState()->processStuff();  // чекаем коллизии и состояния объектов
-             context->states->getCurrentState()->update(deltaT);  // обновляем данные
-             context->states->getCurrentState()->draw();  //рисуем
-
+            context->states->switchStateIfNeeded();  // переключаемся на текущее состояние(или остаемся)
+            context->states->getCurrentState()->updateKeyBinds();  // чекаем кнопки в состоянии
+            context->states->getCurrentState()->processStuff();  // чекаем коллизии и состояния объектов
+            context->states->getCurrentState()->update(deltaT);  // обновляем данные
+            context->states->getCurrentState()->draw();  //рисуем
 
         }
     }

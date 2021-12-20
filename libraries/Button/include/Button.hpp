@@ -23,7 +23,7 @@ class Button{  //todo федя убери говонокод пожалуйст�
         Button(){
             rect.setFillColor(sf::Color(0,167,189));
         }
-        
+
         void setText(std::string s)
             {
                 m_text.setString(s);
@@ -47,7 +47,7 @@ class Button{  //todo федя убери говонокод пожалуйст�
             rect.setSize(sf::Vector2f(w,h));
             rect.setPosition(position);
         }
-        
+
 
         void draw(std::shared_ptr<GameContext> context)
         {
@@ -64,13 +64,13 @@ class Button{  //todo федя убери говонокод пожалуйст�
             else{
                 is_hovering = false;
             }
-           
+
             if (is_hovering)
                 rect.setFillColor(sf::Color(50,50,50));
             else
                 rect.setFillColor(sf::Color(0,167,189));
         }
-        
+
         void clicked(){
             std::cout << "button pressed" << std::endl;
         }

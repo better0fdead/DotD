@@ -3,8 +3,7 @@
 #include <iostream>
 
 
-Collider::Collider(sf::Sprite *body)
-        : body(body) {
+Collider::Collider(sf::Sprite *body) : body(body) {
 }
 
 
@@ -20,21 +19,16 @@ bool Collider::checkCollision(const Collider &other) {
     auto dist = sqrt(delta.x * delta.x + delta.y * delta.y);
 
     auto radius1 = std::min(body->getGlobalBounds().width,
-                            body->getGlobalBounds().height)/2;
+                            body->getGlobalBounds().height) / 2;
 
     auto radius2 = std::min(other.body->getGlobalBounds().width,
-                            other.body->getGlobalBounds().height)/2;
+                            other.body->getGlobalBounds().height) / 2;
 
-//    std::cout << dist << " " << radius1 << " " << radius2 << std::endl;
-    if (dist < radius1*0.9 + radius2*0.8) {
+    if (dist < radius1 * 0.9 + radius2 * 0.8) {
         return true;
     }
-
-
     return false;
 }
-
-
 
 sf::Vector2f Collider::getPos() const {
     return sf::Vector2f(body->getPosition());

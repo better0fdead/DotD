@@ -22,8 +22,6 @@ public:
 
     Collider getCollider();
 
-    sf::Vector2f getSize();
-
     //setters
     void setPos(sf::Vector2f newPos);
 

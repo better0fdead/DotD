@@ -3,8 +3,8 @@
 #include "Entity.hpp"
 #include "utils.hpp"
 
-#define SIZE_SCALE_MIN 0.5
-#define SIZE_SCALE_MAX 1
+constexpr float SIZE_SCALE_MIN = 0.5;
+constexpr uint8_t SIZE_SCALE_MAX = 1;
 
 class Stone : public Entity {
 public:
@@ -16,8 +16,8 @@ public:
     void update(sf::Time deltaTime) override;
 
 private:
+    sf::Vector2f directionVectNorm;
     float speed;
     float rotationSpeed;
-    sf::Vector2f directionVectNorm;
     float size;
 };
