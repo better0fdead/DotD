@@ -41,7 +41,7 @@ private:
     std::shared_ptr<GameContext> context;  // контекст игры с текстурами и шрифтами, бригаду тоже сюда добавьте
     sf::Sprite pauseBackground;
     sf::Text pauseText; // пример
-
+    Client player_tyan;
     int score;
     sf::Text scoreText;
     // todo реализовать класс конпок. здесь добавить кнопки нормальные играть выйти там музыку вырубить

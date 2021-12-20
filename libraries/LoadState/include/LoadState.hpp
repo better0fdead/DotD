@@ -42,6 +42,8 @@ private:
     std::shared_ptr<GameContext> context;  // контекст игры с текстурами и шрифтами, бригаду тоже сюда добавьте
     sf::Sprite menuBackground;
     sf::Text playText; // пример
+    Client player_guardian;
+    Client player_tyan;
     // todo реализовать класс конпок. здесь добавить кнопки нормальные играть выйти там музыку вырубить
     // todo после нажатия играть переходим в коннектинг стейт и там нашаманьте после конектинга в геймстейт
 };

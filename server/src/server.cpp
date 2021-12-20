@@ -1,153 +1,85 @@
-
 #include <server.hpp>
-#include <arpa/inet.h>
 
-void set_reuse_addr(int sd) {
-    int yes = 1;
-    if (setsockopt(sd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1) {
-        ::close(sd);
-        return;
+constexpr char param_con = '1';
+constexpr char param_buff = '2';
+constexpr char param_death = '3';
+constexpr char tyan = 'T';
+constexpr char hero = 'H';
+int *flag_t = new int(0);
+int *flag_h = new int(0);
+boost::asio::ip::udp::endpoint Tyans[3];
+boost::asio::ip::udp::endpoint Heros[3];
+boost::asio::io_service service;
+
+//void handler(const boost::system::error_code& e, size_t bytes);
+void signal_handler(int signum){
+    delete flag_t;
+    delete flag_h;
+    exit(signum);
+};
+
+char parse_msg(std::string msg,int &flag,boost::asio::ip::udp::endpoint sender_ep) {
+    char parametr = msg[3];
+    char parametr_ans;
+    if (parametr == param_con) {
+        flag = 1;
+        if (msg[0] == tyan) Tyans[0] = sender_ep; else Heros[0] = sender_ep;
+        parametr_ans = parametr;
+
+    } else if (parametr == param_buff) {
+        parametr_ans = msg[5];
+        if (!(parametr_ans == '0')) {
+            std::cout << "Ans:" << parametr_ans << std::endl;
+        }
     }
+    return parametr_ans;
 }
 
-int make_named_socket(const char *filename) {
-    struct sockaddr_un name;
-    int sock;
-    size_t size;
-    sock = socket(PF_UNIX, SOCK_DGRAM, 0); // create unix domain socket
-    if (sock < 0) {
-        perror("socket");
-        exit(EXIT_FAILURE);
-    }
-    name.sun_family = PF_UNIX;
-    strcpy(name.sun_path, filename);
-    size = (offsetof(struct sockaddr_un, sun_path) + strlen(name.sun_path) + 1);
-    if (bind(sock, (struct sockaddr *) &name, size) < 0) {
-        perror("bind");
-        exit(EXIT_FAILURE);
-    }
-    return sock;
-}
+void handle_connections() {
+    boost::asio::ip::udp::socket sock(service, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 5001));
+    char buff[1024];
+    //две очереди игроков
 
-int make_socket(uint16_t port) {
-    /* Create the socket. */
-    // sock = socket(PF_INET, SOCK_STREAM, 0);
-    int sock = socket(PF_INET, SOCK_STREAM, 0);  // IPPROTO_TCP
-    if (sock < 0) {
-        perror("socket");
-        exit(EXIT_FAILURE);
-    }
-    set_reuse_addr(sock);
-    struct sockaddr_in serv_addr;
-    memset(&serv_addr, 0, sizeof(serv_addr));
-
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(port);
-    serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-
-    if (bind(sock, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-        perror("bind");
-        exit(EXIT_FAILURE);
-    }
-
-    int queue_size = 3;
-    if (::listen(sock, queue_size) < 0) {
-        perror("listen");
-        exit(EXIT_FAILURE);
-    }
-    exit(0);
-    return sock;
-}
-
-int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        std::cerr << "usage: " << argv[0] << " port" << std::endl;
-        return 0;
-    }
-    int sock;
-    int port = std::stoi(std::string(argv[1]));
-
-    int listener = socket(PF_INET, SOCK_STREAM, 0);  // IPPROTO_TCP
-    if (listener < 0) {
-        perror("socket");
-        exit(EXIT_FAILURE);
-    }
-
-    set_reuse_addr(listener);
-
-    struct sockaddr_in serv_addr;
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(port);
-    serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-
-    if (bind(listener, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-        perror("bind");
-        exit(EXIT_FAILURE);
-    }
-
-    int queue_size = 3;
-    if (listen(listener, queue_size) < 0) {
-        perror("listen");
-        exit(EXIT_FAILURE);
-    }
-
-    char buf[1024];
-    int bytes_read;
+    //Тут я вручную делаю пару, но должна быть очередь
+    int index_tyan = 0;
+    int index_hero = 0;
+    std::string tyan_msg;
+    std::string hero_msg;
+    int flag_connection = 1;
+    char parametr_t_ans;
+    char parametr_h_ans;
+    std::string tyan_ans;
+    std::string hero_ans;
 
     while (true) {
-        struct sockaddr_in client;
-        socklen_t cli_len = sizeof(client);
-        printf("waiting for connection and then accept it, pid = %d \n", getpid());
-        sock = accept(listener, (struct sockaddr *) &client, &cli_len);
-        printf("request accepted , pid = %d \n", getpid());
-        if (sock < 0) {
-            perror("accept");
-            exit(3);
+        boost::asio::ip::udp::endpoint sender_ep;
+        int bytes = sock.receive_from(boost::asio::buffer(buff), sender_ep);
+        std::string msg(buff, bytes);
+        if (msg[0] == tyan) parametr_t_ans = parse_msg(msg, *flag_t, sender_ep);
+        else parametr_h_ans = parse_msg(msg, *flag_h, sender_ep);
+
+
+        if (flag_t && flag_h && flag_connection) {
+            tyan_ans = param_con;
+            hero_ans = param_con;
+            sock.send_to(boost::asio::buffer(tyan_ans), Tyans[0]);
+            sock.send_to(boost::asio::buffer(hero_ans), Heros[0]);
+            flag_connection = 0;
+            std::cout << "Clients connect" << std::endl;
+
         }
+        //данные которые отправляются парой
+        if (!flag_connection) {
+            hero_ans = parametr_h_ans;
+            tyan_ans = parametr_t_ans;
+            sock.send_to(boost::asio::buffer(tyan_ans), Heros[0]);
+            sock.send_to(boost::asio::buffer(hero_ans), Tyans[0]);
+            parametr_t_ans = '0';
 
-        pid_t pid = fork();
-        if (pid > 0) {
-            std::cerr << "parent: " << getpid() << std::endl;
-        } else {
-            std::cerr << "child: " << getpid() << std::endl;
-        }
-
-        switch (pid) {
-            case -1:
-                perror("fork");
-                break;
-
-            case 0:
-                close(listener);  // потомок закрывает Ненужную копия слушающего сокета
-                while (true) {
-                    bytes_read = recv(sock, buf, 1024, 0);
-                    printf("data received, size == %d , pid = %d \n", bytes_read,
-                           getpid());
-                    if (bytes_read <= 0) {
-                        printf("Client disconnected \n");
-                        break;
-                    }
-                    char *clientIP = new char[20];
-                    strcpy(clientIP, inet_ntoa(client.sin_addr));
-                    std::cout << buf << std::endl;
-                    std::cout << buf[0] << std::endl;
-
-                    if (buf[0] == '0') {
-                        send(sock, clientIP, 16, 0);
-                    }else if (buf[0] == '1'){
-                        send(sock, "Game Search", 16, 0);
-                    }
-                }
-
-
-                close(sock);
-                break;
-            default:
-                close(sock); // родитель закрывает свой дескриптор подключенного сокета, это ненужная копия
-                break;
         }
     }
 
-    close(listener);
-    return 0;
 }
+
+//В итоге получилось, что я реализовал имитацию асинхронного сервера.
+// В следующей версии надеюсь будет нормальный асинхр. tyan_ansУ меня уже есть бета версия, но проблемы с передачей структуры данных, а не строки.
