@@ -11,7 +11,7 @@ TyanState::~TyanState() {
 }
 
 void TyanState::init_win() {
-    win.setFont(context->assets->getFont(MAIN_FONT));  // применяем шрифт к тексту
+    win.setFont(context->assets->getFont(AssetID::MAIN_FONT));  // применяем шрифт к тексту
     win.setFillColor(sf::Color::Black);
     win.setOutlineThickness(0.5);
     win.setOutlineColor(sf::Color::White);
@@ -27,7 +27,7 @@ void TyanState::init_win() {
 }
 
 void TyanState::init_question() {
-    question.setFont(context->assets->getFont(MAIN_FONT));  // применяем шрифт к тексту
+    question.setFont(context->assets->getFont(AssetID::MAIN_FONT));  // применяем шрифт к тексту
     question.setFillColor(sf::Color::Black);
     question.setOutlineThickness(0.5);
     question.setOutlineColor(sf::Color::White);
@@ -42,7 +42,7 @@ void TyanState::init_question() {
 }
 
 void TyanState::init_main() {
-    choose_str.setFont(context->assets->getFont(MAIN_FONT));  // применяем шрифт к тексту
+    choose_str.setFont(context->assets->getFont(AssetID::MAIN_FONT));  // применяем шрифт к тексту
     choose_str.setFillColor(sf::Color::Black);
     choose_str.setOutlineThickness(0.5);
     choose_str.setOutlineColor(sf::Color::White);
@@ -58,25 +58,25 @@ void TyanState::init_main() {
 
 
 void TyanState::init() {
-    context->assets->addTexture(BACKGROUND, "../assets/textures/background.png", true);
-    context->assets->addTexture(TYAN, "../assets/textures/tyan.png");
-    context->assets->addTexture(GUARDIAN, "../assets/textures/guardian1.png");
-    context->assets->addTexture(BULLET, "../assets/textures/fireball.png");
-    context->assets->addTexture(STONE, "../assets/textures/stone.png");
+    context->assets->addTexture(AssetID::BACKGROUND, "../assets/textures/background.png", true);
+    context->assets->addTexture(AssetID::TYAN, "../assets/textures/tyan.png");
+    context->assets->addTexture(AssetID::GUARDIAN, "../assets/textures/guardian1.png");
+    context->assets->addTexture(AssetID::BULLET, "../assets/textures/fireball.png");
+    context->assets->addTexture(AssetID::STONE, "../assets/textures/stone.png");
 
     
-    context->assets->addTexture(PAUSE, "../assets/textures/b2.png");
+    context->assets->addTexture(AssetID::PAUSE, "../assets/textures/b2.png");
     
-    pauseBackground.setTexture(context->assets->getTexture(PAUSE));
+    pauseBackground.setTexture(context->assets->getTexture(AssetID::PAUSE));
     pauseBackground.scale({1.17, 1.1});
     pauseBackground.setColor(sf::Color(255, 255, 255, 170));
     
     context->window->draw(pauseBackground);
-    context->assets->addFont(MAIN_FONT, "../assets/fonts/ARCADECLASSIC.TTF");  
+    context->assets->addFont(AssetID::MAIN_FONT, "../assets/fonts/ARCADECLASSIC.TTF");  
 
-    background.setTexture(context->assets->getTexture(BACKGROUND));  // присваиваем текстурку нашему фону
+    background.setTexture(context->assets->getTexture(AssetID::BACKGROUND));  // присваиваем текстурку нашему фону
     background.setTextureRect(context->window->getViewport(context->window->getDefaultView()));  // задаем границы
-    timeQuestion.setFont(context->assets->getFont(MAIN_FONT));  // применяем шрифт к тексту
+    timeQuestion.setFont(context->assets->getFont(AssetID::MAIN_FONT));  // применяем шрифт к тексту
     timeQuestion.setFillColor(sf::Color::Black);
     timeQuestion.setOutlineThickness(0.5);
     timeQuestion.setOutlineColor(sf::Color::White);
@@ -90,14 +90,14 @@ void TyanState::init() {
                           100); 
     //присваивем персонажам текстурки и ставим их в нужное место
 
-    tyan->init(&context->assets->getTexture(TYAN),
-              sf::Vector2f(context->window->getSize().x / 2 + context->assets->getTexture(TYAN).getSize().x / 2,
+    tyan->init(&context->assets->getTexture(AssetID::TYAN),
+              sf::Vector2f(context->window->getSize().x / 2 + context->assets->getTexture(AssetID::TYAN).getSize().x / 2,
                            context->window->getSize().y / 2));
 
-    guardian->init(&context->assets->getTexture(GUARDIAN),
-                  sf::Vector2f(context->window->getSize().x / 2 - context->assets->getTexture(GUARDIAN).getSize().x / 2,
-                               context->window->getSize().y / 2 - (context->assets->getTexture(GUARDIAN).getSize().y -
-                                                                   context->assets->getTexture(TYAN).getSize().y) *
+    guardian->init(&context->assets->getTexture(AssetID::GUARDIAN),
+                  sf::Vector2f(context->window->getSize().x / 2 - context->assets->getTexture(AssetID::GUARDIAN).getSize().x / 2,
+                               context->window->getSize().y / 2 - (context->assets->getTexture(AssetID::GUARDIAN).getSize().y -
+                                                                   context->assets->getTexture(AssetID::TYAN).getSize().y) *
                                                                   0.5));
 
 
@@ -256,7 +256,7 @@ void TyanState::draw() {
     
     if (!answering && !answered) {
         //char *intStr = itoa(timer / 60);
-        std::string str = std::string(intStr);
+        //std::string str = std::string(intStr);
         context->window->clear();
 
         

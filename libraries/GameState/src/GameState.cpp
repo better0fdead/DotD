@@ -121,7 +121,7 @@ void GameState::update(sf::Time deltaT) {
     };
     if (player_guardian.recv_msg() == "3")
     {
-        guardian->GuardianState = 1;
+        //guardian->setState(1);
     };
     scoreText.setString("score  " + std::to_string(score));
 }
