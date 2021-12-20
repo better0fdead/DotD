@@ -5,6 +5,10 @@
 #include <memory>
 #include "Button.hpp"
 #include "client.hpp"
+#include "Tyan.hpp"
+#include "Guardian.hpp"
+#include <stdio.h>
+#include <stdlib.h>
 #include "LostState.hpp"
 #include <SFML/Graphics/Text.hpp>
 
@@ -27,15 +31,35 @@ private:
     Button f_answer;
     Button s_answer;
     Button t_answer;
+
     Button f_spell;
     Button s_spell;
     Button th_spell;
+
+    void init_question();
+    void init_win();
+    void init_main();
+
+    void colide_question(sf::Event event);
+    void colide_menu(sf::Event event);
+
     void right_answer();
     void wrong_answer();
+
     bool answering = false;
     bool answered = false;
+
+    sf::Sprite background;
+
+    std::unique_ptr<Guardian> guardian;
+
+    std::unique_ptr<Tyan> tyan;
+
+    int timer;
     Button back;
     sf::Text question;
+    sf::Text timeQuestion;
+    sf::Text choose_str;
     sf::Text win;
     sf::Text lose;
     std::shared_ptr<GameContext> context;  // контекст игры с текстурами и шрифтами, бригаду тоже сюда добавьте

@@ -8,10 +8,11 @@
 #include <iostream>
 #include "GameContext.hpp"
 #include <memory>
-class Button{  //todo федя убери говонокод пожалуйста мне больно на это смотреть
+class Button{  
     public:
         sf::Vector2f position;
         sf::Vector2f text_position;
+        sf::Vector2f icon_position;
         sf::RectangleShape rect;
         bool is_hovering;
         int width, height;
@@ -36,6 +37,7 @@ class Button{  //todo федя убери говонокод пожалуйст�
             height = h;
             position = {x,y};
             text_position = {x + (w / 2), y};
+            icon_position = {x + (w / 2), y + h / 2 - 5};
             m_text.setString(but_text);
             m_text.setFont(font);
             m_text.setCharacterSize(h);
@@ -71,6 +73,15 @@ class Button{  //todo федя убери говонокод пожалуйст�
                 rect.setFillColor(sf::Color(0,167,189));
         }
         
+        void set_text_size(int h)
+        {
+            m_text.setCharacterSize(h);
+            //m_text.setOrigin(x, y);
+            m_text.setOrigin(m_text.getLocalBounds().width / 2,
+                       m_text.getLocalBounds().height / 2);
+            m_text.setPosition(icon_position);
+        }
+
         void clicked(){
             std::cout << "button pressed" << std::endl;
         }
