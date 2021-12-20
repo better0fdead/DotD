@@ -14,6 +14,8 @@
 #include <pthread.h>
 #include <arpa/inet.h>
 #include <csignal>
+#include <vector>
+#include <json.hpp>
 
 void handle_connections();
 int main(int argc, char* argv[]);

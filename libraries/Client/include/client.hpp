@@ -13,15 +13,44 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <pthread.h>
 #include <arpa/inet.h>
-
+#include "Bullet.hpp"
+#include "Stone.hpp"
+#include "json.hpp"
 
 class Client  {
 public:
     Client();
     ~Client();
-    void send_msg(const std::string& msg);
-    std::string recv_msg();
     void close_socket();
 
+    void send_msg(const std::string &msg);
 
+    std::string recv_msg();
+
+    data_msg_tyan recv_msg_from_tyan();
+
+    void send_msg_to_guard(int teammate, int buff);
+
+    void send_msg_to_tyan(std::vector<Bullet *> bullets, std::vector<Stone *> stones, int teammate, int buff);
+
+    nlohmann::basic_json<> data2json_for_tyan(int teammate, int buff);
+
+    data_msg_tyan json2data_for_tyan(nlohmann::json j);
+
+    nlohmann::json
+    data2json_for_guard(std::vector<Bullet *> bullets, std::vector<Stone *> stones, int teammate, int buff);
+};
+
+struct data_msg_guard
+{
+    int team;
+    int buff;
+    std::vector<Bullet *> bullets;
+    std::vector<Stone *> stones;
+};
+
+struct data_msg_tyan
+{
+    int team;
+    int buff;
 };

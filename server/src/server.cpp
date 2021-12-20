@@ -1,5 +1,9 @@
 #include <server.hpp>
-
+struct Response
+{
+    int status_hero;
+    std::vector<int> stones ;
+};
 constexpr char param_con = '1';
 constexpr char param_buff = '2';
 constexpr char param_death = '3';
@@ -18,11 +22,11 @@ void signal_handler(int signum){
     exit(signum);
 };
 
-char parse_msg(std::string msg,int &flag,boost::asio::ip::udp::endpoint sender_ep) {
+char parse_msg_con(std::string msg,int *flag,boost::asio::ip::udp::endpoint sender_ep) {
     char parametr = msg[3];
     char parametr_ans;
     if (parametr == param_con) {
-        flag = 1;
+        *flag = 1;
         if (msg[0] == tyan) Tyans[0] = sender_ep; else Heros[0] = sender_ep;
         parametr_ans = parametr;
 
@@ -38,9 +42,7 @@ char parse_msg(std::string msg,int &flag,boost::asio::ip::udp::endpoint sender_e
 void handle_connections() {
     boost::asio::ip::udp::socket sock(service, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 5001));
     char buff[1024];
-    //две очереди игроков
 
-    //Тут я вручную делаю пару, но должна быть очередь
     int index_tyan = 0;
     int index_hero = 0;
     std::string tyan_msg;
@@ -53,13 +55,21 @@ void handle_connections() {
 
     while (true) {
         boost::asio::ip::udp::endpoint sender_ep;
+        std::cout <<"Жду приема информации"<<std::endl;
         int bytes = sock.receive_from(boost::asio::buffer(buff), sender_ep);
         std::string msg(buff, bytes);
-        if (msg[0] == tyan) parametr_t_ans = parse_msg(msg, *flag_t, sender_ep);
-        else parametr_h_ans = parse_msg(msg, *flag_h, sender_ep);
+        std::cout <<msg<<std::endl;
+        nlohmann::json j= nlohmann::json::parse(msg);
+        Response response_;
+        std::cout <<j["list"]<<std::endl;
+        if (msg[0] == tyan) parametr_t_ans = parse_msg_con(msg, flag_t, sender_ep);
+        else if((msg[0] == hero)) parametr_h_ans = parse_msg_con(msg, flag_h, sender_ep);
 
+        std::cout <<"Прошел парсинг"<<std::endl;
 
-        if (flag_t && flag_h && flag_connection) {
+        if (*flag_t && *flag_h && flag_connection) {
+            std::cout <<"Зашел в конекшон"<<std::endl;
+
             tyan_ans = param_con;
             hero_ans = param_con;
             sock.send_to(boost::asio::buffer(tyan_ans), Tyans[0]);
@@ -70,6 +80,8 @@ void handle_connections() {
         }
         //данные которые отправляются парой
         if (!flag_connection) {
+            std::cout <<"Зашел в отправку"<<std::endl;
+
             hero_ans = parametr_h_ans;
             tyan_ans = parametr_t_ans;
             sock.send_to(boost::asio::buffer(tyan_ans), Heros[0]);
