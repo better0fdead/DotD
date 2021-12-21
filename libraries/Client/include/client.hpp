@@ -46,14 +46,14 @@ public:
 
     void send_msg_to_guard(int teammate, int buff);
 
-    void send_msg_to_tyan(std::vector<Bullet *> bullets, std::vector<std::unique_ptr<Stone>> stones, int teammate, STATES buff);
+    void send_msg_to_tyan(std::vector<Bullet *> bullets, std::vector<std::shared_ptr<Stone>> stones, int teammate, STATES buff);
 
     nlohmann::basic_json<> data2json_for_tyan(int teammate, int buff);
 
     data_msg_tyan json2data_for_tyan(nlohmann::json j);
 
     nlohmann::json
-    data2json_for_guard(std::vector<Bullet *> bullets, std::vector<std::unique_ptr<Stone>> stones, int teammate, STATES buff);
+    data2json_for_guard(std::vector<Bullet *> bullets, std::vector<std::shared_ptr<Stone>> stones, int teammate, STATES buff);
 };
 
 

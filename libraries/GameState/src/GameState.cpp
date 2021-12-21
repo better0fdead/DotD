@@ -73,7 +73,7 @@ void GameState::updateKeyBinds() {
             for(auto & new_bullet : new_bullets){
                 new_bullet->init(&context->assets->getTexture(AssetID::BULLET), new_bullet->getPos());
 
-                bulletsVec.push_back(std::move(new_bullet));
+                bulletsVec.push_back(new_bullet);
             }
         }
     }
@@ -125,7 +125,7 @@ void GameState::update(sf::Time deltaT) {
         guardian->setState(STATES::fireBackwardsBuff);
     };
     scoreText.setString("score  " + std::to_string(score));
-    player_guardian.send_msg_to_tyan(bulletsVec, std::move(stonesVec), 1, STATES::normal);
+
 }
 
 void GameState::draw() {
@@ -142,7 +142,7 @@ void GameState::draw() {
     }
     context->window->draw(scoreText);
     context->window->display();
-
+    player_guardian.send_msg_to_tyan(bulletsVec, stonesVec, 1, STATES::normal);
 }
 
 void GameState::pause() {
@@ -152,7 +152,7 @@ void GameState::pause() {
 void GameState::initStones(size_t new_stones, float speed_of_stones) {
     auto current_stones = stonesVec.size();
     for (size_t i = 0; i < new_stones; i++) {
-        stonesVec.push_back(std::move(std::make_unique<Stone>(speed_of_stones)));
+        stonesVec.push_back(std::move(std::make_shared<Stone>(speed_of_stones)));
     }
 
     for (size_t i = current_stones; i < stonesVec.size(); i++) {
