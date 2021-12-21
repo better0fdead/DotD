@@ -139,12 +139,15 @@ void TyanState::task() {
     switch (answer){
         case 1:
             f_answer.is_answer = true;
+            buff = 3;
             break;
         case 2:
             s_answer.is_answer = true;
+            buff = 4;
             break;
         case 3:
             t_answer.is_answer = true;
+            buff = 5;
             break;
         default:
             f_answer.is_answer = true;
@@ -249,7 +252,7 @@ void TyanState::right_answer() {
     t_answer.is_answer = false;
     win.setString("Right"); 
     std::cout<<answered;
-    //player_tyan.send_msg("T0 2 3");
+    player_tyan.send_msg_to_guard(1,buff);
 }
 
 void TyanState::wrong_answer() {
