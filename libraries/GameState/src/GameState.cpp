@@ -116,22 +116,25 @@ void GameState::update(sf::Time deltaT) {
     }
 
     GettingHarderHandler();  // усложняемся при определенных условиях
-
-    if (player_guardian.recv_msg_from_tyan().buff == 2) {
+    int buff = player_guardian.recv_msg_from_tyan().buff;
+    switch (buff) {
+        case 1:
+        break;
+        case 2:
         context->states->add(std::make_unique<LostState>(context, score), true);
-    };
-    if (player_guardian.recv_msg_from_tyan().buff == 3)
-    {
+        break;
+        case 3:
         guardian->setState(STATES::bulletSpeedBuff);
-    };
-    if (player_guardian.recv_msg_from_tyan().buff == 4)
-    {
+        break;
+        case 4:
         guardian->setState(STATES::hpUpBuff);
-    };
-    if (player_guardian.recv_msg_from_tyan().buff == 5)
-    {
+        break;
+        case 5:
         guardian->setState(STATES::fireBackwardsBuff);
-    };
+        break;
+        default:
+        break;
+    }
     scoreText.setString("score  " + std::to_string(score));
 
 }
@@ -150,7 +153,7 @@ void GameState::draw() {
     }
     context->window->draw(scoreText);
     context->window->display();
-    player_guardian.send_msg_to_tyan(bulletsVec, stonesVec, 0, STATES::normal);
+    //player_guardian.send_msg_to_tyan(bulletsVec, stonesVec, 0, STATES::normal);
 }
 
 void GameState::pause() {
