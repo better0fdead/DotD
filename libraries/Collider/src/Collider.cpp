@@ -24,7 +24,7 @@ bool Collider::checkCollision(const Collider &other) {
     auto radius2 = std::min(other.body->getGlobalBounds().width,
                             other.body->getGlobalBounds().height) / 2;
 
-    if (dist < radius1 * 0.9 + radius2 * 0.8) {
+    if (dist < radius1 * FIRST_COLLIDER_COEFF + radius2 * SECOND_COLLIDER_COEFF) {
         return true;
     }
     return false;
