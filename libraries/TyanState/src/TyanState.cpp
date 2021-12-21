@@ -58,21 +58,21 @@ void TyanState::init_main() {
 
 
 void TyanState::init() {
-    context->assets->addTexture(AssetID::BACKGROUND, "../assets/textures/background.png", true);
-    context->assets->addTexture(AssetID::TYAN, "../assets/textures/tyan.png");
-    context->assets->addTexture(AssetID::GUARDIAN, "../assets/textures/guardian1.png");
-    context->assets->addTexture(AssetID::BULLET, "../assets/textures/fireball.png");
-    context->assets->addTexture(AssetID::STONE, "../assets/textures/stone.png");
+    context->assets->addTexture(AssetID::BACKGROUND, "background.png", true);
+    context->assets->addTexture(AssetID::TYAN, "tyan.png");
+    context->assets->addTexture(AssetID::GUARDIAN, "guardian1.png");
+    context->assets->addTexture(AssetID::BULLET, "fireball.png");
+    context->assets->addTexture(AssetID::STONE, "stone.png");
 
     
-    context->assets->addTexture(AssetID::PAUSE, "../assets/textures/b2.png");
+    context->assets->addTexture(AssetID::PAUSE, "b2.png");
     
     pauseBackground.setTexture(context->assets->getTexture(AssetID::PAUSE));
     pauseBackground.scale({1.17, 1.1});
     pauseBackground.setColor(sf::Color(255, 255, 255, 170));
     
     context->window->draw(pauseBackground);
-    context->assets->addFont(AssetID::MAIN_FONT, "../assets/fonts/ARCADECLASSIC.TTF");  
+    context->assets->addFont(AssetID::MAIN_FONT, "ARCADECLASSIC.TTF");  
 
     background.setTexture(context->assets->getTexture(AssetID::BACKGROUND));  // присваиваем текстурку нашему фону
     background.setTextureRect(context->window->getViewport(context->window->getDefaultView()));  // задаем границы
@@ -82,12 +82,12 @@ void TyanState::init() {
     timeQuestion.setOutlineColor(sf::Color::White);
     
     timeQuestion.setString("Choose spell");  // добавляем в текст нашу строку
-    timeQuestion.setCharacterSize(80);
+    timeQuestion.setCharacterSize(30);
     timeQuestion.setOrigin(choose_str.getLocalBounds().width / 2,
                         choose_str.getLocalBounds().height / 2);  // ставим точку отсчета в центр текста
 
-    timeQuestion.setPosition(800,
-                          100); 
+    timeQuestion.setPosition(900,
+                          60); 
     //присваивем персонажам текстурки и ставим их в нужное место
 
     tyan->init(&context->assets->getTexture(AssetID::TYAN),
@@ -151,9 +151,6 @@ void TyanState::updateKeyBinds() {
         }
         if (event.type == sf::Event::KeyPressed) {  // если кнопку нажали
             switch (event.key.code) {
-                case sf::Keyboard::Escape:  // если нажали ескейп то вышли из паузы
-                    resume();
-                    break;
                 case sf::Keyboard::Tilde:  // если тильда то закрываемся
                     context->window->close();
                     break;
@@ -162,7 +159,7 @@ void TyanState::updateKeyBinds() {
             }
         }
         else if(event.type == sf::Event::MouseMoved){
-                    if (!answering && timer > 600)
+                    if (!answering && timer > 600 || timer < 30)
                         colide_menu(event);
                     if (answering)
                         colide_question(event);
@@ -255,11 +252,11 @@ void TyanState::draw() {
     //}
     
     if (!answering && !answered) {
-        //char *intStr = itoa(timer / 60);
-        //std::string str = std::string(intStr);
         context->window->clear();
-
-        
+        if (timer < 600) 
+        timeQuestion.setString("task cd " + std::to_string(10 - timer/60));
+        else 
+        timeQuestion.setString("task ready");
         context->window->draw(background);
         sf::RectangleShape rectangle(sf::Vector2f(660.f, 60.f));
         rectangle.move(828, 0); // перемещаем его в нижний ряд справа от многоугольника
@@ -267,7 +264,7 @@ void TyanState::draw() {
         context->window->draw(rectangle);
         context->window->draw(*tyan);
         context->window->draw(*guardian);
-        //context->window->draw(choose_str);  // рисую текст
+        context->window->draw(timeQuestion);  // рисую текст
         f_spell.draw(context);
         s_spell.draw(context);
         th_spell.draw(context);

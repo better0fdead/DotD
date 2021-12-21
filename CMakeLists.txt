@@ -28,6 +28,7 @@ add_subdirectory(libraries/Connecting)
 add_subdirectory(libraries/LoadState)
 add_subdirectory(libraries/TyanState)
 add_subdirectory(libraries/Client)
+add_subdirectory(libraries/Tasks)
 
 
 set(SOCKET_LIB libraries/Connecting/common/socket.cpp)

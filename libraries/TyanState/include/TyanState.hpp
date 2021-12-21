@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include "LostState.hpp"
 #include <SFML/Graphics/Text.hpp>
+#include "tasks.hpp"
 
 class TyanState : public State {
 public:
