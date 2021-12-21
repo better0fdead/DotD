@@ -110,7 +110,7 @@ void TyanState::init() {
     f_spell.set_text_size(20);
     s_spell.create(120,50, 955,5, "Immortality");
     s_spell.set_text_size(20);
-    th_spell.create(120,50, 1080,5, "Slow stones");
+    th_spell.create(120,50, 1080,5, "Fire backwards");
     th_spell.set_text_size(20);
     back.create(200,40,context->window->getSize().x / 2 - 100, context->window->getSize().y / 2 + 200, "back");
 }
@@ -139,15 +139,12 @@ void TyanState::task() {
     switch (answer){
         case 1:
             f_answer.is_answer = true;
-            buff = 3;
             break;
         case 2:
             s_answer.is_answer = true;
-            buff = 4;
             break;
         case 3:
             t_answer.is_answer = true;
-            buff = 5;
             break;
         default:
             f_answer.is_answer = true;
@@ -224,12 +221,15 @@ void TyanState::updateKeyBinds() {
             } 
             if (!answering && !answered){
                 if (f_spell.is_hovering) {
+                    buff = 3;
                     task();
                 }
                 if (s_spell.is_hovering) {
+                    buff = 4;
                     task();
                 }
                 if (th_spell.is_hovering) {
+                    buff = 5;
                     task();
                 }
             }

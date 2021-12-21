@@ -122,6 +122,14 @@ void GameState::update(sf::Time deltaT) {
     };
     if (player_guardian.recv_msg_from_tyan().buff == 3)
     {
+        guardian->setState(STATES::bulletSpeedBuff);
+    };
+    if (player_guardian.recv_msg_from_tyan().buff == 4)
+    {
+        guardian->setState(STATES::hpUpBuff);
+    };
+    if (player_guardian.recv_msg_from_tyan().buff == 5)
+    {
         guardian->setState(STATES::fireBackwardsBuff);
     };
     scoreText.setString("score  " + std::to_string(score));
