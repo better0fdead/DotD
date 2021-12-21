@@ -125,6 +125,7 @@ void GameState::update(sf::Time deltaT) {
         guardian->setState(STATES::fireBackwardsBuff);
     };
     scoreText.setString("score  " + std::to_string(score));
+    player_guardian.send_msg_to_tyan(bulletsVec, std::move(stonesVec), 1, STATES::normal);
 }
 
 void GameState::draw() {
