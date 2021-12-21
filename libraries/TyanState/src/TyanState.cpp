@@ -58,6 +58,7 @@ void TyanState::init_main() {
 
 
 void TyanState::init() {
+    gaming = true;
     context->assets->addTexture(AssetID::BACKGROUND, "background.png", true);
     context->assets->addTexture(AssetID::TYAN, "tyan.png");
     context->assets->addTexture(AssetID::GUARDIAN, "guardian1.png");
@@ -117,18 +118,39 @@ void TyanState::init() {
 
 
 void TyanState::task() {
+    gaming = false;
     answering = true;
-    question.setString("V kakom gody vyshla brigada");  // добавляем в текст нашу строку
+    std::string first_answer, second_answer, third_answer, question_text;
+    int answer;
+    generate_question(question_text, first_answer, second_answer, third_answer, answer);
+    question.setString(question_text);  // добавляем в текст нашу строку
     question.setOrigin(question.getLocalBounds().width / 2,
                         question.getLocalBounds().height / 2);  // ставим точку отсчета в центр текста
 
     question.setPosition(context->window->getSize().x / 2,
                           context->window->getSize().y / 3); 
-    f_answer.create(100,50, 500,600, "2002");
-    f_answer.is_answer = true;
-    s_answer.create(100,50, 300,600, "2005");
-    t_answer.create(100,50, 700,600, "1997");
-
+    f_answer.create(100,50, 500,600, first_answer);
+    s_answer.create(100,50, 300,600, second_answer);
+    t_answer.create(100,50, 700,600, third_answer);
+    f_answer.set_text_size(20);
+    s_answer.set_text_size(20);
+    t_answer.set_text_size(20);
+    std::cout << answer;
+    switch (answer){
+        case 1:
+            f_answer.is_answer = true;
+            break;
+        case 2:
+            s_answer.is_answer = true;
+            break;
+        case 3:
+            t_answer.is_answer = true;
+            break;
+        default:
+            f_answer.is_answer = true;
+            s_answer.is_answer = true;
+            t_answer.is_answer = true;
+    }
 }
 
 void TyanState::colide_menu(sf::Event event) {
@@ -159,11 +181,11 @@ void TyanState::updateKeyBinds() {
             }
         }
         else if(event.type == sf::Event::MouseMoved){
-                    if (!answering && timer > 600 || timer < 30)
+                    if (gaming && timer > 600 ||  timer < 20)
                         colide_menu(event);
-                    if (answering)
+                    if (answering || timer < 20)
                         colide_question(event);
-                    if (answered)
+                    if (answered || timer < 20)
                         back.collidepoint(context->window->mapPixelToCoords(sf::Vector2i(event.mouseMove.x,event.mouseMove.y)));
                 }
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
@@ -210,8 +232,8 @@ void TyanState::updateKeyBinds() {
             }
             if (answered) {
                 if (back.is_hovering) {
+                    gaming = true;
                     answered = false;
-                    answering = false;
                     timer = 0;
                 }
             }
@@ -222,15 +244,22 @@ void TyanState::updateKeyBinds() {
 void TyanState::right_answer() {
     answered = true;
     answering = false;
+    f_answer.is_answer = false;
+    s_answer.is_answer = false;
+    t_answer.is_answer = false;
     win.setString("Right"); 
-    player_tyan.send_msg("T0 2 3");
+    std::cout<<answered;
+    //player_tyan.send_msg("T0 2 3");
 }
 
 void TyanState::wrong_answer() {
     answered = true;
     answering = false;
+    f_answer.is_answer = false;
+    s_answer.is_answer = false;
+    t_answer.is_answer = false;
     win.setString("Lose");
-    player_tyan.send_msg("T0 2 2");
+    //player_tyan.send_msg("T0 2 2");
 }
 
 void TyanState::processStuff() {
@@ -239,7 +268,7 @@ void TyanState::processStuff() {
 
 void TyanState::update(sf::Time deltaT) {
     timer++;
-    std::cout << timer << "\n";
+    //std::cout << timer << "\n";
 }
 
 void TyanState::draw() {
@@ -251,7 +280,7 @@ void TyanState::draw() {
     //    context->states->add(std::make_unique<LostState>(context, 2), true);  // todo 2
     //}
     
-    if (!answering && !answered) {
+    if (gaming) {
         context->window->clear();
         if (timer < 600) 
         timeQuestion.setString("task cd " + std::to_string(10 - timer/60));
@@ -269,17 +298,18 @@ void TyanState::draw() {
         s_spell.draw(context);
         th_spell.draw(context);
     }
-    else if (answering)
+    if (answering)
     {
+        context->window->clear();
         context->window->draw(question);
         f_answer.draw(context);
         s_answer.draw(context);
         t_answer.draw(context);
-        //
         
     }
-    else if (answered)
+    if (answered)
     {
+        context->window->clear();
         back.draw(context);
         context->window->draw(win);
     }

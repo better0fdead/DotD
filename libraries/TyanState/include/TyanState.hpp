@@ -13,7 +13,7 @@
 #include <SFML/Graphics/Text.hpp>
 #include "tasks.hpp"
 
-class TyanState : public State {
+class TyanState : public State , public Tasks {
 public:
     TyanState(std::shared_ptr<GameContext>& context);
 
@@ -49,6 +49,7 @@ private:
 
     bool answering = false;
     bool answered = false;
+    bool gaming = false;
 
     sf::Sprite background;
 
