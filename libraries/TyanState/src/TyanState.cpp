@@ -273,12 +273,13 @@ void TyanState::update(sf::Time deltaT) {
 
 void TyanState::draw() {
     context->window->clear();
-    //player_tyan.send_msg("T0 2 0");
-    //if (player_tyan.recv_msg() == "1")
-    //{
-    //    context->window->clear();
-    //    context->states->add(std::make_unique<LostState>(context, 2), true);  // todo 2
-    //}
+//    player_tyan.send_msg("T0 2 0");
+    player_tyan.send_msg_to_guard(1,1);
+    if (player_tyan.recv_msg() == "1")
+    {
+        context->window->clear();
+        context->states->add(std::make_unique<LostState>(context, 2), true);  // todo 2
+    }
     
     if (gaming) {
         context->window->clear();

@@ -34,7 +34,7 @@ ip::udp::endpoint ep(ip::address::from_string("178.62.207.127"), 5001);
 Client::Client(){};
 Client::~Client(){};
 //отправка сообщений
-nlohmann::json Client::data2json_for_guard(std::vector<Bullet *> bullets, std::vector<Stone *> stones,int teammate,int buff){
+nlohmann::json Client::data2json_for_guard(std::vector<Bullet *> bullets, std::vector<std::shared_ptr<Stone>> stones,int teammate,STATES buff){
     nlohmann::json j;
     j["buff"]=buff;
     j["team"]=teammate;
@@ -80,7 +80,7 @@ nlohmann::json Client::data2json_for_tyan(int teammate,int buff) {
     return j;
 }
 
-void Client::send_msg_to_tyan(std::vector<Bullet *> bullets, std::vector<Stone *> stones,int teammate,int buff){
+void Client::send_msg_to_tyan(std::vector<Bullet *> bullets, std::vector<std::shared_ptr<Stone>> stones,int teammate, STATES buff){
     nlohmann::json j =data2json_for_guard(bullets,stones,teammate,buff);
     std::string msg = j.dump();
     sock.send_to(buffer(msg), ep);
