@@ -135,7 +135,7 @@ void GameState::update(sf::Time deltaT) {
         break;
     }
     scoreText.setString("score  " + std::to_string(score));
-
+    player_guardian.send_msg_to_tyan(bulletsVec, stonesVec, 0, STATES::normal);
 }
 
 void GameState::draw() {
@@ -152,7 +152,7 @@ void GameState::draw() {
     }
     context->window->draw(scoreText);
     context->window->display();
-    player_guardian.send_msg_to_tyan(bulletsVec, stonesVec, 0, STATES::normal);
+    
 }
 
 void GameState::pause() {
