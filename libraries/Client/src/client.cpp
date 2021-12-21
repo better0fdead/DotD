@@ -23,7 +23,7 @@
 #include <arpa/inet.h>
 #include <client.hpp>
 #include "json.hpp"
-
+#include <boost/lexical_cast.hpp>
 
 using namespace boost::asio;
 //интерфейс клиента
@@ -41,11 +41,9 @@ nlohmann::json Client::data2json_for_guard(std::vector<Bullet *> bullets, std::v
     std::vector<float> vec;
     std::vector<float> vec1;
     std::vector<float> vec2;
-
     for(int i=0;i<bullets.size();i++ ){
         vec.push_back(bullets[i]->getPos().x);
         vec1.push_back(bullets[i]->getPos().y);
-        vec2.push_back(bullets[i]->getPos().y);
     }
     j["bullet_x"]=vec;
     j["bullet_y"]=vec1;
@@ -54,7 +52,6 @@ nlohmann::json Client::data2json_for_guard(std::vector<Bullet *> bullets, std::v
     for(int i=0;i<stones.size();i++ ){
         vec.push_back(stones[i]->getPos().x);
         vec1.push_back(stones[i]->getPos().y);
-        vec2.push_back(stones[i]->getPos().y);
     }
     j["stones_x"]=vec;
     j["stones_y"]=vec1;
@@ -68,6 +65,36 @@ data_msg_tyan Client::json2data_for_tyan(nlohmann::json j) {
     data_tyan.buff=j["buff"];
     data_tyan.team=j["team"];
     return data_tyan;
+}
+std::vector<float> Client::parse_guard(std::string ss){
+    size_t i =1;
+    char c1 =ss[i];
+    std::vector<float> cur_vec;
+    while (c1 != ']'){
+        std::string cur1 = "";
+        while(c1 != ','){
+            cur1 = cur1 + c1 ;
+            i++;
+            c1=ss[i];
+        }
+        cur_vec.push_back(boost::lexical_cast<float>(cur1));
+        i++;
+    }
+    return cur_vec;
+}
+data_msg_guard Client::json2data_for_guard(nlohmann::json j) {
+    data_msg_guard data_guard;
+    data_guard.buff = j["buff"];
+
+    std::string s1 = j["bullet_x"].dump();
+    std::string s2 = j["bullet_y"].dump();
+    std::string s3 = j["stones_x"].dump();
+    std::string s4 = j["stones_y"].dump();
+    data_guard.bullets_x = parse_guard(s1);
+    data_guard.bullets_y = parse_guard(s2);
+    data_guard.stones_x = parse_guard(s3);
+    data_guard.stones_y = parse_guard(s4);
+    return data_guard;
 }
 
 
@@ -97,6 +124,15 @@ struct data_msg_tyan Client::recv_msg_from_tyan() {
     std::string copy(buff, bytes);
     nlohmann::json j= nlohmann::json::parse(copy);
     return json2data_for_tyan(j);
+}
+
+struct data_msg_guard Client::recv_msg_from_guard() {
+    char buff[1024];
+    ip::udp::endpoint sender_ep;
+    int bytes = sock.receive_from(buffer(buff), sender_ep);
+    std::string copy(buff, bytes);
+    nlohmann::json j= nlohmann::json::parse(copy);
+    return json2data_for_guard(j);
 }
 void Client::send_msg(const std::string& msg) {
 

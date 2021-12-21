@@ -94,7 +94,6 @@ void GameState::processStuff() {
 }
 
 void GameState::update(sf::Time deltaT) {
-    player_guardian.send_msg("H0 3 0");
     GameOverCheck();
 
     // обновляем все компоненты игры по очереди
@@ -153,7 +152,7 @@ void GameState::draw() {
     }
     context->window->draw(scoreText);
     context->window->display();
-    //player_guardian.send_msg_to_tyan(bulletsVec, stonesVec, 0, STATES::normal);
+    player_guardian.send_msg_to_tyan(bulletsVec, stonesVec, 0, STATES::normal);
 }
 
 void GameState::pause() {

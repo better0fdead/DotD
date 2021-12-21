@@ -22,8 +22,11 @@ struct data_msg_guard
 {
     int team;
     int buff;
-    std::vector<Bullet *> bullets;
-    std::vector<Stone *> stones;
+    std::vector<float> stones_x;
+    std::vector<float> stones_y;
+    std::vector<float> bullets_x;
+    std::vector<float> bullets_y;
+
 };
 
 struct data_msg_tyan
@@ -54,6 +57,12 @@ public:
 
     nlohmann::json
     data2json_for_guard(std::vector<Bullet *> bullets, std::vector<std::shared_ptr<Stone>> stones, int teammate, STATES buff);
+
+    data_msg_guard recv_msg_from_guard();
+
+    data_msg_guard json2data_for_guard(nlohmann::json j);
+
+    std::vector<float> parse_guard(std::string ss);
 };
 
 
