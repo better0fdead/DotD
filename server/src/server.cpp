@@ -66,11 +66,14 @@ void handle_connections() {
         std::cout << "flag_t " << *flag_t << std::endl;
         std::cout << "flag_h " << *flag_h << std::endl;
         if (msg[0] == tyan) parametr_t_ans = parse_msg_con(msg, flag_t, sender_ep);
-        else if ((msg[0] == hero)) parametr_h_ans = parse_msg_con(msg, flag_h, sender_ep); else if (j["team"] = 0){
+        else if ((msg[0] == hero)) parametr_h_ans = parse_msg_con(msg, flag_h, sender_ep); else {
             nlohmann::json j= nlohmann::json::parse(msg);
-            std::cout <<"buff "<<j["buff"]<<std::endl;
-            std::cout <<"team "<<j["team"]<<std::endl;
-            sock.send_to(boost::asio::buffer(msg), Heros[0]);
+            std::cout << "team " << j["team"] << std::endl;
+            if (1) {
+                std::cout << "buff " << j["buff"] << std::endl;
+                std::cout << "team " << j["team"] << std::endl;
+                sock.send_to(boost::asio::buffer(msg), Heros[0]);
+            }
         }
 
         std::cout << *flag_t << std::endl;
@@ -93,8 +96,8 @@ void handle_connections() {
             tyan_ans = parametr_t_ans;
             hero_ans = parametr_h_ans;
 
-            sock.send_to(boost::asio::buffer(tyan_ans), Heros[0]);
-            sock.send_to(boost::asio::buffer(hero_anso), Tyans[0]);
+            //sock.send_to(boost::asio::buffer(tyan_ans), Heros[0]);
+            sock.send_to(boost::asio::buffer("0"), Tyans[0]);
             parametr_t_ans = '0';
 
         }

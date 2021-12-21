@@ -65,10 +65,8 @@ nlohmann::json Client::data2json_for_guard(std::vector<Bullet *> bullets, std::v
 
 data_msg_tyan Client::json2data_for_tyan(nlohmann::json j) {
     data_msg_tyan data_tyan;
-    std::string msg = j["buff"].dump();
-    data_tyan.buff=msg[1];
-    msg = j["team"].dump();
-    data_tyan.team=msg[1];
+    data_tyan.buff=j["buff"];
+    data_tyan.team=j["team"];
     return data_tyan;
 }
 
@@ -96,7 +94,8 @@ struct data_msg_tyan Client::recv_msg_from_tyan() {
     char buff[1024];
     ip::udp::endpoint sender_ep;
     int bytes = sock.receive_from(buffer(buff), sender_ep);
-    nlohmann::json j= nlohmann::json::parse(buff);
+    std::string copy(buff, bytes);
+    nlohmann::json j= nlohmann::json::parse(copy);
     return json2data_for_tyan(j);
 }
 void Client::send_msg(const std::string& msg) {
