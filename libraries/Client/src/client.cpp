@@ -75,17 +75,25 @@ std::vector<float> Client::parse_guard(std::string ss){
         while(c1 != ','){
             cur1 = cur1 + c1 ;
             i++;
+
             c1=ss[i];
+
+            if(c1== ']'){
+                break;
+            }
         }
-        cur_vec.push_back(boost::lexical_cast<float>(cur1));
+        cur_vec.push_back(std::stod(cur1));
+        if(c1== ']'){
+            break;
+        }
         i++;
+        c1=ss[i];
     }
     return cur_vec;
 }
 data_msg_guard Client::json2data_for_guard(nlohmann::json j) {
     data_msg_guard data_guard;
     data_guard.buff = j["buff"];
-
     std::string s1 = j["bullet_x"].dump();
     std::string s2 = j["bullet_y"].dump();
     std::string s3 = j["stones_x"].dump();
@@ -127,6 +135,7 @@ struct data_msg_tyan Client::recv_msg_from_tyan() {
 }
 
 struct data_msg_guard Client::recv_msg_from_guard() {
+
     char buff[1024];
     ip::udp::endpoint sender_ep;
     int bytes = sock.receive_from(buffer(buff), sender_ep);

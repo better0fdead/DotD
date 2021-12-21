@@ -278,11 +278,11 @@ void TyanState::draw() {
     context->window->clear();
 //    player_tyan.send_msg("T0 2 0");
     player_tyan.send_msg_to_guard(1,1);
-    if (player_tyan.recv_msg() == "1")
-    {
-        context->window->clear();
-        context->states->add(std::make_unique<LostState>(context, 2), true);  // todo 2
-    }
+//    if (player_tyan.recv_msg() == "1")
+//    {
+//        context->window->clear();
+//        context->states->add(std::make_unique<LostState>(context, 2), true);  // todo 2
+//    }
     
     if (gaming) {
         context->window->clear();
@@ -301,6 +301,7 @@ void TyanState::draw() {
         f_spell.draw(context);
         s_spell.draw(context);
         th_spell.draw(context);
+        data_msg_guard recv_msg = recv_msg_from_guard();
     }
     if (answering)
     {

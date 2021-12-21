@@ -13,7 +13,7 @@
 #include <SFML/Graphics/Text.hpp>
 #include "tasks.hpp"
 
-class TyanState : public State , public Tasks {
+class TyanState : public State , public Tasks,public Client {
 public:
     TyanState(std::shared_ptr<GameContext>& context);
 
