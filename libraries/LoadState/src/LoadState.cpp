@@ -80,13 +80,13 @@ void LoadState::updateKeyBinds() {
             }
             else if (Tyan_button.is_hovering)
             {
+                is_connecting = true;
                 player_tyan.send_msg("T0 1");
-                if(player_tyan.recv_msg() == "1")context->states->add(std::make_unique<TyanState>(context), true);
             }
             else if (Guardian_button.is_hovering)
             {
+                is_connecting = true;
                 player_guardian.send_msg("H0 1");
-                if (player_guardian.recv_msg() == "1")context->states->add(std::make_unique<GameState>(context), true);
             }
         }
     }
@@ -108,8 +108,14 @@ void LoadState::draw() {
     context->window->draw(playText);  // рисую текст
     //context->window->draw(button.rect);
     exit_button.draw(context);
-    Tyan_button.draw(context);
-    Guardian_button.draw(context);
+    if (!is_connecting) {
+        Tyan_button.draw(context);
+        Guardian_button.draw(context);
+    } else
+    {
+        if (player_guardian.recv_msg() == "1")
+            context->states->add(std::make_unique<GameState>(context), true);
+    }
     mute_button.draw(context);
     context->window->display();  // отображаю все что нарисовал
 }
