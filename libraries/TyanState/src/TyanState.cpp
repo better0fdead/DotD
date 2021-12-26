@@ -274,6 +274,8 @@ void TyanState::update(sf::Time deltaT) {
     //std::cout << timer << "\n";
 }
 
+int flag_tyan = 1;
+
 void TyanState::draw() {
     context->window->clear();
 //    player_tyan.send_msg("T0 2 0");
@@ -301,7 +303,15 @@ void TyanState::draw() {
         f_spell.draw(context);
         s_spell.draw(context);
         th_spell.draw(context);
-        data_msg_guard recv_msg = recv_msg_from_guard();
+        if (flag_tyan == 3)
+        {
+            data_msg_guard recv_msg = recv_msg_from_guard();
+            flag_tyan = 0;
+        }
+        else
+        {
+            flag_tyan++;
+        }
     }
     if (answering)
     {
