@@ -34,6 +34,7 @@ public:
 private:
     sf::Music music;
     bool is_connecting = false;
+    bool role = false;
     Button exit_button;
     Button play_button;
     Button Tyan_button;

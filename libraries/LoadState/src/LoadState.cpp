@@ -81,6 +81,7 @@ void LoadState::updateKeyBinds() {
             else if (Tyan_button.is_hovering)
             {
                 is_connecting = true;
+                role = true;
                 player_tyan.send_msg("T0 1");
             }
             else if (Guardian_button.is_hovering)
@@ -114,7 +115,12 @@ void LoadState::draw() {
     } else
     {
         if (player_guardian.recv_msg() == "1")
-            context->states->add(std::make_unique<GameState>(context), true);
+        {
+            if (!role)
+                context->states->add(std::make_unique<GameState>(context), true);
+            else 
+                context->states->add(std::make_unique<TyanState>(context), true);
+        }
     }
     mute_button.draw(context);
     context->window->display();  // отображаю все что нарисовал
