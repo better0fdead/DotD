@@ -138,7 +138,7 @@ void Client::send_msg_to_guard(int teammate,int buff){
 
 
 struct data_msg_tyan Client::recv_msg_from_tyan() {
-    char buff[1024];
+    char buff[2048];
     ip::udp::endpoint sender_ep;
     int bytes = sock.receive_from(buffer(buff), sender_ep);
     std::string copy(buff, bytes);
@@ -148,7 +148,7 @@ struct data_msg_tyan Client::recv_msg_from_tyan() {
 
 struct data_msg_guard Client::recv_msg_from_guard() {
 
-    char buff[1024];
+    char buff[2048];
     ip::udp::endpoint sender_ep;
     int bytes = sock.receive_from(buffer(buff), sender_ep);
     std::string copy(buff, bytes);
@@ -162,14 +162,14 @@ void Client::send_msg(const std::string& msg) {
 //прием сообщений
 std::string Client::recv_msg() {
 
-    char buff[1024];
+    char buff[2048];
     ip::udp::endpoint sender_ep;
 
     int bytes = sock.receive_from(buffer(buff), sender_ep);
 
 
     std::string copy(buff, bytes);
-    if (copy!="0") {
+    if (copy[0]!='0') {
         std::cout << copy << std::endl; //вывод в консоль
     }
     return copy;
