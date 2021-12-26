@@ -11,6 +11,7 @@ constexpr uint8_t DEFAULT_SIZE = 1;
 class Bullet : public Entity {
 public:
     Bullet(sf::Vector2f position, sf::Vector2f direction, STATES buffType = STATES::normal);
+    Bullet(float xPos, float yPos, float rotationDegree, float size = 1);
 
     ~Bullet();
 

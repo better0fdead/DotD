@@ -8,7 +8,7 @@ constexpr int8_t DELTA_Y_FOR_BULLET =  -40;
 
 class Guardian : public Character {
 public:
-    Guardian(STATES start_state = STATES::normal);
+    Guardian(STATES start_state = STATES::undestroyableBulletsBuff);
 
     ~Guardian();
 

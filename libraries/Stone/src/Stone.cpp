@@ -14,6 +14,12 @@ Stone::Stone(float speed) : speed(speed) {
     }
 }
 
+Stone::Stone(float xPos, float yPos, float rotationDegree, float size) {
+    body.setPosition(xPos, yPos);
+    body.setRotation(rotationDegree);
+    body.scale(sf::Vector2f(size, size));
+
+
 Stone::~Stone() {
 
 }
@@ -47,3 +53,4 @@ void Stone::setDirection() {
     auto direction =  body.getPosition() - get_rand_pos_in_centre();
     directionVectNorm = direction / (float) sqrt(pow(direction.x, 2) + pow(direction.y, 2));
 }
+

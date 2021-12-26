@@ -9,6 +9,7 @@ constexpr uint8_t SIZE_SCALE_MAX = 1;
 class Stone : public Entity {
 public:
     Stone(float speed);
+    Stone(float xPos, float yPos, float rotationDegree, float size = 1);
 
     ~Stone();
 

@@ -1,6 +1,7 @@
 #include "Bullet.hpp"
 
-Bullet::Bullet(sf::Vector2f position, sf::Vector2f direction, STATES buffType) : speed(DEFAULT_SPEED), size(DEFAULT_SIZE) {
+Bullet::Bullet(sf::Vector2f position, sf::Vector2f direction, STATES buffType) : speed(DEFAULT_SPEED),
+                                                                                 size(DEFAULT_SIZE) {
     body.setPosition(position);
 
     switch (buffType) {
@@ -27,6 +28,12 @@ Bullet::Bullet(sf::Vector2f position, sf::Vector2f direction, STATES buffType) :
     body.setRotation((float) (atan2f(directionVectNorm.x, directionVectNorm.y) * (-180.0f / 3.14159265f)) + 90);
 }
 
+Bullet::Bullet(float xPos, float yPos, float rotationDegree, float size) {
+    body.setPosition(xPos, yPos);
+    body.setRotation(rotationDegree);
+    body.scale(sf::Vector2f(size, size));
+}
+
 Bullet::~Bullet() {
 
 }
@@ -35,3 +42,4 @@ void Bullet::update(sf::Time deltaTime) {
     auto curPos = body.getPosition();
     body.setPosition((curPos + (directionVectNorm * speed)));
 }
+
