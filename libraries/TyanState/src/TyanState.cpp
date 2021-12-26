@@ -271,6 +271,7 @@ void TyanState::processStuff() {
 
 void TyanState::update(sf::Time deltaT) {
     timer++;
+    score++
     //std::cout << timer << "\n";
 }
 
@@ -309,7 +310,7 @@ void TyanState::draw() {
             flag_tyan = 0;
             if (recv_msg.buff == 6){
         context->window->clear();
-        context->states->add(std::make_unique<LostState>(context, 2), true);
+        context->states->add(std::make_unique<LostState>(context, score), true);
     }
         }
         else
