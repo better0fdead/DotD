@@ -302,7 +302,7 @@ void TyanState::draw() {
         f_spell.draw(context);
         s_spell.draw(context);
         th_spell.draw(context);
-        if (flag_tyan == 1)
+        if (flag_tyan > 1)
         {
             data_msg_guard recv_msg = recv_msg_from_guard();
             flag_tyan = 0;
@@ -320,13 +320,10 @@ void TyanState::draw() {
             context->states->add(std::make_unique<LostState>(context, score), true);
             }
         }
-        else
-        {
-            flag_tyan++;
-        }
         for (auto & bullet : bulletsVec) {
             context->window->draw(*bullet);
         }
+        flag_tyan++;
     }
     if (answering)
     {
