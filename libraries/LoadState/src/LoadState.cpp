@@ -81,11 +81,12 @@ void LoadState::updateKeyBinds() {
             else if (Tyan_button.is_hovering)
             {
                 is_connecting = true;
-                role = true;
+                role = 2;
                 player_tyan.send_msg("T0 1");
             }
             else if (Guardian_button.is_hovering)
             {
+                role = 1;
                 is_connecting = true;
                 player_guardian.send_msg("H0 1");
             }
@@ -109,6 +110,9 @@ void LoadState::draw() {
     context->window->draw(playText);  // рисую текст
     //context->window->draw(button.rect);
     exit_button.draw(context);
+    if (role == 1) player_guardian.send_msg("H0 7");
+    else if (role == 2) player_tyan.send_msg("T0 7");
+
     if (!is_connecting) {
         Tyan_button.draw(context);
         Guardian_button.draw(context);
@@ -116,9 +120,9 @@ void LoadState::draw() {
     {
         if (player_guardian.recv_msg() == "1")
         {
-            if (!role)
+            if (role == 1)
                 context->states->add(std::make_unique<GameState>(context), true);
-            else 
+            else if(role == 2)
                 context->states->add(std::make_unique<TyanState>(context), true);
         }
     }
