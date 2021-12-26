@@ -76,10 +76,18 @@ void LoadState::updateKeyBinds() {
                     mute_button.is_muted = false;
                 }
             } else if (Tyan_button.is_hovering) {
+                playText.setString("Searching for players...");  // добавляем в текст нашу строку
+                playText.setCharacterSize(50);
+                playText.setOrigin(playText.getLocalBounds().width / 2,
+                playText.getLocalBounds().height / 2);  // ставим точку отсчета в центр текста
                 is_connecting = true;
                 role = 2;
                 player_tyan.send_msg("T0 1");
             } else if (Guardian_button.is_hovering) {
+                playText.setString("Searching for players...");  // добавляем в текст нашу строку
+                playText.setCharacterSize(100);
+                playText.setOrigin(playText.getLocalBounds().width / 2,
+                playText.getLocalBounds().height / 2);  // ставим точку отсчета в центр текста
                 role = 1;
                 is_connecting = true;
                 player_guardian.send_msg("H0 1");
@@ -110,6 +118,7 @@ void LoadState::draw() {
         Tyan_button.draw(context);
         Guardian_button.draw(context);
     } else {
+        
         if (role == 1) player_guardian.send_msg("H0 7");
 
         else if (role == 2) player_tyan.send_msg("T0 7");
