@@ -314,12 +314,6 @@ void TyanState::draw() {
             context->states->add(std::make_unique<LostState>(context, score), true);
             }
         }
-        for (auto & bullet : bulletsVec) {
-            context->window->draw(*bullet);
-        }
-        for (auto & stone : stonesVec) {
-            context->window->draw(*stone);
-        }
         flag_tyan++;
         if (timer < 600) 
             timeQuestion.setString("task cd " + std::to_string(10 - timer/60));
@@ -335,6 +329,12 @@ void TyanState::draw() {
         f_spell.draw(context);
         s_spell.draw(context);
         th_spell.draw(context);
+    }
+    for (auto & bullet : bulletsVec) {
+            context->window->draw(*bullet);
+        }
+    for (auto & stone : stonesVec) {
+            context->window->draw(*stone);
     }
     if (answering)
     {
