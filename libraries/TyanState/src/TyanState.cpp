@@ -273,7 +273,7 @@ void TyanState::update(sf::Time deltaT) {
     timer++;
 }
 
-int flag_tyan = 1;
+int flag_tyan = 0;
 
 void TyanState::draw() {
     context->window->clear();
@@ -302,25 +302,30 @@ void TyanState::draw() {
         f_spell.draw(context);
         s_spell.draw(context);
         th_spell.draw(context);
-        if (flag_tyan == 3)
+        if (flag_tyan == 1)
         {
             data_msg_guard recv_msg = recv_msg_from_guard();
             flag_tyan = 0;
+            bulletsVec.clear();
             if (timer > 500) {
                 for (int i = 0; i < recv_msg.bullets_y.size(); i++){
                     auto new_bullet = new Bullet({recv_msg.bullets_x[i], recv_msg.bullets_y[i]}, {0,0});
                     new_bullet->init(&context->assets->getTexture(AssetID::BULLET), new_bullet->getPos());
-                    context->window->draw(*new_bullet);
+                    //context->window->draw(*new_bullet);
+                    bulletsVec.push_back(new_bullet);
                 }
             }
             if (recv_msg.buff == 6){
-        context->window->clear();
-        context->states->add(std::make_unique<LostState>(context, score), true);
-        }
+            context->window->clear();
+            context->states->add(std::make_unique<LostState>(context, score), true);
+            }
         }
         else
         {
             flag_tyan++;
+        }
+        for (auto & bullet : bulletsVec) {
+            context->window->draw(*bullet);
         }
     }
     if (answering)
