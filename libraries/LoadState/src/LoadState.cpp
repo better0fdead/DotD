@@ -110,17 +110,14 @@ void LoadState::draw() {
         Tyan_button.draw(context);
         Guardian_button.draw(context);
     } else {
-        std::cout<<"role"<<role<<std::endl;
         if (role == 1) player_guardian.send_msg("H0 7");
 
         else if (role == 2) player_tyan.send_msg("T0 7");
 
         if (player_guardian.recv_msg()[0] == '1') {
             if (role == 1) {
-                std::cout<<"try Guard"<<std::endl;
                 context->states->add(std::make_unique<GameState>(context), true);
             } else if (role == 2) {
-                std::cout<<"try tyan"<<std::endl;
                 context->states->add(std::make_unique<TyanState>(context), true);
             }
         }

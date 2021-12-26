@@ -307,6 +307,10 @@ void TyanState::draw() {
         {
             data_msg_guard recv_msg = recv_msg_from_guard();
             flag_tyan = 0;
+            if (recv_msg.buff == 6){
+        context->window->clear();
+        context->states->add(std::make_unique<LostState>(context, 2), true);
+    }
         }
         else
         {
