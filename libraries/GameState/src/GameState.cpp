@@ -2,6 +2,10 @@
 #include "GameState.hpp"
 
 
+std::vector<Bullet*> bulletsVec_temp;
+std::vector<std::shared_ptr<Stone>> stonesVec_temp;
+int flag = 1;
+
 GameState::GameState(std::shared_ptr<GameContext> &context) : context(context), score(0) { // контекст подгружаем
     gameClock.restart();
     buffClock.restart();
@@ -135,7 +139,16 @@ void GameState::update(sf::Time deltaT) {
         break;
     }
     scoreText.setString("score  " + std::to_string(score));
-    player_guardian.send_msg_to_tyan(bulletsVec, stonesVec, 0, STATES::normal);
+    if (flag == 3)
+    {
+        player_guardian.send_msg_to_tyan(bulletsVec, stonesVec, 0, STATES::normal);
+        flag = 0;
+    }
+    else
+    {
+        flag++;
+        player_guardian.send_msg_to_tyan(bulletsVec_temp, stonesVec_temp, 0, STATES::normal);
+    }    
 }
 
 void GameState::draw() {
