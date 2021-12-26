@@ -13,6 +13,8 @@ public:
     Bullet(sf::Vector2f position, sf::Vector2f direction, STATES buffType = STATES::normal);
 
     ~Bullet();
+    float direction_x;
+    float direction_y;
 
     void update(sf::Time deltaTime) override;
 
