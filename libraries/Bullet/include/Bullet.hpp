@@ -14,6 +14,8 @@ public:
     Bullet(float xPos, float yPos, float rotationDegree, float size = 1);
 
     ~Bullet();
+    float direction_x;
+    float direction_y;
 
     void update(sf::Time deltaTime) override;
 

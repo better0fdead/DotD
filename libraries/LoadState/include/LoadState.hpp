@@ -33,6 +33,8 @@ public:
 
 private:
     sf::Music music;
+    bool is_connecting = false;
+    int role = 0;
     Button exit_button;
     Button play_button;
     Button Tyan_button;

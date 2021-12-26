@@ -19,6 +19,8 @@ Bullet::Bullet(sf::Vector2f position, sf::Vector2f direction, STATES buffType) :
     }
 
     body.scale(size, size);
+    direction_x = direction.x;
+    direction_y = direction.y;
     // ищем нормированный вектор направления полета пули
     auto directionVect = direction - position;
     directionVectNorm = directionVect / (float) sqrt(directionVect.x * directionVect.x +

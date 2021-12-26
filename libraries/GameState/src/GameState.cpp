@@ -2,6 +2,10 @@
 #include "GameState.hpp"
 
 
+std::vector<Bullet*> bulletsVec_temp;
+std::vector<std::shared_ptr<Stone>> stonesVec_temp;
+int flag = 1;
+
 GameState::GameState(std::shared_ptr<GameContext> &context) : context(context), score(0) { // контекст подгружаем
     gameClock.restart();
     buffClock.restart();
@@ -136,6 +140,8 @@ void GameState::update(sf::Time deltaT) {
     }
     scoreText.setString("score  " + std::to_string(score));
 
+    player_guardian.send_msg_to_tyan(bulletsVec, stonesVec, 0, STATES::normal);
+
 }
 
 void GameState::draw() {
@@ -152,7 +158,7 @@ void GameState::draw() {
     }
     context->window->draw(scoreText);
     context->window->display();
-    player_guardian.send_msg_to_tyan(bulletsVec, stonesVec, 0, STATES::normal);
+    
 }
 
 void GameState::pause() {
@@ -213,7 +219,7 @@ void GameState::BuffDiscardHandler(){
 void GameState::GameOverCheck() {
     if(guardian->isDead() || tyan->isDead()){
         context->window->clear();  // чищу окно
-        player_guardian.send_msg("HO 3 1");
+        player_guardian.send_msg_to_tyan(bulletsVec_temp, stonesVec_temp, 0, STATES::death);
         context->states->add(std::make_unique<LostState>(context, score), true);
     }
 

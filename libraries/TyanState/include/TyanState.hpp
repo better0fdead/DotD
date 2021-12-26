@@ -13,7 +13,7 @@
 #include <SFML/Graphics/Text.hpp>
 #include "tasks.hpp"
 
-class TyanState : public State , public Tasks {
+class TyanState : public State , public Tasks,public Client {
 public:
     TyanState(std::shared_ptr<GameContext>& context);
 
@@ -65,6 +65,8 @@ private:
     sf::Text choose_str;
     sf::Text win;
     sf::Text lose;
+    std::vector<Bullet*> bulletsVec;
+    std::vector<std::shared_ptr<Stone>> stonesVec;
     std::shared_ptr<GameContext> context;  // контекст игры с текстурами и шрифтами, бригаду тоже сюда добавьте
     sf::Sprite pauseBackground;
     sf::Text pauseText; // пример

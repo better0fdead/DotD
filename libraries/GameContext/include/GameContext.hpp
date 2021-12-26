@@ -9,7 +9,7 @@ constexpr uint16_t WINDOW_WIDTH = 1200;
 constexpr uint16_t WINDOW_HEIGHT = 800;
 
 
-enum class STATES{normal = 0, fireBackwardsBuff, bulletSpeedBuff, hpUpBuff, bulletSizeBuff, undestroyableBulletsBuff};
+enum class STATES{normal = 0, fireBackwardsBuff, bulletSpeedBuff, hpUpBuff, bulletSizeBuff, undestroyableBulletsBuff, death};
 
 
 struct GameContext {

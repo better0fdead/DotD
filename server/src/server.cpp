@@ -55,7 +55,9 @@ void handle_connections() {
     char parametr_h_ans;
     std::string tyan_ans;
     std::string hero_ans;
-
+    std::string msg;
+    std::string ss;
+    int a;
     while (true) {
         boost::asio::ip::udp::endpoint sender_ep;
         std::cout << "Жду приема информации" << std::endl;
@@ -66,13 +68,32 @@ void handle_connections() {
         std::cout << "flag_t " << *flag_t << std::endl;
         std::cout << "flag_h " << *flag_h << std::endl;
         if (msg[0] == tyan) parametr_t_ans = parse_msg_con(msg, flag_t, sender_ep);
-        else if ((msg[0] == hero)) parametr_h_ans = parse_msg_con(msg, flag_h, sender_ep); else {
-            nlohmann::json j= nlohmann::json::parse(msg);
+        else if ((msg[0] == hero)) parametr_h_ans = parse_msg_con(msg, flag_h, sender_ep);
+        else if ((!flag_connection)) {
+
+            std::cout << "Зашел в отправку" << std::endl;
+            nlohmann::json j = nlohmann::json::parse(msg);
             std::cout << "team " << j["team"] << std::endl;
-            if (1) {
+            a = j["team"];
+            if (a == 1) {
+                tyan_ans = msg;
+                std::cout << "TYAN SEND" << std::endl;
+                std::cout << "buff " << j["buff"] << std::endl;
                 std::cout << "buff " << j["buff"] << std::endl;
                 std::cout << "team " << j["team"] << std::endl;
-                sock.send_to(boost::asio::buffer(msg), Heros[0]);
+                sock.send_to(boost::asio::buffer(tyan_ans), Heros[0]);
+                if (hero_msg != "") {
+                    sock.send_to(boost::asio::buffer(hero_ans), Tyans[0]);
+                }
+            } else {
+                hero_ans = msg;
+                std::cout << "GUARD SEND" << std::endl;
+                ss = j["bullet_x"].dump();
+                std::cout << "bullets: " << ss << std::endl;
+                if (tyan_msg != "") {
+                    sock.send_to(boost::asio::buffer(hero_ans), Tyans[0]);
+                }
+                sock.send_to(boost::asio::buffer(hero_ans), Tyans[0]);
             }
         }
 
@@ -84,25 +105,56 @@ void handle_connections() {
 
             tyan_ans = param_con;
             hero_ans = param_con;
-            sock.send_to(boost::asio::buffer(tyan_ans), Tyans[0]);
-            sock.send_to(boost::asio::buffer(hero_ans), Heros[0]);
+            sock.send_to(boost::asio::buffer("1"), Tyans[0]);
+            sock.send_to(boost::asio::buffer("1"), Heros[0]);
+
             flag_connection = 0;
             std::cout << "Clients connect" << std::endl;
 
         }
-        //данные которые отправляются парой
-        if (!flag_connection) {
-            std::cout << "Зашел в отправку" << std::endl;
-            tyan_ans = parametr_t_ans;
-            hero_ans = parametr_h_ans;
 
-            //sock.send_to(boost::asio::buffer(tyan_ans), Heros[0]);
+        if (*flag_t && !flag_connection) {
+            std::cout << "Тянка ждет гарда" << std::endl;
+
             sock.send_to(boost::asio::buffer("0"), Tyans[0]);
-            parametr_t_ans = '0';
 
         }
-    }
+        if (*flag_h && !flag_connection) {
+            std::cout << "Гард ждет тянку" << std::endl;
 
+            sock.send_to(boost::asio::buffer("0"), Heros[0]);
+
+        }
+        //данные которые отправляются парой
+//        if ((!flag_connection) && (msg[0] != 'T') && (msg[0] != 'H')) {
+//
+//            std::cout << "Зашел в отправку" << std::endl;
+//            nlohmann::json j= nlohmann::json::parse(msg);
+//            std::cout << "team " << j["team"] << std::endl;
+//            a = j["team"];
+//            if (a == 1) {
+//                tyan_ans = msg;
+//                std::cout << "TYAN SEND"  <<std::endl;
+//                std::cout << "buff " << j["buff"] << std::endl;
+//                std::cout << "buff " << j["buff"] << std::endl;
+//                std::cout << "team " << j["team"] << std::endl;
+//                sock.send_to(boost::asio::buffer(tyan_ans), Heros[0]);
+//                if (hero_msg != "") {
+//                    sock.send_to(boost::asio::buffer(hero_ans), Tyans[0]);
+//                }
+//            }else{
+//                hero_ans = msg;
+//                std::cout << "GUARD SEND"  <<std::endl;
+//                ss = j["bullet_x"].dump();
+//                std::cout << "bullets: "  << ss << std::endl;
+//                if (tyan_msg != "") {
+//                    sock.send_to(boost::asio::buffer(hero_ans), Tyans[0]);
+//                }
+//            sock.send_to(boost::asio::buffer(hero_ans), Tyans[0]);
+//        }
+//    }
+
+    }
 }
 
 //В итоге получилось, что я реализовал имитацию асинхронного сервера.
