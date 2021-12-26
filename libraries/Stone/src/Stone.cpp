@@ -18,7 +18,7 @@ Stone::Stone(float xPos, float yPos, float rotationDegree, float size) {
     body.setPosition(xPos, yPos);
     body.setRotation(rotationDegree);
     body.scale(sf::Vector2f(size, size));
-
+}
 
 Stone::~Stone() {
 

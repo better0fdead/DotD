@@ -287,10 +287,43 @@ void TyanState::draw() {
     
     if (gaming) {
         context->window->clear();
+        
+        if (flag_tyan > 1)
+        {
+            data_msg_guard recv_msg = recv_msg_from_guard();
+            flag_tyan = 0;
+            bulletsVec.clear();
+            stonesVec.clear();
+            if (timer > 500) {
+                for (int i = 0; i < recv_msg.bullets_y.size(); i++){
+                    auto new_bullet = new Bullet({recv_msg.bullets_x[i], recv_msg.bullets_y[i]}, {0,0});
+                    new_bullet->init(&context->assets->getTexture(AssetID::BULLET), new_bullet->getPos());
+                    //context->window->draw(*new_bullet);
+                    bulletsVec.push_back(new_bullet);
+                }
+                for (int i = 0; i < recv_msg.stones_y.size(); i++){
+                    auto new_stone = new Stone(recv_msg.stones_x[i], recv_msg.stones_y[i], 0);
+                    new_stone->init(&context->assets->getTexture(AssetID::STONE), new_stone->getPos());
+                    //context->window->draw(*new_bullet);
+                    stonesVec.push_back(new_stone);
+                }
+            }
+            if (recv_msg.buff == 6){
+            context->window->clear();
+            context->states->add(std::make_unique<LostState>(context, score), true);
+            }
+        }
+        for (auto & bullet : bulletsVec) {
+            context->window->draw(*bullet);
+        }
+        for (auto & stone : stonesVec) {
+            context->window->draw(*stone);
+        }
+        flag_tyan++;
         if (timer < 600) 
-        timeQuestion.setString("task cd " + std::to_string(10 - timer/60));
+            timeQuestion.setString("task cd " + std::to_string(10 - timer/60));
         else 
-        timeQuestion.setString("task ready");
+            timeQuestion.setString("task ready");
         context->window->draw(background);
         sf::RectangleShape rectangle(sf::Vector2f(660.f, 60.f));
         rectangle.move(828, 0); // перемещаем его в нижний ряд справа от многоугольника
@@ -302,28 +335,6 @@ void TyanState::draw() {
         f_spell.draw(context);
         s_spell.draw(context);
         th_spell.draw(context);
-        if (flag_tyan > 1)
-        {
-            data_msg_guard recv_msg = recv_msg_from_guard();
-            flag_tyan = 0;
-            bulletsVec.clear();
-            if (timer > 500) {
-                for (int i = 0; i < recv_msg.bullets_y.size(); i++){
-                    auto new_bullet = new Bullet({recv_msg.bullets_x[i], recv_msg.bullets_y[i]}, {0,0});
-                    new_bullet->init(&context->assets->getTexture(AssetID::BULLET), new_bullet->getPos());
-                    //context->window->draw(*new_bullet);
-                    bulletsVec.push_back(new_bullet);
-                }
-            }
-            if (recv_msg.buff == 6){
-            context->window->clear();
-            context->states->add(std::make_unique<LostState>(context, score), true);
-            }
-        }
-        for (auto & bullet : bulletsVec) {
-            context->window->draw(*bullet);
-        }
-        flag_tyan++;
     }
     if (answering)
     {
