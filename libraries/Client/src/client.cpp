@@ -59,11 +59,14 @@ nlohmann::json Client::data2json_for_guard(std::vector<Bullet *> bullets, std::v
     for(int i=0;i<stones.size();i++ ){
         vec.push_back(stones[i]->getPos().x);
         vec1.push_back(stones[i]->getPos().y);
+        vec2.push_back(stones[i]->size);
     }
     j["stones_x"]=vec;
     j["stones_y"]=vec1;
+    j["stones_size"]=vec2;
 
     vec.clear();
+    vec2.clear();
     vec1.clear();
     return j;
 }
@@ -103,17 +106,23 @@ data_msg_guard Client::json2data_for_guard(nlohmann::json j) {
     data_msg_guard data_guard;
     data_guard.buff = j["buff"];
     std::string s1 = j["bullet_x"].dump();
-    std::string s2 = j["bullet_y"].dump();
-    std::string s3 = j["stones_x"].dump();
-    std::string s4 = j["stones_y"].dump();
-    std::string s5 = j["bullet_dir_x"].dump();
-    std::string s6 = j["bullet_dir_y"].dump();
     data_guard.bullets_x = parse_guard(s1);
-    data_guard.bullets_y = parse_guard(s2);
-    data_guard.stones_x = parse_guard(s3);
-    data_guard.stones_y = parse_guard(s4);
-    data_guard.bullets_dir_x = parse_guard(s5);
-    data_guard.bullets_dir_y = parse_guard(s6);
+    s1 = j["bullet_y"].dump();
+    data_guard.bullets_y = parse_guard(s1);
+    s1 = j["stones_x"].dump();
+    data_guard.stones_x = parse_guard(s1);
+    s1 = j["stones_y"].dump();
+    data_guard.stones_y = parse_guard(s1);
+
+    s1 = j["bullet_dir_x"].dump();
+    data_guard.bullets_dir_x = parse_guard(s1);
+
+    s1 = j["bullet_dir_y"].dump();
+    data_guard.bullets_dir_y = parse_guard(s1);
+
+    s1 = j["stones_size"].dump();
+    data_guard.stones_size = parse_guard(s1);
+
     return data_guard;
 }
 

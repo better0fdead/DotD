@@ -15,10 +15,9 @@ public:
 
     void setDirection();  // инициализирует вектор нормали движения
     void update(sf::Time deltaTime) override;
-
+    float size;
 private:
     sf::Vector2f directionVectNorm;
     float speed;
     float rotationSpeed;
-    float size;
 };

@@ -28,6 +28,8 @@ struct data_msg_guard
     std::vector<float> bullets_y;
     std::vector<float> bullets_dir_y;
     std::vector<float> bullets_dir_x;
+    std::vector<float> stones_size;
+
 
 };
 
