@@ -266,13 +266,11 @@ void TyanState::wrong_answer() {
 }
 
 void TyanState::processStuff() {
-
+    score++;
 }
 
 void TyanState::update(sf::Time deltaT) {
     timer++;
-    score++
-    //std::cout << timer << "\n";
 }
 
 int flag_tyan = 1;
@@ -308,10 +306,17 @@ void TyanState::draw() {
         {
             data_msg_guard recv_msg = recv_msg_from_guard();
             flag_tyan = 0;
+            if (timer > 500) {
+                for (int i = 0; i < recv_msg.bullets_y.size(); i++){
+                    auto new_bullet = new Bullet({recv_msg.bullets_x[i], recv_msg.bullets_y[i]}, {0,0});
+                    new_bullet->init(&context->assets->getTexture(AssetID::BULLET), new_bullet->getPos());
+                    context->window->draw(*new_bullet);
+                }
+            }
             if (recv_msg.buff == 6){
         context->window->clear();
         context->states->add(std::make_unique<LostState>(context, score), true);
-    }
+        }
         }
         else
         {
