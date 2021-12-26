@@ -58,6 +58,7 @@ private:
     std::unique_ptr<Tyan> tyan;
 
     int timer;
+    int timer_2;
     int buff = 0;
     Button back;
     sf::Text question;

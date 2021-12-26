@@ -271,6 +271,7 @@ void TyanState::processStuff() {
 
 void TyanState::update(sf::Time deltaT) {
     timer++;
+    timer_2++;
 }
 
 int flag_tyan = 0;
@@ -287,16 +288,16 @@ void TyanState::draw() {
     
     if (gaming) {
         context->window->clear();
-        
+        context->window->draw(background);
         if (flag_tyan > 1)
         {
             data_msg_guard recv_msg = recv_msg_from_guard();
             flag_tyan = 0;
             bulletsVec.clear();
             stonesVec.clear();
-            if (timer > 500) {
+            if (timer_2 > 200) {
                 for (int i = 0; i < recv_msg.bullets_y.size(); i++){
-                    auto new_bullet = new Bullet({recv_msg.bullets_x[i], recv_msg.bullets_y[i]}, {0,0});
+                    auto new_bullet = new Bullet({recv_msg.bullets_x[i], recv_msg.bullets_y[i]}, {recv_msg.bullets_dir_x[i], recv_msg.bullets_dir_y[i]});
                     new_bullet->init(&context->assets->getTexture(AssetID::BULLET), new_bullet->getPos());
                     //context->window->draw(*new_bullet);
                     bulletsVec.push_back(new_bullet);
@@ -324,7 +325,6 @@ void TyanState::draw() {
             timeQuestion.setString("task cd " + std::to_string(10 - timer/60));
         else 
             timeQuestion.setString("task ready");
-        context->window->draw(background);
         sf::RectangleShape rectangle(sf::Vector2f(660.f, 60.f));
         rectangle.move(828, 0); // перемещаем его в нижний ряд справа от многоугольника
         rectangle.setFillColor(sf::Color(175, 180, 240)); // устанавливаем цвет прямоугольника
