@@ -275,11 +275,12 @@ void TyanState::update(sf::Time deltaT) {
 }
 
 int flag_tyan = 0;
-
+int flag_message = 0;
 void TyanState::draw() {
     context->window->clear();
 //    player_tyan.send_msg("T0 2 0");
-    player_tyan.send_msg_to_guard(1,1);
+    if (timer_2 % 5 != 0 and timer_2 % 3 != 0)
+        player_tyan.send_msg_to_guard(1,1);
 //    if (player_tyan.recv_msg() == "1")
 //    {
 //        context->window->clear();
@@ -303,7 +304,7 @@ void TyanState::draw() {
                     bulletsVec.push_back(new_bullet);
                 }
                 for (int i = 0; i < recv_msg.stones_y.size(); i++){
-                    auto new_stone = new Stone(recv_msg.stones_x[i], recv_msg.stones_y[i], 0);
+                    auto new_stone = new Stone(recv_msg.stones_x[i], recv_msg.stones_y[i], 0, recv_msg.stones_size[i]);
                     new_stone->init(&context->assets->getTexture(AssetID::STONE), new_stone->getPos());
                     //context->window->draw(*new_bullet);
                     stonesVec.push_back(new_stone);
