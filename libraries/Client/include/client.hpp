@@ -20,6 +20,7 @@
 
 struct data_msg_guard
 {
+    int score;
     int team;
     int buff;
     std::vector<float> stones_x;
@@ -37,7 +38,6 @@ struct data_msg_tyan
 {
     int team;
     int buff;
-    int score;
 };
 
 class Client  {

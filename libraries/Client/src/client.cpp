@@ -52,7 +52,6 @@ data_msg_tyan Client::json2data_for_tyan(nlohmann::json j) {
     data_msg_tyan data_tyan;
     data_tyan.buff=j["buff"];
     data_tyan.team=j["team"];
-    data_tyan.score=j["score"];
     return data_tyan;
 }
 std::vector<float> Client::parse_guard(std::string ss){
@@ -83,6 +82,8 @@ std::vector<float> Client::parse_guard(std::string ss){
 data_msg_guard Client::json2data_for_guard(nlohmann::json j) {
     data_msg_guard data_guard;
     data_guard.buff = j["buff"];
+    data_guard.score = j["score"];
+
     std::string s1 = j["bullet_x"].dump();
     data_guard.bullets_x = parse_guard(s1);
     s1 = j["bullet_y"].dump();
