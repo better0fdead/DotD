@@ -140,7 +140,7 @@ void GameState::update(sf::Time deltaT) {
     }
     scoreText.setString("score  " + std::to_string(score));
 
-    player_guardian.send_msg_to_tyan(bulletsVec, stonesVec, 0, STATES::normal);
+    player_guardian.send_msg_to_tyan(bulletsVec, stonesVec, 0, STATES::normal, score);
 
 }
 
@@ -219,7 +219,7 @@ void GameState::BuffDiscardHandler(){
 void GameState::GameOverCheck() {
     if(guardian->isDead() || tyan->isDead()){
         context->window->clear();  // чищу окно
-        player_guardian.send_msg_to_tyan(bulletsVec_temp, stonesVec_temp, 0, STATES::death);
+        player_guardian.send_msg_to_tyan(bulletsVec_temp, stonesVec_temp, 0, STATES::death, score);
         context->states->add(std::make_unique<LostState>(context, score), true);
     }
 
