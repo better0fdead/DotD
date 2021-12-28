@@ -312,7 +312,7 @@ void TyanState::draw() {
             }
             if (recv_msg.buff == 6){
             context->window->clear();
-            context->states->add(std::make_unique<LostState>(context, score), true);
+            context->states->add(std::make_unique<LostState>(context, recv_msg.score), true);
             }
         }
         flag_tyan++;
