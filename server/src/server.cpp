@@ -6,10 +6,15 @@ struct Response {
     std::vector<int> stones;
 };
 constexpr char param_con = '1';
+constexpr char param_wait = '7';
+
 constexpr char param_buff = '2';
 constexpr char param_death = '3';
+
 constexpr char tyan = 'T';
 constexpr char hero = 'H';
+int flag_connection = 1;
+int flag_death = 0;
 int *flag_t = new int(0);
 int *flag_h = new int(0);
 boost::asio::ip::udp::endpoint Tyans[3];
@@ -30,7 +35,8 @@ char parse_msg_con(std::string msg, int *flag, boost::asio::ip::udp::endpoint se
         *flag = 1;
         if (msg[0] == tyan) Tyans[0] = sender_ep; else Heros[0] = sender_ep;
         parametr_ans = parametr;
-
+    } else if(parametr == param_wait){
+        parametr_ans = parametr;
     }
 //    else if (parametr == param_buff) {
 //        parametr_ans = msg[5];
@@ -44,29 +50,30 @@ char parse_msg_con(std::string msg, int *flag, boost::asio::ip::udp::endpoint se
 
 void handle_connections() {
     boost::asio::ip::udp::socket sock(service, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 5001));
-    char buff[1024];
+    char buff[2024];
 
     int index_tyan = 0;
     int index_hero = 0;
     std::string tyan_msg;
     std::string hero_msg;
-    int flag_connection = 1;
     char parametr_t_ans;
     char parametr_h_ans;
     std::string tyan_ans;
     std::string hero_ans;
     std::string msg;
     std::string ss;
+    int death;
     int a;
     while (true) {
         boost::asio::ip::udp::endpoint sender_ep;
+
+
         std::cout << "Жду приема информации" << std::endl;
         int bytes = sock.receive_from(boost::asio::buffer(buff), sender_ep);
         std::string msg(buff, bytes);
         std::cout << msg << std::endl;
 
-        std::cout << "flag_t " << *flag_t << std::endl;
-        std::cout << "flag_h " << *flag_h << std::endl;
+
         if (msg[0] == tyan) parametr_t_ans = parse_msg_con(msg, flag_t, sender_ep);
         else if ((msg[0] == hero)) parametr_h_ans = parse_msg_con(msg, flag_h, sender_ep);
         else if ((!flag_connection)) {
@@ -86,10 +93,13 @@ void handle_connections() {
                     sock.send_to(boost::asio::buffer(hero_ans), Tyans[0]);
                 }
             } else {
-                hero_ans = msg;
+                if (!flag_death)hero_ans = msg;
                 std::cout << "GUARD SEND" << std::endl;
-                ss = j["bullet_x"].dump();
-                std::cout << "bullets: " << ss << std::endl;
+                std::cout << "directions: " << j["bullet_dir_x"] << std::endl;
+                if (death == 6){
+                flag_death = 1;
+                }
+                std::cout << "death: " << death << std::endl;
                 if (tyan_msg != "") {
                     sock.send_to(boost::asio::buffer(hero_ans), Tyans[0]);
                 }
@@ -99,6 +109,9 @@ void handle_connections() {
 
         std::cout << *flag_t << std::endl;
         std::cout << *flag_h << std::endl;
+        std::cout << parametr_t_ans << std::endl;
+        std::cout << flag_connection << std::endl;
+
 
         if (*flag_t && *flag_h && flag_connection) {
             std::cout << "Зашел в конекшoн" << std::endl;
@@ -112,18 +125,13 @@ void handle_connections() {
             std::cout << "Clients connect" << std::endl;
 
         }
-
-        if (*flag_t && !flag_connection) {
+        if ((parametr_t_ans == param_wait) && flag_connection){
             std::cout << "Тянка ждет гарда" << std::endl;
-
             sock.send_to(boost::asio::buffer("0"), Tyans[0]);
-
         }
-        if (*flag_h && !flag_connection) {
+        if ((parametr_h_ans == param_wait) && flag_connection){
             std::cout << "Гард ждет тянку" << std::endl;
-
             sock.send_to(boost::asio::buffer("0"), Heros[0]);
-
         }
         //данные которые отправляются парой
 //        if ((!flag_connection) && (msg[0] != 'T') && (msg[0] != 'H')) {
