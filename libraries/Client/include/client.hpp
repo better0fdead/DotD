@@ -37,6 +37,7 @@ struct data_msg_tyan
 {
     int team;
     int buff;
+    int score;
 };
 
 class Client  {
@@ -53,14 +54,14 @@ public:
 
     void send_msg_to_guard(int teammate, int buff);
 
-    void send_msg_to_tyan(std::vector<Bullet *> bullets, std::vector<std::shared_ptr<Stone>> stones, int teammate, STATES buff);
+    void send_msg_to_tyan(std::vector<Bullet *> bullets, std::vector<std::shared_ptr<Stone>> stones, int teammate, STATES buff, int score);
 
     nlohmann::basic_json<> data2json_for_tyan(int teammate, int buff);
 
     data_msg_tyan json2data_for_tyan(nlohmann::json j);
 
     nlohmann::json
-    data2json_for_guard(std::vector<Bullet *> bullets, std::vector<std::shared_ptr<Stone>> stones, int teammate, STATES buff);
+    data2json_for_guard(std::vector<Bullet *> bullets, std::vector<std::shared_ptr<Stone>> stones, int teammate, STATES buff,int score);
 
     data_msg_guard recv_msg_from_guard();
 

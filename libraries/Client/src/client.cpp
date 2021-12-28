@@ -1,41 +1,18 @@
-#include <errno.h>
-#include <fcntl.h>
-#include <netinet/in.h>
-#include <stdio.h>
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <sys/un.h>
-#include <unistd.h>
-#include <algorithm>
-#include <iostream>
-#include <set>
-#include <string>
-#include <boost/asio.hpp>
-#include <boost/bind/bind.hpp>
-#include <boost/thread.hpp>
-#include <boost/bind.hpp>
-#include <boost/asio.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
-#include <pthread.h>
-#include <client.hpp>
-#include <arpa/inet.h>
-#include <client.hpp>
-#include "json.hpp"
-#include <boost/lexical_cast.hpp>
 
-using namespace boost::asio;
+#include <client.hpp>
+
+
 //интерфейс клиента
-io_service service;
-ip::udp::socket sock(service, ip::udp::endpoint(ip::udp::v4(), 0));
-ip::udp::endpoint ep(ip::address::from_string("178.62.207.127"), 5001);
+boost::asio::io_service service;
+boost::asio::ip::udp::socket sock(service, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 0));
+boost::asio::ip::udp::endpoint ep(boost::asio::ip::address::from_string("178.62.207.127"), 5001);
 
 Client::Client(){};
 Client::~Client(){};
 //отправка сообщений
-nlohmann::json Client::data2json_for_guard(std::vector<Bullet *> bullets, std::vector<std::shared_ptr<Stone>> stones,int teammate,STATES buff){
+nlohmann::json Client::data2json_for_guard(std::vector<Bullet *> bullets, std::vector<std::shared_ptr<Stone>> stones,int teammate,STATES buff,int score){
     nlohmann::json j;
+    j["score"]=score;
     j["buff"]=buff;
     j["team"]=teammate;
     std::vector<float> vec;
@@ -75,6 +52,7 @@ data_msg_tyan Client::json2data_for_tyan(nlohmann::json j) {
     data_msg_tyan data_tyan;
     data_tyan.buff=j["buff"];
     data_tyan.team=j["team"];
+    data_tyan.score=j["score"];
     return data_tyan;
 }
 std::vector<float> Client::parse_guard(std::string ss){
@@ -134,22 +112,22 @@ nlohmann::json Client::data2json_for_tyan(int teammate,int buff) {
     return j;
 }
 
-void Client::send_msg_to_tyan(std::vector<Bullet *> bullets, std::vector<std::shared_ptr<Stone>> stones,int teammate, STATES buff){
-    nlohmann::json j =data2json_for_guard(bullets,stones,teammate,buff);
+void Client::send_msg_to_tyan(std::vector<Bullet *> bullets, std::vector<std::shared_ptr<Stone>> stones,int teammate, STATES buff,int score){
+    nlohmann::json j =data2json_for_guard(bullets,stones,teammate,buff,score);
     std::string msg = j.dump();
-    sock.send_to(buffer(msg), ep);
+    sock.send_to(boost::asio::buffer(msg), ep);
 }
 void Client::send_msg_to_guard(int teammate,int buff){
     nlohmann::json j =data2json_for_tyan(teammate,buff);
     std::string msg = j.dump();
-    sock.send_to(buffer(msg), ep);
+    sock.send_to(boost::asio::buffer(msg), ep);
 }
 
 
 struct data_msg_tyan Client::recv_msg_from_tyan() {
     char buff[2048];
-    ip::udp::endpoint sender_ep;
-    int bytes = sock.receive_from(buffer(buff), sender_ep);
+    boost::asio::ip::udp::endpoint sender_ep;
+    int bytes = sock.receive_from(boost::asio::buffer(buff), sender_ep);
     std::string copy(buff, bytes);
     nlohmann::json j= nlohmann::json::parse(copy);
     return json2data_for_tyan(j);
@@ -158,23 +136,23 @@ struct data_msg_tyan Client::recv_msg_from_tyan() {
 struct data_msg_guard Client::recv_msg_from_guard() {
 
     char buff[2048];
-    ip::udp::endpoint sender_ep;
-    int bytes = sock.receive_from(buffer(buff), sender_ep);
+    boost::asio::ip::udp::endpoint sender_ep;
+    int bytes = sock.receive_from(boost::asio::buffer(buff), sender_ep);
     std::string copy(buff, bytes);
     nlohmann::json j= nlohmann::json::parse(copy);
     return json2data_for_guard(j);
 }
 void Client::send_msg(const std::string& msg) {
 
-    sock.send_to(buffer(msg), ep);
+    sock.send_to(boost::asio::buffer(msg), ep);
 }
 //прием сообщений
 std::string Client::recv_msg() {
 
     char buff[2048];
-    ip::udp::endpoint sender_ep;
+    boost::asio::ip::udp::endpoint sender_ep;
 
-    int bytes = sock.receive_from(buffer(buff), sender_ep);
+    int bytes = sock.receive_from(boost::asio::buffer(buff), sender_ep);
 
 
     std::string copy(buff, bytes);
